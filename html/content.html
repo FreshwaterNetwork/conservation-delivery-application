@@ -3,12 +3,86 @@ Dijit ContentPane to hold all the elements. The ContentPane is assigned a dynami
 takes the ContentPane id and prepends it to every element with a declared id in this HTML before the elements are created.
 The unique ContentPane id makes all the element ids unique and prevents duplicate id errors across other apps.-->
 
+<div class="cda-sidebar-wrapper">
+	<section class="cda-intro-text-wrapper">
+		<div class="blueFont">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+			aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</div>
+	</section>
 
+	<section class="cda-assessmentDD-wrapper">
+		<h4>Please select an assessment type:</h4>
+		<label class="form-component" for="a-option">
+			<input checked type="radio" id="a-option" name="cda-firstOption">
+			<div class="check"></div>
+			<span class="form-text">Area Scenario</span>
+		</label>
+		<br>
+		<label class="form-component" for="b-option">
+			<input type="radio" id="b-option" name="cda-firstOption">
+			<div class="check"></div>
+			<span class="form-text">Local Project</span>
+		</label>
+	</section>
 
+	<section>
+		<h4>Please choose scale:</h4>
+		<div class="cda-areaScenario-options-wrapper">
+			<label class="form-component" for="resource-option">
+				<input checked type="radio" id="resource-option" name="cda-areaOption">
+				<div class="check"></div>
+				<span class="form-text">Resource units</span>
+			</label>
+			<br>
+			<label class="form-component" for="huc-option">
+				<input type="radio" id="huc-option" name="cda-areaOption">
+				<div class="check"></div>
+				<span class="form-text">HUC 12</span>
+			</label>
+			<br>
+			<label class="form-component" for="catchments-option">
+				<input type="radio" id="catchments-option" name="cda-areaOption">
+				<div class="check"></div>
+				<span class="form-text">Catchments</span>
+			</label>
+		</div>
+
+		<div class="cda-localProject-options-wrapper">
+			<label class="form-component" for="a-option">
+				<input checked type="radio" id="a-option" name="cda-localOption">
+				<div class="check"></div>
+				<span class="form-text">Edge of field</span>
+			</label>
+			<br>
+			<label class="form-component" for="b-option">
+				<input type="radio" id="b-option" name="cda-localOption">
+				<div class="check"></div>
+				<span class="form-text">Delivered to stream</span>
+			</label>
+			<br>
+			<label class="form-component" for="c-option">
+				<input disabled="true" type="radio" id="c-option" name="cda-localOption">
+				<div class="check"></div>
+				<span class="form-text">Downstream</span>
+			</label>
+		</div>
+		
+	</section>
+
+	<section class="cda-parameter-option-wrapper">
+		parameter section
+	</section>
+
+	<section class="cda-comparison-options-wrapper">
+		compare
+	</section>
+</div>
 
 <section>
-	<div class="blueFont">Hello World</div>
-	<div class="cda-sidebar-wrapper">
-		<div>test</div>
+	<div class="cda-build-report-wrapper">
+		<button class="button button-primary">Create Report</button>
 	</div>
 </section>
+
+

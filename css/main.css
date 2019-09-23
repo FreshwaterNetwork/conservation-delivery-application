@@ -2,9 +2,29 @@
 .cda-sidebar-wrapper{
 	padding: 7px;
 }
+h4{
+	margin: 8px 0 8px 0 !important;
+}
+button{
+	transform: translate(1px, 1px) !important;
+}
+/* overwrite margin botton from styleguide */
+.cda-sidebar-wrapper .form-component{
+	margin-bottom: 2px; margin-left: 13px;
+}
 .blueFont{
 	color: #2f6384;
 }
 
 
+
+
+.cda-localProject-options-wrapper{
+	display: none;
+}
+
+.cda-build-report-wrapper{
+	/* position: absolute; height: 50px; background-color: #2f6384;
+	bottom:0px; z-index: 1000; width: 100%; overflow-y: hidden; */
+}
 
