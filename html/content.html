@@ -12,77 +12,113 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 	</section>
 
 	<section class="cda-assessmentDD-wrapper">
-		<h4>Please select an assessment type:</h4>
+		<h4>Select an assessment type:</h4>
 		<label class="form-component" for="a-option">
-			<input checked type="radio" id="a-option" name="cda-firstOption">
+			<input checked type="radio" id="a-option" name="cda-firstOption" value="cda-areaScenario">
 			<div class="check"></div>
 			<span class="form-text">Area Scenario</span>
 		</label>
 		<br>
 		<label class="form-component" for="b-option">
-			<input type="radio" id="b-option" name="cda-firstOption">
+			<input type="radio" id="b-option" name="cda-firstOption" value="cda-localProject">
 			<div class="check"></div>
 			<span class="form-text">Local Project</span>
 		</label>
 	</section>
 
 	<section>
-		<h4>Please choose scale:</h4>
+		<h4>Choose scale:</h4>
 		<div class="cda-areaScenario-options-wrapper">
 			<label class="form-component" for="resource-option">
-				<input checked type="radio" id="resource-option" name="cda-areaOption">
+				<input checked type="radio" id="resource-option" name="cda-areaOption" value="cda-resourceUnit">
 				<div class="check"></div>
-				<span class="form-text">Resource units</span>
+				<span class="form-text">Resource Units</span>
 			</label>
 			<br>
 			<label class="form-component" for="huc-option">
-				<input type="radio" id="huc-option" name="cda-areaOption">
+				<input type="radio" id="huc-option" name="cda-areaOption" value="cda-huc12">
 				<div class="check"></div>
 				<span class="form-text">HUC 12</span>
 			</label>
 			<br>
 			<label class="form-component" for="catchments-option">
-				<input type="radio" id="catchments-option" name="cda-areaOption">
+				<input type="radio" id="catchments-option" name="cda-areaOption" value="cda-catchments">
 				<div class="check"></div>
 				<span class="form-text">Catchments</span>
 			</label>
 		</div>
 
 		<div class="cda-localProject-options-wrapper">
-			<label class="form-component" for="a-option">
-				<input checked type="radio" id="a-option" name="cda-localOption">
+			<label class="form-component" for="field-option">
+				<input checked type="radio" id="field-option" name="cda-localOption" value="cda-fieldOption">
 				<div class="check"></div>
-				<span class="form-text">Edge of field</span>
+				<span class="form-text">Edge of Field</span>
 			</label>
 			<br>
-			<label class="form-component" for="b-option">
-				<input type="radio" id="b-option" name="cda-localOption">
+			<label class="form-component" for="stream-option">
+				<input type="radio" id="stream-option" name="cda-localOption" value="cda-streamOption">
 				<div class="check"></div>
-				<span class="form-text">Delivered to stream</span>
-			</label>
-			<br>
-			<label class="form-component" for="c-option">
-				<input disabled="true" type="radio" id="c-option" name="cda-localOption">
-				<div class="check"></div>
-				<span class="form-text">Downstream</span>
+				<span class="form-text">Delivered to Stream</span>
 			</label>
 		</div>
-		
 	</section>
 
 	<section class="cda-parameter-option-wrapper">
-		parameter section
+		<h4>Parameters to simulate:</h4>
+		<label class="form-component" for="nitrogen-option">
+			<input checked type="checkbox" id="nitrogen-option" name="parameter-option">
+			<div class="check"></div>
+			<span class="form-text">Nitrogen</span>
+		</label>
+		<br>
+		<label class="form-component disabled" for="phosphorus-option">
+			<input type="checkbox" id="phosphorus-option" name="parameter-option">
+			<div class="check"></div>
+			<span class="form-text">Phosphorus</span>
+		</label>
+		<br>
+		<label class="form-component" for="sediment-option">
+			<input type="checkbox" id="sediment-option" name="parameter-option">
+			<div class="check"></div>
+			<span class="form-text">Sediment</span>
+		</label>
+		<div class="cda-sediment-options-wrapper">
+			<label class="form-component" for="manage-option">
+				<input checked type="radio" id="manage-option" name="cda-sedimentOptions" value="cda-manageOption">
+				<div class="check"></div>
+				<span class="form-text">Management Factors</span>
+			</label>
+			<br>
+			<label class="form-component" for="efficiencies-option">
+				<input type="radio" id="efficiencies-option" name="cda-sedimentOptions" value="cda-efficienciesOption">
+				<div class="check"></div>
+				<span class="form-text">Efficiencies</span>
+			</label>
+		</div>
 	</section>
 
 	<section class="cda-comparison-options-wrapper">
-		compare
+		<h4>Comparison type:</h4>
+		<label class="form-component" for="deliver-option">
+			<input checked="true" type="radio" id="deliver-option" name="cda-compare-option">
+			<div class="check"></div>
+			<span class="form-text">To Baseline</span>
+		</label>
+		<br>
+		<label class="form-component" for="downstream-option">
+			<input type="radio" id="downstream-option" name="cda-compare-option">
+			<div class="check"></div>
+			<span class="form-text">To Alternate Scenario</span>
+		</label>
+	</section>
+	
+	<section>
+		<div class="cda-build-report-wrapper">
+			<button class="button button-primary">Create Report</button>
+		</div>
 	</section>
 </div>
 
-<section>
-	<div class="cda-build-report-wrapper">
-		<button class="button button-primary">Create Report</button>
-	</div>
-</section>
+
 
 

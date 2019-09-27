@@ -7,10 +7,18 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 
         return declare(null, {
 			eventListeners: function(t){
-				console.log('event listen')
-			},
-// Make vars //////////////////////////////////////////////////////////////////////////////////////////////////
-		
+				// on toggle of local/area scenario radio buttons
+				$('.cda-assessmentDD-wrapper input').on('click', (evt)=>{
+					if (evt.currentTarget.value == 'cda-areaScenario') {
+						$('.cda-areaScenario-options-wrapper').slideDown()
+						$('.cda-localProject-options-wrapper').slideUp()
+					} else if (evt.currentTarget.value == 'cda-localProject') {
+						$('.cda-localProject-options-wrapper').slideDown()
+						$('.cda-areaScenario-options-wrapper').slideUp()
+					}
+				})
+
+			}, // end of event listeners function
 		
 			commaSeparateNumber: function(val){
 				while (/(\d+)(\d{3})/.test(val.toString())){

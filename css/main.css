@@ -17,14 +17,15 @@ button{
 }
 
 
-
-
 .cda-localProject-options-wrapper{
 	display: none;
 }
+.cda-sediment-options-wrapper{
+	display: none;
+}
 
-.cda-build-report-wrapper{
-	/* position: absolute; height: 50px; background-color: #2f6384;
-	bottom:0px; z-index: 1000; width: 100%; overflow-y: hidden; */
+
+.cda-build-report-wrapper button{
+	float: right; margin-top: 10px;
 }
 
