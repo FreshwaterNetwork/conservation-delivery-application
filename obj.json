@@ -1,3 +1,19 @@
 {
 	"visibleLayers": [0],
+
+	"cda-data-object": {
+		"assessment":"",
+		"area":"",
+		"area-selections":{
+			"type":"",
+			"areaIDs":[]
+		},
+		"delivery": "",
+		"nitrogen": true,
+		"phosphorus": false,
+		"sediment": false,
+		"sed_method": "",
+		"comparison": "",
+
+	}
 }

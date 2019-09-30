@@ -18,6 +18,27 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					}
 				})
 
+				// parameters clicks checkboxes
+				$('.cda-parameter-option-wrapper input').on('click', (evt)=>{
+					$.each($('.cda-parameter-option-wrapper input'), (i, v) => {
+						console.log(v.checked);
+						console.log(v.value);
+						// if checked add true to data array
+						if(v.checked){
+
+							
+						}
+					})
+				})
+				// to prevent weird sliding, have a seperate click function for the sediment checkbox
+				$('#' + t.id + 'sediment-option').on('click', (evt) => {
+					if(evt.currentTarget.checked){
+						$('.cda-sediment-options-wrapper').slideDown();
+					}else{
+						$('.cda-sediment-options-wrapper').slideUp();
+					}
+				})
+
 			}, // end of event listeners function
 		
 			commaSeparateNumber: function(val){

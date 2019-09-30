@@ -21,7 +21,10 @@ button{
 	display: none;
 }
 .cda-sediment-options-wrapper{
-	display: none;
+	display: none; margin-left: 15px; font-size: 11px;
+}
+.cda-sediment-options-wrapper h5{
+	margin: 3px 0 3px 15px;
 }
 
 
