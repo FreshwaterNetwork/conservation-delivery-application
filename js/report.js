@@ -12,6 +12,9 @@ function ( declare, Query, QueryTask,FeatureLayer, Search, SimpleLineSymbol, Sim
         return declare(null, {
 			createReport: function(t){
 				console.log('create report')
+				console.log(t.obj["cda-data-object"]);
+				// expand plugin width
+				$('#' + t.id).parent().parent().css("width", "650");
 			}
 		})
 	}

@@ -2,18 +2,23 @@
 	"visibleLayers": [0],
 
 	"cda-data-object": {
-		"assessment":"",
-		"area":"",
+		"area-option":true,
+		"local-option":"",
 		"area-selections":{
 			"type":"",
 			"areaIDs":[]
 		},
-		"delivery": "",
-		"nitrogen": true,
-		"phosphorus": false,
-		"sediment": false,
+		"resource-option":true,
+		"huc-option":"",
+		"catchments-option":"",
+		"field-option": "",
+		"stream-option": "",
+		"nitrogen-option": true,
+		"phosphorus-option": false,
+		"sediment-option": false,
 		"sed_method": "",
-		"comparison": "",
+		"baseline-option": true,
+		"alternate-option": "",
 
 	}
 }

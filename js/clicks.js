@@ -12,24 +12,14 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					if (evt.currentTarget.value == 'cda-areaScenario') {
 						$('.cda-areaScenario-options-wrapper').slideDown()
 						$('.cda-localProject-options-wrapper').slideUp()
+
 					} else if (evt.currentTarget.value == 'cda-localProject') {
 						$('.cda-localProject-options-wrapper').slideDown()
 						$('.cda-areaScenario-options-wrapper').slideUp()
+						
 					}
 				})
-
-				// parameters clicks checkboxes
-				$('.cda-parameter-option-wrapper input').on('click', (evt)=>{
-					$.each($('.cda-parameter-option-wrapper input'), (i, v) => {
-						console.log(v.checked);
-						console.log(v.value);
-						// if checked add true to data array
-						if(v.checked){
-
-							
-						}
-					})
-				})
+			
 				// to prevent weird sliding, have a seperate click function for the sediment checkbox
 				$('#' + t.id + 'sediment-option').on('click', (evt) => {
 					if(evt.currentTarget.checked){
@@ -37,6 +27,49 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					}else{
 						$('.cda-sediment-options-wrapper').slideUp();
 					}
+				})
+
+				// when any input is changed on the site, populate the data object that will be sent to python
+				const populateDataObject = (evt)=>{
+					let dataObject = t.obj["cda-data-object"];
+					$.each($('.cda-sidebar-wrapper input'), (i,v)=>{
+						let id = v.id.split(t.id)[1]
+						if(v.checked){
+							dataObject[id] = true
+						}else{
+							dataObject[id] = false
+						}
+					})
+					// check to see if sediment option is true, if so populate sediment options
+					if (dataObject['sediment-option']) {
+						$.each($('.cda-sediment-options-wrapper input'), (i,v)=>{
+							if(v.checked){
+								let id = v.id.split(t.id)[1]
+								dataObject['sed_method'] = id
+							}
+						})
+					} else {
+						dataObject['sed_method'] = ''
+					}
+					console.log(t.obj["cda-data-object"])
+				}
+
+				// when any main input is changed call the populateDataObject function
+				$('.cda-sidebar-wrapper input').on('click', (evt) => {
+					populateDataObject(evt);
+				})
+
+				$('.cda-build-report-wrapper button').on('click', (evt) => {
+					t.report.createReport(t); // this function is in the function.js file
+					$('.cda-sidebar-wrapper').slideUp();
+					$('.cda-report-wrapper').slideDown();
+				})
+				// on back to controls button click
+				$('.cda-back-to-controls').on('click', (evt)=>{
+					$('.cda-report-wrapper').slideUp();
+					$('.cda-sidebar-wrapper').slideDown();
+					// contract plugin width
+					$('#' + t.id).parent().parent().css("width", "430");
 				})
 
 			}, // end of event listeners function

@@ -13,22 +13,23 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 
 	<section class="cda-assessmentDD-wrapper">
 		<h4>Select an assessment type:</h4>
-		<label class="form-component" for="a-option">
-			<input checked type="radio" id="a-option" name="cda-firstOption" value="cda-areaScenario">
+		<label class="form-component" for="area-option">
+			<input checked type="radio" id="area-option" name="cda-firstOption" value="cda-areaScenario">
 			<div class="check"></div>
 			<span class="form-text">Area Scenario</span>
 		</label>
 		<br>
-		<label class="form-component" for="b-option">
-			<input type="radio" id="b-option" name="cda-firstOption" value="cda-localProject">
+		<label class="form-component" for="local-option">
+			<input type="radio" id="local-option" name="cda-firstOption" value="cda-localProject">
 			<div class="check"></div>
 			<span class="form-text">Local Project</span>
 		</label>
 	</section>
 
 	<section>
-		<h4>Choose scale:</h4>
+		
 		<div class="cda-areaScenario-options-wrapper">
+			<h4>Choose scale:</h4>
 			<label class="form-component" for="resource-option">
 				<input checked type="radio" id="resource-option" name="cda-areaOption" value="cda-resourceUnit">
 				<div class="check"></div>
@@ -49,6 +50,7 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		</div>
 
 		<div class="cda-localProject-options-wrapper">
+			<h4>Choose Delivery:</h4>
 			<label class="form-component" for="field-option">
 				<input checked type="radio" id="field-option" name="cda-localOption" value="cda-fieldOption">
 				<div class="check"></div>
@@ -87,8 +89,8 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		
 		<div class="cda-sediment-options-wrapper">
 			<h5>Select Sediment Options:</h5>
-			<label class="form-component" for="manage-option">
-				<input checked type="radio" id="manage-option" name="cda-sedimentOptions" value="cda-manageOption">
+			<label class="form-component" for="management-option">
+				<input checked type="radio" id="management-option" name="cda-sedimentOptions" value="cda-manageOption">
 				<div class="check"></div>
 				<span class="form-text">Management Factors</span>
 			</label>
@@ -103,14 +105,14 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 
 	<section class="cda-comparison-options-wrapper">
 		<h4>Comparison type:</h4>
-		<label class="form-component" for="deliver-option">
-			<input checked="true" type="radio" id="deliver-option" name="cda-compare-option">
+		<label class="form-component" for="baseline-option">
+			<input checked="true" type="radio" id="baseline-option" name="cda-compare-option">
 			<div class="check"></div>
 			<span class="form-text">To Baseline</span>
 		</label>
 		<br>
-		<label class="form-component" for="downstream-option">
-			<input type="radio" id="downstream-option" name="cda-compare-option">
+		<label class="form-component" for="alternate-option">
+			<input type="radio" id="alternate-option" name="cda-compare-option">
 			<div class="check"></div>
 			<span class="form-text">To Alternate Scenario</span>
 		</label>
@@ -123,6 +125,16 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 	</section>
 </div>
 
+
+
+<!-- report wrapper -->
+<div class="cda-report-wrapper">
+	<div class="cda-report-header">
+		<button class="button button-primary cda-back-to-controls">Back to controls</button>
+		<button class="button button-primary">Print Report</button>
+	</div>
+	
+</div>
 
 
 

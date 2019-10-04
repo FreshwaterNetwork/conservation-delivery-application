@@ -16,7 +16,7 @@ button{
 	color: #2f6384;
 }
 
-
+/* main side bar styles */
 .cda-localProject-options-wrapper{
 	display: none;
 }
@@ -31,4 +31,17 @@ button{
 .cda-build-report-wrapper button{
 	float: right; margin-top: 10px;
 }
+.cda-build-report-wrapper{
+	text-align: center;
+}
 
+
+
+/* report styles */
+.cda-report-wrapper{
+	display: none;
+}
+.cda-report-header{
+	position: absolute; text-align: center; width: 100%; border-bottom: 1pt solid #ccc;
+	padding-top: 14px;
+}
