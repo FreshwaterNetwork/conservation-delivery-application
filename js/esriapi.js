@@ -11,8 +11,8 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 				// Add dynamic map service
 				t.url = 'http://cirrus-web-adapter-241060755.us-west-1.elb.amazonaws.com/arcgis/rest/services/FN_Louisiana/CDA/MapServer';
 				t.dynamicLayer = new ArcGISDynamicMapServiceLayer(t.url, {opacity:0.7});
-				t.selectionSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([88, 116, 215, 1]), 2), new Color([88, 116, 215]);
-				
+				// t.selectionSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([88, 116, 215, 1]), 2), new Color([88, 116, 215]);
+				t.selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.0]));
 				// add dynamic layer to map and set visible layers
 				t.map.addLayer(t.dynamicLayer);
 				t.dynamicLayer.setVisibleLayers(t.obj.visibleLayers);
@@ -34,22 +34,10 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 					q.outFields = ["*"];
 					q.returnGeometry = true;
 					qt.execute(q, function (e) {
-						let symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-							new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-								new Color([255, 255, 255, .5]), 1), new Color([125, 125, 125, .5]));
-
-								  var fieldsSelectionSymbol =
-								  	new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-								  		new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
-								  			new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.0]));
+						
 						if(e.features.length > 0){
-							console.log(e)
-							console.log(e.features)
-							console.log(symbol);
-							e.features[0].setSymbol(fieldsSelectionSymbol);
-							map.graphics.add(new Graphic(e.features[0].geometry, fieldsSelectionSymbol));
-
-							console.log(map.graphics);
+							e.features[0].setSymbol(t.selectionSymbol);
+							map.graphics.add(new Graphic(e.features[0].geometry, t.selectionSymbol));
 						}
 					})
 				}
