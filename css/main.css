@@ -32,8 +32,25 @@ button{
 .cda-selected-areas-wrapper{
 	margin-left: auto;
 }
-
-
+.cda-selected{
+	background-color: #F3F3F3; width: 80%; text-align: center; border-radius: 10px;
+	margin: 2px; padding: 3px; display: flex; align-items: center;
+}
+.cda-selected:hover{
+	background-color: rgba(255, 255, 0, .5);
+}
+.cda-selected-close{
+	margin-left: auto; background-color: rgba(0, 150, 214,.6); border-radius: 100px; 
+	height: 15px; width:15px; align-items: center;
+    display: flex; justify-content: center; user-select: none;
+}
+.cda-selected-close:hover {
+	cursor: pointer;
+	filter: brightness(85%);
+}
+.cda-selected-close:active {
+	transform: translate(.5px, .5px);
+}
 .cda-build-report-wrapper button{
 	float: right; margin-top: 10px;
 }

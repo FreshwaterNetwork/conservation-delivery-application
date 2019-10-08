@@ -1,17 +1,16 @@
 {
-	"visibleLayers": [0],
-
+	"visibleLayers": [5],
 	"cda-data-object": {
 		"area-option":true,
 		"local-option":"",
-		"area-selections":{
-			"type":"",
-			"areaIDs":[]
-		},
+		"local-option-selections":[],
 		"resource-option":true,
+		"resource-option-selections": [],
 		"huc-option":"",
-		"catchments-option":"",
-		"field-option": "",
+		"huc-option-selections": [],
+		"catchment-option":"",
+		"catchment-option-selections": [],
+		"edge-field-option": "",
 		"stream-option": "",
 		"nitrogen-option": true,
 		"phosphorus-option": false,

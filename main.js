@@ -127,6 +127,7 @@ function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, click
 			this.esriapi.esriApiFunctions(this);
 			// Click listeners
 			this.clicks.eventListeners(this);
+			// this.clicks.handleSelections(this);
 			
 			this.rendered = true;	
 		}

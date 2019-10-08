@@ -5,7 +5,7 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 
 <div class="cda-sidebar-wrapper">
 	<section class="cda-intro-text-wrapper">
-		<div class="blueFont">
+		<div class="blueFont" id="test">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
 			aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 		</div>
@@ -42,8 +42,8 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 					<span class="form-text">HUC 12</span>
 				</label>
 				<br>
-				<label class="form-component" for="catchments-option">
-					<input type="radio" id="catchments-option" name="cda-areaOption" value="cda-catchments">
+				<label class="form-component" for="catchment-option">
+					<input type="radio" id="catchment-option" name="cda-areaOption" value="cda-catchment">
 					<div class="check"></div>
 					<span class="form-text">Catchments</span>
 				</label>
@@ -51,8 +51,8 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 			
 			<div class="cda-localProject-options-wrapper">
 				<h4>Choose Delivery:</h4>
-				<label class="form-component" for="field-option">
-					<input checked type="radio" id="field-option" name="cda-localOption" value="cda-fieldOption">
+				<label class="form-component" for="edge-field-option">
+					<input checked type="radio" id="edge-field-option" name="cda-localOption" value="cda-fieldOption">
 					<div class="check"></div>
 					<span class="form-text">Edge of Field</span>
 				</label>
@@ -68,6 +68,12 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 
 		<div class="cda-selected-areas-wrapper">
 			<h5>Click on map to select area(s)</h5>
+			<div class="cda-selected-areas">
+				<div style="display: none;" class="cda-selected">Id:<div class="cda-selected-close">
+						<div>&#10005;</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 

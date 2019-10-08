@@ -13,13 +13,23 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 						$('.cda-areaScenario-options-wrapper').slideDown()
 						$('.cda-localProject-options-wrapper').slideUp()
 
+						$.each($('.cda-areaScenario-options-wrapper input'), (i,v)=>{
+							if(v.checked){
+								t.esriapi.displayLayers(t, v.value)
+							}
+						})
 					} else if (evt.currentTarget.value == 'cda-localProject') {
 						$('.cda-localProject-options-wrapper').slideDown()
 						$('.cda-areaScenario-options-wrapper').slideUp()
-						
+						t.esriapi.displayLayers(t, evt.currentTarget.value)
 					}
 				})
-			
+
+				// on selection of area to (huc, catchment, resource)
+				$('.cda-areaScenario-options-wrapper input').on('click', (evt)=>{
+					t.esriapi.displayLayers(t, evt.currentTarget.value)
+				})
+
 				// to prevent weird sliding, have a seperate click function for the sediment checkbox
 				$('#' + t.id + 'sediment-option').on('click', (evt) => {
 					if(evt.currentTarget.checked){
@@ -51,7 +61,6 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					} else {
 						dataObject['sed_method'] = ''
 					}
-					console.log(t.obj["cda-data-object"])
 				}
 
 				// when any main input is changed call the populateDataObject function
@@ -71,8 +80,8 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					// contract plugin width
 					$('#' + t.id).parent().parent().css("width", "430");
 				})
-
 			}, // end of event listeners function
+			
 		
 			commaSeparateNumber: function(val){
 				while (/(\d+)(\d{3})/.test(val.toString())){
