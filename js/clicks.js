@@ -70,13 +70,13 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 
 				$('.cda-build-report-wrapper button').on('click', (evt) => {
 					t.report.createReport(t); // this function is in the function.js file
-					$('.cda-sidebar-wrapper').slideUp();
-					$('.cda-report-wrapper').slideDown();
+					$('.cda-sidebar-wrapper').hide();
+					$('.cda-report-wrapper').show();
 				})
 				// on back to controls button click
 				$('.cda-back-to-controls').on('click', (evt)=>{
-					$('.cda-report-wrapper').slideUp();
-					$('.cda-sidebar-wrapper').slideDown();
+					$('.cda-report-wrapper').hide();
+					$('.cda-sidebar-wrapper').show();
 					// contract plugin width
 					$('#' + t.id).parent().parent().css("width", "430");
 				})

@@ -30,7 +30,7 @@ button{
 	display: flex;
 }
 .cda-selected-areas-wrapper{
-	margin-left: auto;
+	margin-left: auto; margin-right: 20px;
 }
 .cda-selected{
 	background-color: #F3F3F3; width: 80%; text-align: center; border-radius: 10px;

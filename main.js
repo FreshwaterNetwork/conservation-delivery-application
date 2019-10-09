@@ -6,9 +6,9 @@
 define([
 	"dojo/_base/declare", "framework/PluginBase", "dijit/layout/ContentPane", "dojo/dom", "dojo/text!./obj.json", 
 	"dojo/text!./html/content.html", './js/esriapi', './js/clicks',
-	'./js/report',  'dojo/domReady!', 
+	'./js/report', './js/reportLogic',  'dojo/domReady!', 
 ],
-function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, clicks, report,) {
+function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, clicks, report,reportLogic,) {
 	return declare(PluginBase, {
 		// The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
 		toolbarName: "Conservation Delivery Application", showServiceLayersInLegend: true, allowIdentifyWhenActive: false, rendered: false, resizable: false,
@@ -100,6 +100,7 @@ function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, click
 			this.esriapi = new esriapi();
 			this.clicks = new clicks();
 			this.report = new report();
+			this.reportLogic = new reportLogic();
 			
 			// ADD HTML TO APP
 			// Define Content Pane as HTML parent		

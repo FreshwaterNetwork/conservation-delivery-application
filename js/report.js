@@ -15,6 +15,8 @@ function ( declare, Query, QueryTask,FeatureLayer, Search, SimpleLineSymbol, Sim
 				console.log(t.obj["cda-data-object"]);
 				// expand plugin width
 				$('#' + t.id).parent().parent().css("width", "650");
+
+				t.reportLogic.reportLogic();
 			}
 		})
 	}
