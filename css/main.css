@@ -57,7 +57,12 @@ button{
 .cda-build-report-wrapper{
 	text-align: center;
 }
-
+.cda-build-report-section-wrapper{
+	display: none;
+}
+.cda-building-report-text{
+	display: none; text-align:center;
+}
 
 
 /* report styles */
@@ -65,6 +70,6 @@ button{
 	display: none;
 }
 .cda-report-header{
-	position: absolute; text-align: center; width: 100%; border-bottom: 1pt solid #ccc;
+	text-align: center; width: 100%; border-bottom: 1pt solid #ccc;
 	padding-top: 14px;
 }

@@ -16,7 +16,7 @@ function ( declare, Query, QueryTask,FeatureLayer, Search, SimpleLineSymbol, Sim
 				// expand plugin width
 				$('#' + t.id).parent().parent().css("width", "650");
 
-				t.reportLogic.reportLogic();
+				t.reportLogic.reportLogic(t);
 			}
 		})
 	}

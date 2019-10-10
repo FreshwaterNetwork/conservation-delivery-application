@@ -12,7 +12,6 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					if (evt.currentTarget.value == 'cda-areaScenario') {
 						$('.cda-areaScenario-options-wrapper').slideDown()
 						$('.cda-localProject-options-wrapper').slideUp()
-
 						$.each($('.cda-areaScenario-options-wrapper input'), (i,v)=>{
 							if(v.checked){
 								t.esriapi.displayLayers(t, v.value)
@@ -67,6 +66,11 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 				$('.cda-sidebar-wrapper input').on('click', (evt) => {
 					populateDataObject(evt);
 				})
+
+				// $('.cda-select-bmp-wrapper button').on('click', (evt)=>{
+				// 	console.log(evt)
+
+				// })
 
 				$('.cda-build-report-wrapper button').on('click', (evt) => {
 					t.report.createReport(t); // this function is in the function.js file
