@@ -33,7 +33,7 @@ button{
 	margin-left: auto; margin-right: 20px;
 }
 .cda-selected{
-	background-color: #F3F3F3; width: 80%; text-align: center; border-radius: 10px;
+	background-color: #F3F3F3; width: 100%; text-align: center; border-radius: 10px;
 	margin: 2px; padding: 3px; display: flex; align-items: center;
 }
 .cda-selected:hover{
@@ -50,6 +50,9 @@ button{
 }
 .cda-selected-close:active {
 	transform: translate(.5px, .5px);
+}
+.cda-selected span{
+	color:#2f6384; margin-left:3px; font-weight:bold;
 }
 .cda-build-report-wrapper button{
 	float: right; margin-top: 10px;

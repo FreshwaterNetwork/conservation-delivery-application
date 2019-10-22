@@ -1,6 +1,8 @@
 {
 	"visibleLayers": [5],
 	"cda-data-object": {
+		"area-selected-counter":0,
+		"area-selected": "",
 		"area-option":true,
 		"local-option":"",
 		"local-option-selections":[],
