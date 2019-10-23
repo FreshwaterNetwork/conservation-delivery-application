@@ -11,7 +11,7 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 				// Add dynamic map service
 				t.url = 'http://cirrus-web-adapter-241060755.us-west-1.elb.amazonaws.com/arcgis/rest/services/FN_Louisiana/CDA/MapServer';
 				t.dynamicLayer = new ArcGISDynamicMapServiceLayer(t.url, {opacity:0.7});
-				t.selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.0]));
+				t.selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255]), 2), new Color([0, 255, 255, 0.1]));
 				t.selectionSymbolHover = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 2), new Color([255, 255, 0, 0.1]));
 				// add dynamic layer to map and set visible layers
 				t.map.addLayer(t.dynamicLayer);
@@ -162,14 +162,21 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 						t.obj['cda-data-object']['area-selected-counter'] = t.obj['cda-data-object']['resource-option-selections'].length
 					}
 				}
+				// disable and enable BMP button based on the number of areas selected
 				$('.cda-number-selected-area span').html(t.obj['cda-data-object']['area-selected-counter'])
+				if (t.obj['cda-data-object']['area-selected-counter'] > 0){
+					$('.cda-select-bmp-wrapper button').show()
+					$('.cda-number-selected-area').show()
+				}else{
+					$('.cda-select-bmp-wrapper button').hide()
+					$('.cda-number-selected-area').hide()
+				}
 			}, // end of area selections counter function 
 
 
 			// whenever the map is clicked, IDs of the clicked polygons are saved
 			// in an object, handle the UI portion, display and delete selections
 			displayLayers: function (t, value) {
-				console.log('area chnage')
 				// reset area selected counter
 				t.obj['cda-data-object']['area-selected-counter'] = 0
 				// reset area selected HTML	

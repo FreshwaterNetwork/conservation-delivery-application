@@ -67,11 +67,13 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					populateDataObject(evt);
 				})
 
-				// $('.cda-select-bmp-wrapper button').on('click', (evt)=>{
-				// 	console.log(evt)
+				// best managment practices button click
+				$('.cda-select-bmp-wrapper button').on('click', (evt)=>{
+					console.log(evt)
 
-				// })
+				})
 
+				// buil dreport button click
 				$('.cda-build-report-wrapper button').on('click', (evt) => {
 					t.report.createReport(t); // this function is in the function.js file
 					$('.cda-sidebar-wrapper').hide();

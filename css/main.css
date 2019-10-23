@@ -54,6 +54,9 @@ button{
 .cda-selected span{
 	color:#2f6384; margin-left:3px; font-weight:bold;
 }
+.cda-number-selected-area{
+	text-align: center; font-weight: bold; color: #2f6384;
+}
 .cda-build-report-wrapper button{
 	float: right; margin-top: 10px;
 }
@@ -65,6 +68,10 @@ button{
 }
 .cda-building-report-text{
 	display: none; text-align:center;
+}
+
+.cda-select-bmp-wrapper{
+	text-align: center; margin-top: 20px;
 }
 
 
