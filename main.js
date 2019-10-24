@@ -5,10 +5,10 @@
 // Bring in dojo and javascript api classes as well as varObject.json, js files, and content.html
 define([
 	"dojo/_base/declare", "framework/PluginBase", "dijit/layout/ContentPane", "dojo/dom", "dojo/text!./obj.json", 
-	"dojo/text!./html/content.html", './js/esriapi', './js/clicks',
+	"dojo/text!./html/content.html", './js/esriapi', './js/clicks', './js/initProjectData', './js/bmpLogic',
 	'./js/report', './js/reportLogic',  'dojo/domReady!', 
 ],
-function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, clicks, report,reportLogic,) {
+function (declare, PluginBase, ContentPane, dom, obj, content, esriapi, clicks, initProjectData, bmpLogic, report, reportLogic, ) {
 	return declare(PluginBase, {
 		// The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
 		toolbarName: "Conservation Delivery Application", showServiceLayersInLegend: true, allowIdentifyWhenActive: false, rendered: false, resizable: false,
@@ -97,10 +97,13 @@ function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, click
 			//$('.basemap-selector').trigger('change', 3);
 			this.mapScale  = this.map.getScale();
 			// BRING IN OTHER JS FILES
+			this.initProjectData = new initProjectData();
 			this.esriapi = new esriapi();
 			this.clicks = new clicks();
 			this.report = new report();
 			this.reportLogic = new reportLogic();
+			this.bmpLogic = new bmpLogic();
+			
 			
 			// ADD HTML TO APP
 			// Define Content Pane as HTML parent		
@@ -124,6 +127,8 @@ function ( 	declare, PluginBase, ContentPane, dom,  obj, content, esriapi, click
 			// $('#' + this.basinId).html('<div class="wfa-reportContent" id="reportWrapper"></div>');
 
 			// Set up variables
+			// bring in BMP lut data object
+			this.initProjectData.initData(this)
 			// Create ESRI objects and event listeners	
 			this.esriapi.esriApiFunctions(this);
 			// Click listeners

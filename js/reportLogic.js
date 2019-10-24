@@ -17,7 +17,7 @@ define([
                     field_crop_lut_query: function(t, where){
                         let q = new Query();
                         let qt = new QueryTask('http://cospatial.tnc.org/arcgis/rest/services/NACR/la_tables_map_service/MapServer/5');
-                        q.outFields = ["fid,comid,Cpct_slope"];
+                        // q.outFields = ["fid,comid,Cpct_slope"];
                         q.outFields = ["*"];
                         q.returnGeometry = false;
                         q.where = where;
@@ -33,13 +33,6 @@ define([
                             // if error have an error handling function
                         });
                     },
-                    
-
-
-
-
-
-
 
                     // start and stop building report functions to display gui elements that lets the user know the report is being built
                     start_building_report_gui: function(t){

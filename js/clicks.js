@@ -69,8 +69,28 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 
 				// best managment practices button click
 				$('.cda-select-bmp-wrapper button').on('click', (evt)=>{
-					console.log(evt)
+					t.bmpLogic.start_building_bmp_gui()
+					// slide up main data page selectors 
+					$('.cda-main-data-selection-wrapper').hide()
+					// slide down BMP selectors
+					$('.cda-bmp-section-wrapper').show();
 
+
+					// call over the BMP logic script to populate the BMP section of the report **************************** ////
+					t.bmpLogic.queryFields_getCrops(t);
+
+				})
+				
+				// back to main section click
+				$('.cda-bmp-header button').on('click', (evt) => {
+					// slide up main data page selectors 
+					$('.cda-main-data-selection-wrapper').show()
+					// slide down BMP selectors
+					$('.cda-bmp-section-wrapper').hide();
+
+					// retrieve the field data and parse out crop and BMP information
+					// t.bmpLogic.retreiveBMP(t);
+					// t.reportLogic.reportLogic(t);
 				})
 
 				// buil dreport button click
@@ -87,7 +107,7 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					$('#' + t.id).parent().parent().css("width", "430");
 				})
 			}, // end of event listeners function
-			
+
 		
 			commaSeparateNumber: function(val){
 				while (/(\d+)(\d{3})/.test(val.toString())){

@@ -17,7 +17,9 @@ function ( declare, Query, QueryTask,FeatureLayer, Search, SimpleLineSymbol, Sim
 				$('#' + t.id).parent().parent().css("width", "650");
 
 				t.reportLogic.reportLogic(t);
-			}
+			},
+
+			
 		})
 	}
 )
