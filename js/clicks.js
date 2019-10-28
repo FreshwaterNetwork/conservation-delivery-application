@@ -75,10 +75,10 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					// slide down BMP selectors
 					$('.cda-bmp-section-wrapper').show();
 
+					t.obj.appAreaVisible = 'BMP';
 
 					// call over the BMP logic script to populate the BMP section of the report **************************** ////
 					t.bmpLogic.queryFields_getCrops(t);
-
 				})
 				
 				// back to main section click
@@ -87,6 +87,8 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					$('.cda-main-data-selection-wrapper').show()
 					// slide down BMP selectors
 					$('.cda-bmp-section-wrapper').hide();
+					
+					t.obj.appAreaVisible = 'main';
 
 					// retrieve the field data and parse out crop and BMP information
 					// t.bmpLogic.retreiveBMP(t);
@@ -105,6 +107,11 @@ function ( declare, Query, QueryTask,Extent,SpatialReference,FeatureLayer, Searc
 					$('.cda-sidebar-wrapper').show();
 					// contract plugin width
 					$('#' + t.id).parent().parent().css("width", "430");
+				})
+
+				// in the BMP section of teh app, when a select menu chnages
+				$(document).on('change', '.cda-bmp-select-menu', (evt) => {
+					t.bmpLogic.populateBMPValues(evt.currentTarget)
 				})
 			}, // end of event listeners function
 

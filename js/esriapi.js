@@ -21,7 +21,12 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 				t.dynamicLayer.on("load", function () {
 					t.layersArray = t.dynamicLayer.layerInfos;
 					t.map.on('click', (point) => {
-						mapClick(point);
+						// only allow map click if you are in the main area of the app
+						if(t.obj.appAreaVisible == 'main'){
+							mapClick(point);
+						}else{
+							console.log('only allow clicks when on the main section of the app')
+						}
 					})
 				})
 				// map click function, used for all main map clicks
@@ -165,10 +170,10 @@ function ( 	ArcGISDynamicMapServiceLayer, Extent,Draw, SpatialReference, Query, 
 				// disable and enable BMP button based on the number of areas selected
 				$('.cda-number-selected-area span').html(t.obj['cda-data-object']['area-selected-counter'])
 				if (t.obj['cda-data-object']['area-selected-counter'] > 0){
-					$('.cda-select-bmp-wrapper button').show()
+					$('.cda-select-bmp-wrapper').show()
 					$('.cda-number-selected-area').show()
 				}else{
-					$('.cda-select-bmp-wrapper button').hide()
+					$('.cda-select-bmp-wrapper').hide()
 					$('.cda-number-selected-area').hide()
 				}
 			}, // end of area selections counter function 

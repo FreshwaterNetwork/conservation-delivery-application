@@ -1,5 +1,6 @@
 {
 	"visibleLayers": [5],
+	"appAreaVisible": "main",
 	"cda-data-object": {
 		"area-selected-counter":0,
 		"area-selected": "",
@@ -20,6 +21,5 @@
 		"sed_method": "",
 		"baseline-option": true,
 		"alternate-option": ""
-
 	}
 }

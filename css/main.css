@@ -58,7 +58,7 @@ button{
 	color:#2f6384; margin-left:3px; font-weight:bold;
 }
 .cda-number-selected-area{
-	text-align: center; font-weight: bold; color: #2f6384;
+	text-align: center; font-weight: bold; color: #2f6384; display: none;
 }
 .cda-build-report-wrapper button{
 	float: right; margin-top: 10px;
@@ -74,7 +74,7 @@ button{
 }
 
 .cda-select-bmp-wrapper{
-	text-align: center; margin-top: 20px;
+	text-align: center; margin-top: 20px; display: none;
 }
 
 /* BMP SECTION STYLING ********************************************************************************************************* */
@@ -86,11 +86,17 @@ button{
 }
 
 .cda-bmp-item-wrapper{
-	border: 1px solid grey; margin: 10px;
-    padding: 10px;
+	border: 1px solid #ddd;
+	/* box-shadow: 0 1px 1px rgba(16, 22, 26, .2); */
+	background-clip: padding-box;
+	margin: 10px 0; padding: 10px;
+	border-radius: 3px; background-color: #f9f9f9;
 }
 .cda-bmp-select-menu{
-	width:250px;
+	width:350px;
+}
+.cda-bmp-items-header{
+	font-size: 14px; margin: 5px 0; color: #2f6384;
 }
 
 
