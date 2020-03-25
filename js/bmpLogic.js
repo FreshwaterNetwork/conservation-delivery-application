@@ -83,11 +83,8 @@ define([
         let selectMenuHTML = t.bmpLogic.create_bmp_select_menu(t, v);
         let html = `<div class="cda-bmp-item-wrapper" id="${v}">`;
         html += `<h3 class="cda-bmp-items-header">Field ID: ${v}</h3>`;
-
         html += `${selectMenuHTML}`;
-
         html += `</div>`;
-
         $(".cda-bmp-selection-item-wrapper").append(html);
       });
 
