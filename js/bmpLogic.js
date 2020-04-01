@@ -57,6 +57,7 @@ define([
           where += ` OR `;
         }
       });
+
       let q = new Query();
       let qt = new QueryTask(
         "http://cospatial.tnc.org/arcgis/rest/services/NACR/la_tables_map_service/MapServer/5"
@@ -66,9 +67,11 @@ define([
       q.outFields = ["*"];
       q.returnGeometry = false;
       q.where = where;
+      console.log(where);
       qt.execute(q, function(e) {
         // t.bmpLogic.createAreaCropSelectionTable(e.features)
-        t.bmpLogic.createBmpGui(t, e.features);
+
+        t.bmpLogic.buildFieldDataObject(t, e.features);
       });
       // if error have an error handling function
       qt.on("error", function(err) {
@@ -76,10 +79,26 @@ define([
       });
     },
 
+    buildFieldDataObject: function(t, features) {
+      console.log(features);
+      $.each(features, (i, v) => {
+        console.log(v.attributes[FINAL_Field_Crop_LUT.fid]);
+        let obj = t.obj.fieldSelectedDataObject;
+        let fid = v.attributes[FINAL_Field_Crop_LUT.fid];
+        // create a new object for each field selection
+        obj.fid = { test: "test", id: fid };
+      });
+      console.log(obj);
+      // when done building field data object, build out the BMP selection GUI
+      t.bmpLogic.createBmpGui(t, features);
+    },
+
     createBmpGui: function(t, features) {
+      // console.log(features);
       $(".cda-bmp-selection-item-wrapper").empty();
-      let area_selections = t.obj["cda-data-object"]["local-option-selections"];
-      $.each(area_selections, (i, v) => {
+      let local_area_selections =
+        t.obj["cda-data-object"]["local-option-selections"];
+      $.each(local_area_selections, (i, v) => {
         let selectMenuHTML = t.bmpLogic.create_bmp_select_menu(t, v);
         let html = `<div class="cda-bmp-item-wrapper" id="${v}">`;
         html += `<h3 class="cda-bmp-items-header">Field ID: ${v}</h3>`;

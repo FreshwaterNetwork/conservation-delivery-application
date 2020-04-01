@@ -101,7 +101,6 @@ define([
 
       // best managment practices button click
       $(".cda-select-bmp-wrapper button").on("click", evt => {
-        t.bmpLogic.start_building_bmp_gui();
         // slide up main data page selectors
         $(".cda-main-data-selection-wrapper").hide();
         // slide down BMP selectors
@@ -109,6 +108,7 @@ define([
 
         t.obj.appAreaVisible = "BMP";
 
+        t.bmpLogic.start_building_bmp_gui();
         // call over the BMP logic script to populate the BMP section of the report **************************** ////
         t.bmpLogic.queryFields_getCrops(t);
       });
