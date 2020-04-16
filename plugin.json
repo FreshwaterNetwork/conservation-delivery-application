@@ -1,10 +1,19 @@
 {
-    "css": [
-		"plugins/conservation-delivery-application/css/main.css"
-    ],
-    "use": {
-        "underscore": { "attach": "_" },
-        "tv4": { "attach": "tv4" },
-        "extjs": { "attach": "Ext" }
+  "css": [
+    "plugins/conservation-delivery-application/css/main.css"
+  ],
+  "use": {
+    "underscore": {
+      "attach": "_"
+    },
+    "tv4": {
+      "attach": "tv4"
+    },
+    "extjs": {
+      "attach": "Ext"
+    },
+    "vue": {
+      "attach": "Vue"
     }
+  }
 }

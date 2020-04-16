@@ -10,13 +10,14 @@ define([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/graphic",
+  "./vue",
   "dojo/_base/Color",
   "esri/layers/GraphicsLayer",
   "esri/renderers/SimpleRenderer",
   "dojo/_base/lang",
   "dojo/on",
-  "dojo/domReady!"
-], function(
+  "dojo/domReady!",
+], function (
   declare,
   Query,
   QueryTask,
@@ -28,6 +29,7 @@ define([
   SimpleFillSymbol,
   SimpleMarkerSymbol,
   Graphic,
+  Vue,
   Color,
   GraphicsLayer,
   SimpleRenderer,
@@ -38,9 +40,9 @@ define([
   "use strict";
 
   return declare(null, {
-    eventListeners: function(t) {
+    eventListeners: function (t) {
       // on toggle of local/area scenario radio buttons
-      $(".cda-assessmentDD-wrapper input").on("click", evt => {
+      $(".cda-assessmentDD-wrapper input").on("click", (evt) => {
         if (evt.currentTarget.value == "cda-areaScenario") {
           $(".cda-areaScenario-options-wrapper").slideDown();
           $(".cda-localProject-options-wrapper").slideUp();
@@ -57,12 +59,12 @@ define([
       });
 
       // on selection of area to (huc, catchment, resource)
-      $(".cda-areaScenario-options-wrapper input").on("click", evt => {
+      $(".cda-areaScenario-options-wrapper input").on("click", (evt) => {
         t.esriapi.displayLayers(t, evt.currentTarget.value);
       });
 
       // to prevent weird sliding, have a seperate click function for the sediment checkbox
-      $("#" + t.id + "sediment-option").on("click", evt => {
+      $("#" + t.id + "sediment-option").on("click", (evt) => {
         if (evt.currentTarget.checked) {
           $(".cda-sediment-options-wrapper").slideDown();
         } else {
@@ -71,7 +73,7 @@ define([
       });
 
       // when any input is changed on the site, populate the data object that will be sent to python
-      const populateDataObject = evt => {
+      const populateDataObject = (evt) => {
         let dataObject = t.obj["cda-data-object"];
         $.each($(".cda-sidebar-wrapper input"), (i, v) => {
           let id = v.id.split(t.id)[1];
@@ -95,12 +97,12 @@ define([
       };
 
       // when any main input is changed call the populateDataObject function
-      $(".cda-sidebar-wrapper input").on("click", evt => {
+      $(".cda-sidebar-wrapper input").on("click", (evt) => {
         populateDataObject(evt);
       });
 
       // best managment practices button click
-      $(".cda-select-bmp-wrapper button").on("click", evt => {
+      $(".cda-select-bmp-wrapper button").on("click", (evt) => {
         // slide up main data page selectors
         $(".cda-main-data-selection-wrapper").hide();
         // slide down BMP selectors
@@ -114,7 +116,7 @@ define([
       });
 
       // back to main section click
-      $(".cda-bmp-header button").on("click", evt => {
+      $(".cda-bmp-header button").on("click", (evt) => {
         // slide up main data page selectors
         $(".cda-main-data-selection-wrapper").show();
         // slide down BMP selectors
@@ -128,13 +130,13 @@ define([
       });
 
       // buil dreport button click
-      $(".cda-build-report-wrapper button").on("click", evt => {
+      $(".cda-build-report-wrapper button").on("click", (evt) => {
         t.report.createReport(t); // this function is in the function.js file
         $(".cda-sidebar-wrapper").hide();
         $(".cda-report-wrapper").show();
       });
       // on back to controls button click
-      $(".cda-back-to-controls").on("click", evt => {
+      $(".cda-back-to-controls").on("click", (evt) => {
         $(".cda-report-wrapper").hide();
         $(".cda-sidebar-wrapper").show();
         // contract plugin width
@@ -145,18 +147,18 @@ define([
       });
 
       // in the BMP section of teh app, when a select menu chnages
-      $(document).on("change", ".cda-bmp-select-menu", evt => {
+      $(document).on("change", ".cda-bmp-select-menu", (evt) => {
         t.bmpLogic.populateBMPValues(evt.currentTarget);
       });
     }, // end of event listeners function
 
-    commaSeparateNumber: function(val) {
+    commaSeparateNumber: function (val) {
       while (/(\d+)(\d{3})/.test(val.toString())) {
         val = val.toString().replace(/(\d+)(\d{3})/, "$1" + "," + "$2");
       }
       return val;
     },
-    abbreviateNumber: function(num) {
+    abbreviateNumber: function (num) {
       if (num >= 1000000000) {
         return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "B";
       }
@@ -167,6 +169,6 @@ define([
         return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
       }
       return num;
-    }
+    },
   });
 });
