@@ -11,9 +11,6 @@
     },
     "extjs": {
       "attach": "Ext"
-    },
-    "vue": {
-      "attach": "Vue"
     }
   }
 }

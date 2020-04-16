@@ -1,15 +1,8 @@
-define([
-  "./vue_libs/vue",
-  "./store",
-  "./components/MainSection",
-  "./components/BMPSection",
-  "./components/reportSection",
-], function (Vue, store, MainSection, BMPSection, reportSection) {
+define(["./libs/vue", "./components/MainSection"], function (Vue, MainSection) {
   const template = `<div>
-        <h1>Title goes here</h1>
-        <mainSection v-if="show === 'main'" class="cda-main-section"></mainSection>
-        <bmpSection v-if="show === 'bmp'"></bmpSection>
-        <reportSection v-if="show === 'report'"></reportSection>
+        <h1>App compoennet</h1>
+        <div><mainSection></mainSection></div>
+        
   </div>`;
 
   const app = Vue.component("app", {
@@ -19,26 +12,26 @@ define([
       };
     },
     computed: {
-      stocks() {
-        console.log(store.getters.stocks);
-        return store.getters.stocks;
-      },
+      //   stocks() {
+      //     console.log(store.getters.stocks);
+      //     return store.getters.stocks;
+      //   },
     },
     methods: {
-      clickMe() {
-        console.log("clicked");
-        const payload = {
-          // change password action in the authState file
-          text: "te text kjgsdhljghjgfj,sg",
-        };
-        store.dispatch("testAction", payload);
-      },
+      //   clickMe() {
+      //     console.log("clicked");
+      //     const payload = {
+      //       // change password action in the authState file
+      //       text: "te text kjgsdhljghjgfj,sg",
+      //     };
+      //     store.dispatch("testAction", payload);
+      //   },
     },
     template: template,
     components: {
       MainSection: MainSection,
-      BMPSection: BMPSection,
-      reportSection: reportSection,
+      //   BMPSection: BMPSection,
+      //   reportSection: reportSection,
     },
   });
   return app;

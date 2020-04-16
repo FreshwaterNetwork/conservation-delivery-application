@@ -1,7 +1,3 @@
-// // Pull in your favorite version of jquery
-// require({
-// 	packages: [{ name: "jquery", location: "http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/", main: "jquery.min" }]
-// });
 // Bring in dojo and javascript api classes as well as varObject.json, js files, and content.html
 define([
   "dojo/_base/declare",
@@ -10,27 +6,10 @@ define([
   "dojo/dom",
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
-
-  "./js/vue_libs/vue",
-  "./js/vue_libs/vuex",
+  "./js/libs/vue",
   "./js/App",
-  "./js/esri",
-  "./js/store",
   "dojo/domReady!",
-], function (
-  declare,
-  PluginBase,
-  ContentPane,
-  dom,
-  obj,
-  content,
-
-  Vue,
-  Vuex,
-  App,
-  esri,
-  store
-) {
+], function (declare, PluginBase, ContentPane, dom, obj, content, Vue, App) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
     toolbarName: "Conservation Delivery Application",
@@ -121,9 +100,7 @@ define([
     },
     // Called by activate and builds the plugins elements and functions
     render: function () {
-      // $('#legend-container-0').find('.legend-body').css('height', '99%'); // fix the legend overlap problem
       // $('#search').hide() // hide main search bar when app is open.
-      // $('.nav-main-title').html('Wetlands by Design: A Watershed Approach')
       this.obj.extent = this.map.geographicExtent;
       //$('.basemap-selector').trigger('change', 3);
       this.mapScale = this.map.getScale();
@@ -151,20 +128,16 @@ define([
       var idUpdate = idUpdate0.replace(/id="/g, 'id="' + this.id);
       $("#" + this.id).html(idUpdate);
 
+      this.rendered = true;
       // work with other JS files *********************
+      // instantiate the esri api
       this.esriapi = new esri(this);
-      console.log(this.esriapi);
-      // work with vue.js
-      this.esriapi.initVue(this);
-      console.log(store);
-      // create and render vue instance
+      // create Vue application and render it
       var app = new Vue({
         el: "#dijit_layout_ContentPane_0app",
-        store: store,
+        // store: store,
         render: (h) => h(App),
       });
-
-      this.rendered = true;
     },
   });
 });
