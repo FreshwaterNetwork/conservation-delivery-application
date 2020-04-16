@@ -1,6 +1,11 @@
-define(["./libs/vue", "./components/MainSection"], function (Vue, MainSection) {
+define(["./libs/vue", "./store/store", "./components/MainSection"], function (
+  Vue,
+  store,
+  MainSection
+) {
   const template = `<div>
         <h1>App compoennet</h1>
+        <div>Click on map to + Counter: {{counter}}</div>
         <div><mainSection></mainSection></div>
         
   </div>`;
@@ -12,10 +17,10 @@ define(["./libs/vue", "./components/MainSection"], function (Vue, MainSection) {
       };
     },
     computed: {
-      //   stocks() {
-      //     console.log(store.getters.stocks);
-      //     return store.getters.stocks;
-      //   },
+      counter() {
+        console.log(store.getters.counter);
+        return store.getters.counter;
+      },
     },
     methods: {
       //   clickMe() {
@@ -24,10 +29,12 @@ define(["./libs/vue", "./components/MainSection"], function (Vue, MainSection) {
       //       // change password action in the authState file
       //       text: "te text kjgsdhljghjgfj,sg",
       //     };
-      //     store.dispatch("testAction", payload);
       //   },
     },
     template: template,
+    mounted: function () {
+      console.log(store);
+    },
     components: {
       MainSection: MainSection,
       //   BMPSection: BMPSection,

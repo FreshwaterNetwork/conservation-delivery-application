@@ -7,9 +7,22 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/libs/vue",
+  "./js/esriapi",
+  "./js/store/store",
   "./js/App",
   "dojo/domReady!",
-], function (declare, PluginBase, ContentPane, dom, obj, content, Vue, App) {
+], function (
+  declare,
+  PluginBase,
+  ContentPane,
+  dom,
+  obj,
+  content,
+  Vue,
+  esriapi,
+  store,
+  App
+) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
     toolbarName: "Conservation Delivery Application",
@@ -131,11 +144,12 @@ define([
       this.rendered = true;
       // work with other JS files *********************
       // instantiate the esri api
-      this.esriapi = new esri(this);
+      this.esriapi = new esriapi(this);
+      this.esriapi.initEsriApi(this);
       // create Vue application and render it
       var app = new Vue({
         el: "#dijit_layout_ContentPane_0app",
-        // store: store,
+        store: store,
         render: (h) => h(App),
       });
     },
