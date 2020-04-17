@@ -154,6 +154,17 @@ define([
       this.initProjectData.initData(this);
 
       this.rendered = true;
+      this.rendered = true;
+      // work with other JS files *********************
+      // instantiate the esri api
+      this.esriapi = new esriapi(this);
+      this.esriapi.initEsriApi(this);
+      // create Vue application and render it
+      var app = new Vue({
+        el: "#dijit_layout_ContentPane_0app",
+        store: store,
+        render: (h) => h(App),
+      });
     },
   });
 });
