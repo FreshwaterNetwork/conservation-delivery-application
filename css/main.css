@@ -1,110 +1,29 @@
- /* main css style for the conservation delivery application for the louisiana chapter */
-.cda-sidebar-wrapper{
-	padding: 7px;
+/* main css style for the conservation delivery application for the louisiana chapter */
+.cda-sidebar-wrapper {
+  padding: 7px;
 }
-h4,h5{
-	margin: 8px 0 8px 0 !important;
+h4,
+h5 {
+  margin: 8px 0 8px 0 !important;
 }
-button{
-	transform: translate(1px, 1px) !important;
+button {
+  transform: translate(1px, 1px) !important;
 }
 /* overwrite margin botton from styleguide */
-.cda-sidebar-wrapper .form-component{
-	margin-bottom: 2px; margin-left: 13px;
+.cda-sidebar-wrapper .form-component {
+  margin-bottom: 2px;
+  margin-left: 13px;
 }
-.blueFont{
-	color: #2f6384;
+.blueFont {
+  color: #2f6384;
 }
-.cda-green-spinner{
-	height: 30px; width: 30px;
-}
-
-/* main side bar styles */
-.cda-localProject-options-wrapper{
-	display: none;
-}
-.cda-sediment-options-wrapper{
-	display: none; margin-left: 15px; font-size: 11px;
-}
-.cda-sediment-options-wrapper h5{
-	margin: 3px 0 3px 15px;
-}
-.cda-areaScenario-section-wrapper{
-	display: flex;
-}
-.cda-selected-areas-wrapper{
-	margin-left: auto; margin-right: 20px;
-}
-.cda-selected{
-	background-color: #F3F3F3; width: 100%; text-align: center; border-radius: 10px;
-	margin: 2px; padding: 3px; display: flex; align-items: center;
-}
-.cda-selected:hover{
-	background-color: rgba(255, 255, 0, .5);
-}
-.cda-selected-close{
-	margin-left: auto; background-color: rgba(0, 150, 214,.6); border-radius: 100px; 
-	height: 15px; width:15px; align-items: center;
-    display: flex; justify-content: center; user-select: none;
-}
-.cda-selected-close:hover {
-	cursor: pointer;
-	filter: brightness(85%);
-}
-.cda-selected-close:active {
-	transform: translate(.5px, .5px);
-}
-.cda-selected span{
-	color:#2f6384; margin-left:3px; font-weight:bold;
-}
-.cda-number-selected-area{
-	text-align: center; font-weight: bold; color: #2f6384; display: none;
-}
-.cda-build-report-wrapper button{
-	float: right; margin-top: 10px;
-}
-.cda-build-report-wrapper{
-	text-align: center;
-}
-.cda-build-report-section-wrapper{
-	display: none;
-}
-.cda-building-report-text{
-	display: none; text-align:center;
+.cda-green-spinner {
+  height: 30px;
+  width: 30px;
 }
 
-.cda-select-bmp-wrapper{
-	text-align: center; margin-top: 20px; display: none;
-}
+/* main side bar styles ***********************************************/
 
 /* BMP SECTION STYLING ********************************************************************************************************* */
-.cda-bmp-section-wrapper{
-	display: none;
-}
-.cda-bmp-header{
-	text-align: center;
-}
 
-.cda-bmp-item-wrapper{
-	border: 1px solid #ddd;
-	/* box-shadow: 0 1px 1px rgba(16, 22, 26, .2); */
-	background-clip: padding-box;
-	margin: 10px 0; padding: 10px;
-	border-radius: 3px; background-color: #f9f9f9;
-}
-.cda-bmp-select-menu{
-	width:350px;
-}
-.cda-bmp-items-header{
-	font-size: 14px; margin: 5px 0; color: #2f6384;
-}
-
-
-/* report styles */
-.cda-report-wrapper{
-	display: none;
-}
-.cda-report-header{
-	text-align: center; width: 100%; border-bottom: 1pt solid #ccc;
-	padding-top: 14px;
-}
+/* report styles ***********************************************/
