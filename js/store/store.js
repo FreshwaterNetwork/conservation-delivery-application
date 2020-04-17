@@ -5,6 +5,7 @@ define(["../libs/vue", "../libs/vuex"], function (Vue, Vuex) {
     state: {
       counter: 10,
       stocks: "test stocks getter",
+      fieldsSelected: [1, 2, 3],
     },
     mutations: {
       counterIncrement(state, payload) {
@@ -14,8 +15,11 @@ define(["../libs/vue", "../libs/vuex"], function (Vue, Vuex) {
     },
     getters: {
       // stock trader code ********************************
-      counter: (state) => {
-        return state.counter;
+      // counter: (state) => {
+      //   return state.counter;
+      // },
+      fieldsSelected: (state) => {
+        return state.fieldsSelected;
       },
     },
     actions: {

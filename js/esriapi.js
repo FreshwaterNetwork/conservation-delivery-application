@@ -29,8 +29,10 @@ define([
   Color,
   store
 ) {
+  function testFunction() {
+    console.log("test function");
+  }
   // "use strict";
-  // console.log(store);
   return declare(null, {
     initEsriApi: function (t) {
       console.log(store);
@@ -43,6 +45,11 @@ define([
         store.dispatch("counterIncrement", payload);
         console.log(store.state);
       });
+    },
+    clickOnMap: function (evt) {
+      console.log(evt);
+      store.commit("addNewField", 5);
+      console.log(store);
     },
   });
 });

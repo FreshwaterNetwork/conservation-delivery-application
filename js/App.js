@@ -1,14 +1,11 @@
-define(["./libs/vue", "./store/store", "./components/MainSection"], function (
-  Vue,
-  store,
-  MainSection
-) {
-  const template = `<div>
-        <h1>App compoennet</h1>
-        <div>Click on map to + Counter: {{counter}}</div>
-        <div><mainSection></mainSection></div>
-        
-  </div>`;
+define([
+  "./libs/vue",
+  "./store/store",
+  "./components/FieldsSelected",
+], function (Vue, store, FieldsSelected) {
+  const template = `<div class="cda-app-wrapper">
+                        <fields-selected></fields-selected>
+                    </div>`;
 
   const app = Vue.component("app", {
     data: function () {
@@ -22,23 +19,13 @@ define(["./libs/vue", "./store/store", "./components/MainSection"], function (
         return store.getters.counter;
       },
     },
-    methods: {
-      //   clickMe() {
-      //     console.log("clicked");
-      //     const payload = {
-      //       // change password action in the authState file
-      //       text: "te text kjgsdhljghjgfj,sg",
-      //     };
-      //   },
-    },
+    methods: {},
     template: template,
     mounted: function () {
       console.log(store);
     },
     components: {
-      MainSection: MainSection,
-      //   BMPSection: BMPSection,
-      //   reportSection: reportSection,
+      FieldsSelected: FieldsSelected,
     },
   });
   return app;
