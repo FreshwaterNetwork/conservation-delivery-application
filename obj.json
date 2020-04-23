@@ -1,6 +1,7 @@
 {
-	"visibleLayers": [5],
-	"appAreaVisible": "main"
-
+	"visibleLayers": [0],
+	"appAreaVisible": "main",
+	"url": "https://cumulus.tnc.org/arcgis/rest/services/nascience/CDA_feature_service_prototype/MapServer",
+	"selectedFields": []
 
 }

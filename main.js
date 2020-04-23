@@ -1,7 +1,3 @@
-// // Pull in your favorite version of jquery
-// require({
-// 	packages: [{ name: "jquery", location: "http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/", main: "jquery.min" }]
-// });
 // Bring in dojo and javascript api classes as well as varObject.json, js files, and content.html
 define([
   "dojo/_base/declare",
@@ -11,6 +7,7 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/initProjectData",
+  "./js/esriapi",
   "dojo/domReady!",
 ], function (
   declare,
@@ -19,7 +16,8 @@ define([
   dom,
   obj,
   content,
-  initProjectData
+  initProjectData,
+  esriapi
 ) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
@@ -141,30 +139,24 @@ define([
       var idUpdate = idUpdate0.replace(/id="/g, 'id="' + this.id);
       $("#" + this.id).html(idUpdate);
 
-      // // add report popup
-      // this.reportDiv = new ContentPane({style:'width:100%; height:20%; padding:0; padding-left:5px; padding-right:5px; color:#FFF; background-color:#21658c; font-size: 17px; opacity: 0.9; margin-right:145px; flex:1; z-index:1000; position: absolute; bottom: 0px; text-align:center; border-radius:1px; -moz-box-shadow:0 1px 2px rgba(0,0,0,0.5); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow: 0 1px 2px rgba(0,0,0,0.5); }'});
-      // this.reportId = this.reportDiv.id;
-      // // dom.byId('map-0').appendChild(this.reportDiv.domNode);
-      // $('#' + this.basinId).html('<div class="wfa-reportContent" id="reportWrapper"></div>');
-
+      //   this.state = {};
       // BRING IN OTHER JS FILES
       this.initProjectData = new initProjectData();
-      // Set up variables
       // bring in BMP lut data object
       this.initProjectData.initData(this);
-
-      this.rendered = true;
-      this.rendered = true;
-      // work with other JS files *********************
-      // instantiate the esri api
-      this.esriapi = new esriapi(this);
+      // instatiate esriapi
+      this.esriapi = new esriapi();
       this.esriapi.initEsriApi(this);
-      // create Vue application and render it
-      var app = new Vue({
-        el: "#dijit_layout_ContentPane_0app",
-        store: store,
-        render: (h) => h(App),
-      });
+
+      console.log(this);
+
+      this.newObj = new this.NewObj("matt", "is cool");
+      console.log(this.newObj);
+      this.newObj.concatMsg();
+      this.newObj.render();
+
+      // set rendered to true
+      this.rendered = true;
     },
   });
 });
