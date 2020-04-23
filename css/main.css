@@ -23,7 +23,12 @@ button {
 }
 
 /* main side bar styles ***********************************************/
-
+.cda-assesment-radio-btns {
+  display: grid;
+}
+.cda-areaScenario-options-wrapper {
+  display: grid;
+}
 /* BMP SECTION STYLING ********************************************************************************************************* */
 
 /* report styles ***********************************************/

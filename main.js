@@ -8,6 +8,8 @@ define([
   "dojo/text!./html/content.html",
   "./js/initProjectData",
   "./js/esriapi",
+  "./js/ui",
+  "./js/app",
   "dojo/domReady!",
 ], function (
   declare,
@@ -17,7 +19,9 @@ define([
   obj,
   content,
   initProjectData,
-  esriapi
+  esriapi,
+  ui,
+  app
 ) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
@@ -139,21 +143,31 @@ define([
       var idUpdate = idUpdate0.replace(/id="/g, 'id="' + this.id);
       $("#" + this.id).html(idUpdate);
 
-      //   this.state = {};
       // BRING IN OTHER JS FILES
-      this.initProjectData = new initProjectData();
-      // bring in BMP lut data object
-      this.initProjectData.initData(this);
-      // instatiate esriapi
+      // instatiate esriapi, ui
       this.esriapi = new esriapi();
+      this.ui = new ui(this);
+      this.initProjectData = new initProjectData();
+
+      // call the init function to build objects
+      this.initProjectData.initData(this);
+      this.ui.initUI(this);
       this.esriapi.initEsriApi(this);
 
-      console.log(this);
+      // instantiate and call the App component to control everything
+      this.app = new app();
+      this.app.buildApp(this);
+      // const assesmentRadioButtons = new this.RadioComponent(
+      //   ".cda-assesment-radio-btns",
+      //   this.assesmentRadioData
+      // );
 
-      this.newObj = new this.NewObj("matt", "is cool");
-      console.log(this.newObj);
-      this.newObj.concatMsg();
-      this.newObj.render();
+      // console.log(this);
+
+      // this.newObj = new this.NewObj("matt", "is cool");
+      // console.log(this.newObj);
+      // this.newObj.concatMsg();
+      // this.newObj.render();
 
       // set rendered to true
       this.rendered = true;

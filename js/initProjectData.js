@@ -1,45 +1,56 @@
-define([
-  "dojo/_base/declare",
-  "esri/tasks/query",
-  "esri/tasks/QueryTask",
-  "esri/geometry/Extent",
-  "esri/SpatialReference",
-  "esri/layers/FeatureLayer",
-  "esri/dijit/Search",
-  "esri/symbols/SimpleLineSymbol",
-  "esri/symbols/SimpleFillSymbol",
-  "esri/symbols/SimpleMarkerSymbol",
-  "esri/graphic",
-  "dojo/_base/Color",
-  "esri/layers/GraphicsLayer",
-  "esri/renderers/SimpleRenderer",
-  "dojo/_base/lang",
-  "dojo/on",
-  "dojo/domReady!"
-], function(
-  declare,
-  Query,
-  QueryTask,
-  Extent,
-  SpatialReference,
-  FeatureLayer,
-  Search,
-  SimpleLineSymbol,
-  SimpleFillSymbol,
-  SimpleMarkerSymbol,
-  Graphic,
-  Color,
-  GraphicsLayer,
-  SimpleRenderer,
-  lang,
-  on,
-  domReady
-) {
+define(["dojo/_base/declare"], function (declare) {
   "use strict";
-
   return declare(null, {
-    initData: function(t) {
-      t.bmp_lut_data = [
+    initData: function (state) {
+      // data for radio buttons and checkboxes
+      state.assesmentRadioData = [
+        {
+          name: "assesmentRadioButton",
+          id: "area-scenario",
+          value: "area-scenario",
+          display: "Area Scenario",
+        },
+        {
+          name: "assesmentRadioButton",
+          id: "local-scenario",
+          value: "local-scenario",
+          display: "Local Scenario",
+        },
+      ];
+      state.areaScenarioRadioData = [
+        {
+          name: "areaScenarioRadioButton",
+          id: "resource-option",
+          value: "resource-option",
+          display: "Resource Units",
+        },
+        {
+          name: "areaScenarioRadioButton",
+          id: "huc12-option",
+          value: "huc12-option",
+          display: "HUC 12",
+        },
+        {
+          name: "areaScenarioRadioButton",
+          id: "catchment-option",
+          value: "catchment-option",
+          display: "Catchments",
+        },
+      ];
+      // state.assesmentRadioData = [
+      //   {
+      //     name: "assesmentRadioButton",
+      //     value: "area-scenario",
+      //     display: "Area Scenario",
+      //   },
+      //   {
+      //     name: "assesmentRadioButton",
+      //     value: "local-scenario",
+      //     display: "Local Scenario",
+      //   },
+      // ];
+      // js object of the BMP lut data for faster access
+      state.bmp_lut_data = [
         {
           ID: 1,
           BMP_Name: "Bioreactor",
@@ -51,7 +62,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 2,
@@ -64,7 +75,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.4,
-          NitrBMP_EMC: 0.1
+          NitrBMP_EMC: 0.1,
         },
         {
           ID: 3,
@@ -77,7 +88,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.2,
-          NitrBMP_EMC: 0.11
+          NitrBMP_EMC: 0.11,
         },
         {
           ID: 4,
@@ -90,7 +101,7 @@ define([
           RedFunc: "E",
           AppType: "EX",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 5,
@@ -103,7 +114,7 @@ define([
           RedFunc: "E",
           AppType: "EX",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 6,
@@ -116,7 +127,7 @@ define([
           RedFunc: "E",
           AppType: "EX",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 7,
@@ -129,7 +140,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 8,
@@ -143,7 +154,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 9,
@@ -157,7 +168,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 10,
@@ -171,7 +182,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 11,
@@ -184,7 +195,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.27,
-          NitrBMP_EMC: 0.1
+          NitrBMP_EMC: 0.1,
         },
         {
           ID: 12,
@@ -197,7 +208,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 13,
@@ -211,7 +222,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 15,
@@ -224,7 +235,7 @@ define([
           RedFunc: "E",
           AppType: "EX",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 16,
@@ -237,7 +248,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 17,
@@ -250,7 +261,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.2,
-          NitrBMP_EMC: 0.11
+          NitrBMP_EMC: 0.11,
         },
         {
           ID: 19,
@@ -263,7 +274,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.27,
-          NitrBMP_EMC: 0.1
+          NitrBMP_EMC: 0.1,
         },
         {
           ID: 20,
@@ -276,7 +287,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.4,
-          NitrBMP_EMC: 0.1
+          NitrBMP_EMC: 0.1,
         },
         {
           ID: 21,
@@ -289,7 +300,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.2,
-          NitrBMP_EMC: 0.11
+          NitrBMP_EMC: 0.11,
         },
         {
           ID: 22,
@@ -303,7 +314,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 23,
@@ -316,7 +327,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 24,
@@ -329,7 +340,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 25,
@@ -342,7 +353,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 27,
@@ -356,7 +367,7 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0.2,
-          NitrBMP_EMC: 0.11
+          NitrBMP_EMC: 0.11,
         },
         {
           ID: 28,
@@ -369,7 +380,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 29,
@@ -382,7 +393,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 30,
@@ -395,7 +406,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 31,
@@ -408,7 +419,7 @@ define([
           RedFunc: "E",
           AppType: "OV",
           PhosBMP_EMC: "",
-          NitrBMP_EMC: ""
+          NitrBMP_EMC: "",
         },
         {
           ID: 33,
@@ -421,9 +432,9 @@ define([
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EMC: 0,
-          NitrBMP_EMC: 0
-        }
+          NitrBMP_EMC: 0,
+        },
       ];
-    }
+    },
   });
 });
