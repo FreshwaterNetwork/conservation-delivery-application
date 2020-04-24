@@ -37,18 +37,42 @@ define(["dojo/_base/declare"], function (declare) {
           display: "Catchments",
         },
       ];
-      // state.assesmentRadioData = [
-      //   {
-      //     name: "assesmentRadioButton",
-      //     value: "area-scenario",
-      //     display: "Area Scenario",
-      //   },
-      //   {
-      //     name: "assesmentRadioButton",
-      //     value: "local-scenario",
-      //     display: "Local Scenario",
-      //   },
-      // ];
+      state.deliveryRadioData = [
+        {
+          name: "deliveryRadioButton",
+          id: "edge-field-option",
+          value: "edge-field-option",
+          display: "Edge of Field",
+        },
+        {
+          name: "deliveryRadioButton",
+          id: "stream-option",
+          value: "stream-option",
+          display: "Delivered to Stream",
+        },
+      ];
+
+      state.parametersCheckboxData = [
+        {
+          name: "parametersCheckboxButton",
+          id: "nitrogen-option",
+          value: "nitrogen-option",
+          display: "Nitrogen",
+        },
+        {
+          name: "parametersCheckboxButton",
+          id: "phosphorus-option",
+          value: "phosphorus-option",
+          display: "Phosphorus",
+        },
+        {
+          name: "parametersCheckboxButton",
+          id: "sediment-option",
+          value: "sediment-option",
+          display: "Sediment",
+        },
+      ];
+
       // js object of the BMP lut data for faster access
       state.bmp_lut_data = [
         {

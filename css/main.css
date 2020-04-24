@@ -23,11 +23,19 @@ button {
 }
 
 /* main side bar styles ***********************************************/
-.cda-assesment-radio-btns {
+.cda-assesment-radio-btns,
+.cda-areaScenario-radio-btns,
+.cda-delivery-radio-btns,
+.cda-parameters-checkbox {
   display: grid;
 }
-.cda-areaScenario-options-wrapper {
-  display: grid;
+
+.cda-delivery-wrapper {
+  display: none;
+}
+.cda-sediment-option-wrapper {
+  display: none;
+  margin-left: 20px;
 }
 /* BMP SECTION STYLING ********************************************************************************************************* */
 
