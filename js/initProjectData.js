@@ -72,6 +72,34 @@ define(["dojo/_base/declare"], function (declare) {
           display: "Sediment",
         },
       ];
+      state.sedimentOptionRadioButtonData = [
+        {
+          name: "sedimentOptions",
+          id: "management-option",
+          value: "management-option",
+          display: "Management Factors",
+        },
+        {
+          name: "sedimentOptions",
+          id: "efficiencies-option",
+          value: "efficiencies-option",
+          display: "Efficiencies",
+        },
+      ];
+      state.comparisonTypeRadioData = [
+        {
+          name: "compareTypeRadioButton",
+          id: "baseline-option",
+          value: "baseline-option",
+          display: "To Baseline",
+        },
+        {
+          name: "compareTypeRadioButton",
+          id: "alt-scen-option",
+          value: "alt-scen-option",
+          display: "To Alternate Scenario",
+        },
+      ];
 
       // js object of the BMP lut data for faster access
       state.bmp_lut_data = [

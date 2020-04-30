@@ -29,6 +29,20 @@ define(["dojo/_base/declare"], function (declare) {
         state.parametersCheckboxData
       );
       state.parametersCheckbox.render();
+
+      // build and render sediment options radio buttons *************************************
+      state.sedimentOptionsRadioButton = new state.RadioComponent(
+        ".cda-sediment-options-radio-btns",
+        state.sedimentOptionRadioButtonData
+      );
+      state.sedimentOptionsRadioButton.render();
+
+      // build and render the parameters to select checkbox
+      state.comparisonTypeRadioButtons = new state.RadioComponent(
+        ".cda-comparison-type-radio-btns",
+        state.comparisonTypeRadioData
+      );
+      state.comparisonTypeRadioButtons.render();
     },
     // ****************************************
 

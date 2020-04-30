@@ -12,7 +12,8 @@ button {
 /* overwrite margin botton from styleguide */
 .cda-sidebar-wrapper .form-component {
   margin-bottom: 2px;
-  margin-left: 13px;
+  margin-left: 10px;
+  width: 162px;
 }
 .blueFont {
   color: #2f6384;
@@ -26,7 +27,9 @@ button {
 .cda-assesment-radio-btns,
 .cda-areaScenario-radio-btns,
 .cda-delivery-radio-btns,
-.cda-parameters-checkbox {
+.cda-parameters-checkbox,
+.cda-sediment-options-radio-btns,
+.cda-comparison-type-radio-btns {
   display: grid;
 }
 
@@ -37,6 +40,19 @@ button {
   display: none;
   margin-left: 20px;
 }
+.cda-bmp-select-button-wrapper {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.cda-selected-area-wrapper {
+  background-color: red;
+  position: absolute;
+  right: 10px;
+  top: 100px;
+  width: 220px;
+}
+
 /* BMP SECTION STYLING ********************************************************************************************************* */
 
 /* report styles ***********************************************/
