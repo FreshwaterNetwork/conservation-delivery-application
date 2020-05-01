@@ -30,24 +30,6 @@ define([
   "use strict";
   return declare(null, {
     initEsriApi: function (state) {
-      state.NewObj = function (test, test2) {
-        this.testData = test;
-        this.otherData = test2;
-        this.readMessage = function () {
-          console.log("read message");
-        };
-        this.concatMsg = function () {
-          this.readMessage();
-          this.newMsg = this.testData + " -- " + this.otherData;
-        };
-        this.render = function () {
-          let div = document.createElement("div");
-          div.append(this.newMsg);
-          let elem = document.getElementsByClassName("cda-render-list");
-          elem[0].append(div);
-        };
-      };
-
       // Add dynamic map service
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
         opacity: 0.7,
@@ -70,9 +52,11 @@ define([
       //     ),
       //     new Color([255, 255, 0, 0.1])
       //   );
+
       // add dynamic layer to map and set visible layers
       state.map.addLayer(state.dynamicLayer);
       state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
+
       // wait until layer is loaded fully before allowing map interaction ************************
       state.dynamicLayer.on("load", function () {
         state.map.on("click", (point) => {
@@ -81,19 +65,45 @@ define([
       });
       // map click
       function mapClick(mapPoint) {
-        esriQuery(mapPoint).then(function (features) {
+        let id_identifier;
+        let layer;
+        if (state.assesmentRadioButtons.selectedValue === "local-scenario") {
+          id_identifier = "fid_1";
+          layer = 0;
+        } else {
+          let areaSelected = state.areaScenarioRadioButtons.selectedValue;
+          if (areaSelected === "resource-option") {
+            id_identifier = "RU";
+            layer = 3;
+          } else if (areaSelected === "huc12-option") {
+            id_identifier = "huc_12";
+            layer = 2;
+          } else if (areaSelected === "catchment-option") {
+            id_identifier = "featureid";
+            layer = 1;
+          }
+        }
+        esriMapQuery(mapPoint, layer).then(function (features) {
           if (features.length > 0) {
-            // push feature to a list
-            // console.log(features[0]);
-            pushFieldIdToArray(features[0].attributes.fid_1);
+            const id = features[0].attributes[id_identifier];
+            const geometry = features[0].geometry;
+            // create a new area object
+            let area = new state.Area(geometry, id);
+            // check to make sure the selected area is not in the array
+            // also check to make sure the array is less than 5
+            const areaList = state.areaSelectedListComponent.areaList;
+            if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
+              // add new area to areaSelected array
+              state.areaSelectedListComponent.addNewArea(area);
+            }
           }
         });
       }
       // esri map click query
-      function esriQuery(mapPoint) {
+      function esriMapQuery(mapPoint, layer) {
         return new Promise(function (resolve, reject) {
           const q = new Query();
-          const qt = new QueryTask(state.obj.url + "/0");
+          const qt = new QueryTask(state.obj.url + "/" + layer);
           q.geometry = mapPoint;
           q.outFields = ["*"];
           q.returnGeometry = true;
@@ -110,53 +120,60 @@ define([
           });
         });
       }
-      // push field id to selected field array
-      function pushFieldIdToArray(fieldId) {
-        const field = new state.FieldSelected();
-        state.obj.selectedFields.push(field);
-        const fieldsArray = new state.AllFieldsSelected(
-          state.obj.selectedFields
-        );
-        // call the render field list function when a new field object is added
-        fieldsArray.render();
-      }
-      state.FieldSelected = function (fieldId) {
-        this.fieldId = fieldId;
-        this.fieldGeometry = "geometry goes here";
-        this.load1 = 567;
-        this.load2 = 897;
-        this.calculateLoad = function (one, two) {
-          return one + two;
-        };
-        this.newLoad = this.calculateLoad(this.load1, this.load2);
+      state.displayMapLayers = function (val) {
+        state.obj.visibleLayers = [val];
+        state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
       };
-      state.AllFieldsSelected = function (fieldsArray) {
-        this.fieldsArray = fieldsArray;
-        this.removeOne = function (evt) {
-          this.fieldsArray.pop();
-          this.render();
-        };
-        document
-          .getElementsByClassName("cda-remove-one")[0]
-          .addEventListener("click", function (evt) {
-            this.removeOne;
-          });
-        this.render = function () {
-          const renderHook = document.getElementsByClassName(
-            "cda-fields-selected-wrapper"
-          )[0];
-          // empty the render hook dom pointer
-          renderHook.innerHTML = "";
-          this.fieldsArray.forEach((field) => {
-            // create new div
-            const fieldElem = document.createElement("div");
-            // append data to new div
-            fieldElem.append(field.newLoad);
-            // append new div to fields selected render hook
-            renderHook.append(fieldElem);
-          });
-        };
+      state.displayMapGraphics = function () {
+        console.log("displayMap Graphics");
       };
+      // // push field id to selected field array
+      // function pushFieldIdToArray(fieldId) {
+      //   const field = new state.FieldSelected();
+      //   state.obj.selectedFields.push(field);
+      //   const fieldsArray = new state.AllFieldsSelected(
+      //     state.obj.selectedFields
+      //   );
+      //   // call the render field list function when a new field object is added
+      //   fieldsArray.render();
+      // }
+      // state.FieldSelected = function (fieldId) {
+      //   this.fieldId = fieldId;
+      //   this.fieldGeometry = "geometry goes here";
+      //   this.load1 = 567;
+      //   this.load2 = 897;
+      //   this.calculateLoad = function (one, two) {
+      //     return one + two;
+      //   };
+      //   this.newLoad = this.calculateLoad(this.load1, this.load2);
+      // };
+      // state.AllFieldsSelected = function (fieldsArray) {
+      //   this.fieldsArray = fieldsArray;
+      //   this.removeOne = function (evt) {
+      //     this.fieldsArray.pop();
+      //     this.render();
+      //   };
+      //   document
+      //     .getElementsByClassName("cda-remove-one")[0]
+      //     .addEventListener("click", function (evt) {
+      //       this.removeOne;
+      //     });
+      //   this.render = function () {
+      //     const renderHook = document.getElementsByClassName(
+      //       "cda-fields-selected-wrapper"
+      //     )[0];
+      //     // empty the render hook dom pointer
+      //     renderHook.innerHTML = "";
+      //     this.fieldsArray.forEach((field) => {
+      //       // create new div
+      //       const fieldElem = document.createElement("div");
+      //       // append data to new div
+      //       fieldElem.append(field.newLoad);
+      //       // append new div to fields selected render hook
+      //       renderHook.append(fieldElem);
+      //     });
+      //   };
+      // };
     },
   });
 });

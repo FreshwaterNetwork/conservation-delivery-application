@@ -2,6 +2,12 @@ define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
     buildApp: function (state) {
+      // area selected compoenent ***************************************************************
+      state.areaSelectedListComponent = new state.AreaSelectedList(
+        ".cda-selected-areas"
+      );
+      state.areaSelectedListComponent.render();
+
       // build and render assesment radio buttons **********************************************
       state.assesmentRadioButtons = new state.RadioComponent(
         ".cda-assesment-radio-btns",

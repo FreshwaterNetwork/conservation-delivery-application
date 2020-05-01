@@ -7,8 +7,10 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/initProjectData",
-  "./js/esriapi",
   "./js/ui",
+  "./js/bmp",
+  "./js/areas",
+  "./js/esriapi",
   "./js/app",
   "dojo/domReady!",
 ], function (
@@ -19,8 +21,10 @@ define([
   obj,
   content,
   initProjectData,
-  esriapi,
   ui,
+  bmp,
+  areas,
+  esriapi,
   app
 ) {
   return declare(PluginBase, {
@@ -146,28 +150,21 @@ define([
       // BRING IN OTHER JS FILES
       // instatiate esriapi, ui
       this.esriapi = new esriapi();
-      this.ui = new ui(this);
+      this.ui = new ui();
       this.initProjectData = new initProjectData();
+      this.areas = new areas();
+      this.bmp = new bmp();
 
       // call the init function to build objects
       this.initProjectData.initData(this);
       this.ui.initUI(this);
       this.esriapi.initEsriApi(this);
+      this.areas.initAreas(this);
+      this.bmp.initBMP(this);
 
       // instantiate and call the App component to control everything
       this.app = new app();
       this.app.buildApp(this);
-      // const assesmentRadioButtons = new this.RadioComponent(
-      //   ".cda-assesment-radio-btns",
-      //   this.assesmentRadioData
-      // );
-
-      // console.log(this);
-
-      // this.newObj = new this.NewObj("matt", "is cool");
-      // console.log(this.newObj);
-      // this.newObj.concatMsg();
-      // this.newObj.render();
 
       // set rendered to true
       this.rendered = true;

@@ -75,6 +75,8 @@ define(["dojo/_base/declare"], function (declare) {
           });
           // make sure first radio button is always checked on render
           this.radioElem.querySelector("input").checked = true;
+          // set the selected value on render to be the first CB
+          this.selectedValue = this.radioElem.querySelector("input").value;
 
           // add event listener to the checkbox
           // bind the this object to carry it through to the next function
@@ -111,8 +113,19 @@ define(["dojo/_base/declare"], function (declare) {
         this.hideElement(".cda-delivery-wrapper");
         if (value === "area-scenario") {
           this.showElement(".cda-areaScenario-wrapper");
+          let value = state.areaScenarioRadioButtons.selectedValue;
+          if (value === "huc12-option") {
+            state.displayMapLayers(2);
+          } else if (value === "resource-option") {
+            state.displayMapLayers(3);
+          } else if (value === "catchment-option") {
+            state.displayMapLayers(1);
+          } else {
+            throw new Error("The Value does not match any options");
+          }
         } else if (value === "local-scenario") {
           this.showElement(".cda-delivery-wrapper");
+          state.displayMapLayers(0);
         } else {
           throw new Error("The Value does not match and element to display");
         }
@@ -120,6 +133,15 @@ define(["dojo/_base/declare"], function (declare) {
       // area radio button change
       state.UIControls.prototype.areaRadioClick = function (value) {
         console.log("area", value);
+        if (value === "huc12-option") {
+          state.displayMapLayers(2);
+        } else if (value === "resource-option") {
+          state.displayMapLayers(3);
+        } else if (value === "catchment-option") {
+          state.displayMapLayers(1);
+        } else {
+          throw new Error("The Value does not match any options");
+        }
       };
       // delivery radio button change
       state.UIControls.prototype.deliveryRadioClick = function (value) {
@@ -129,12 +151,10 @@ define(["dojo/_base/declare"], function (declare) {
       // show/hide DOM elements
       state.UIControls.prototype.showElement = function (selector) {
         const elem = document.querySelector(selector);
-        console.log("show", elem);
         elem.style.display = "block";
       };
       state.UIControls.prototype.hideElement = function (selector) {
         const elem = document.querySelector(selector);
-        console.log("hide", elem);
         elem.style.display = "none";
       };
     },
