@@ -29,7 +29,7 @@ define([
 ) {
   "use strict";
   return declare(null, {
-    initEsriApi: function (state) {
+    init: function (state) {
       // Add dynamic map service
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
         opacity: 0.7,
@@ -125,7 +125,22 @@ define([
         state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
       };
       state.displayMapGraphics = function () {
+        const areaList = state.areaSelectedListComponent.areaList;
+        state.map.graphics.clear();
         console.log("displayMap Graphics");
+        console.log(state.areaSelectedListComponent.areaList);
+        areaList.forEach((area) => {
+          console.log(area.geometry);
+          state.map.graphics.add(
+            new Graphic(area.geometry, state.selectionSymbol)
+          );
+        });
+
+        // state.map.graphics.add(
+        //   new Graphic(e.features[0].geometry, t.selectionSymbol, {
+        //     id: e.features[0].attributes.fid_1,
+        //   })
+        // );
       };
       // // push field id to selected field array
       // function pushFieldIdToArray(fieldId) {

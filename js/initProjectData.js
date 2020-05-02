@@ -1,7 +1,7 @@
 define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
-    initData: function (state) {
+    init: function (state) {
       // data for radio buttons and checkboxes
       state.assesmentRadioData = [
         {

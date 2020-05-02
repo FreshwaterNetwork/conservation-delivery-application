@@ -1,7 +1,7 @@
 define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
-    buildApp: function (state) {
+    init: function (state) {
       // area selected compoenent ***************************************************************
       state.areaSelectedListComponent = new state.AreaSelectedList(
         ".cda-selected-areas"

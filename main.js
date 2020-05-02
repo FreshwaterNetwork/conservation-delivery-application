@@ -7,7 +7,9 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/initProjectData",
-  "./js/ui",
+  "./js/UIControls",
+  "./js/CheckboxComponent",
+  "./js/RadioBtnComponent",
   "./js/bmp",
   "./js/areas",
   "./js/esriapi",
@@ -21,7 +23,9 @@ define([
   obj,
   content,
   initProjectData,
-  ui,
+  UIControls,
+  CheckboxComponent,
+  RadioBtnComponent,
   bmp,
   areas,
   esriapi,
@@ -150,21 +154,25 @@ define([
       // BRING IN OTHER JS FILES
       // instatiate esriapi, ui
       this.esriapi = new esriapi();
-      this.ui = new ui();
+      this.UIControls = new UIControls();
       this.initProjectData = new initProjectData();
       this.areas = new areas();
       this.bmp = new bmp();
+      this.RadioBtnComponent = new RadioBtnComponent();
+      this.CheckboxComponent = new CheckboxComponent();
 
       // call the init function to build objects
-      this.initProjectData.initData(this);
-      this.ui.initUI(this);
-      this.esriapi.initEsriApi(this);
-      this.areas.initAreas(this);
-      this.bmp.initBMP(this);
+      this.initProjectData.init(this);
+      this.UIControls.init(this);
+      this.esriapi.init(this);
+      this.areas.init(this);
+      this.bmp.init(this);
+      this.RadioBtnComponent.init(this);
+      this.CheckboxComponent.init(this);
 
       // instantiate and call the App component to control everything
       this.app = new app();
-      this.app.buildApp(this);
+      this.app.init(this);
 
       // set rendered to true
       this.rendered = true;
