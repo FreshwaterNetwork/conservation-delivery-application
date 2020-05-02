@@ -127,68 +127,12 @@ define([
       state.displayMapGraphics = function () {
         const areaList = state.areaSelectedListComponent.areaList;
         state.map.graphics.clear();
-        console.log("displayMap Graphics");
-        console.log(state.areaSelectedListComponent.areaList);
         areaList.forEach((area) => {
-          console.log(area.geometry);
           state.map.graphics.add(
             new Graphic(area.geometry, state.selectionSymbol)
           );
         });
-
-        // state.map.graphics.add(
-        //   new Graphic(e.features[0].geometry, t.selectionSymbol, {
-        //     id: e.features[0].attributes.fid_1,
-        //   })
-        // );
       };
-      // // push field id to selected field array
-      // function pushFieldIdToArray(fieldId) {
-      //   const field = new state.FieldSelected();
-      //   state.obj.selectedFields.push(field);
-      //   const fieldsArray = new state.AllFieldsSelected(
-      //     state.obj.selectedFields
-      //   );
-      //   // call the render field list function when a new field object is added
-      //   fieldsArray.render();
-      // }
-      // state.FieldSelected = function (fieldId) {
-      //   this.fieldId = fieldId;
-      //   this.fieldGeometry = "geometry goes here";
-      //   this.load1 = 567;
-      //   this.load2 = 897;
-      //   this.calculateLoad = function (one, two) {
-      //     return one + two;
-      //   };
-      //   this.newLoad = this.calculateLoad(this.load1, this.load2);
-      // };
-      // state.AllFieldsSelected = function (fieldsArray) {
-      //   this.fieldsArray = fieldsArray;
-      //   this.removeOne = function (evt) {
-      //     this.fieldsArray.pop();
-      //     this.render();
-      //   };
-      //   document
-      //     .getElementsByClassName("cda-remove-one")[0]
-      //     .addEventListener("click", function (evt) {
-      //       this.removeOne;
-      //     });
-      //   this.render = function () {
-      //     const renderHook = document.getElementsByClassName(
-      //       "cda-fields-selected-wrapper"
-      //     )[0];
-      //     // empty the render hook dom pointer
-      //     renderHook.innerHTML = "";
-      //     this.fieldsArray.forEach((field) => {
-      //       // create new div
-      //       const fieldElem = document.createElement("div");
-      //       // append data to new div
-      //       fieldElem.append(field.newLoad);
-      //       // append new div to fields selected render hook
-      //       renderHook.append(fieldElem);
-      //     });
-      //   };
-      // };
     },
   });
 });

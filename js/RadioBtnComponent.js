@@ -36,11 +36,12 @@ define(["dojo/_base/declare"], function (declare) {
         this.selectedValue = evt.target.value;
         // const parentId = this.radioElemID.split(state.id)[1];
         if (this.radioElemID === state.id + "assesment-radio-btns") {
-          state.UIControls.prototype.assesmentRadioClick(this.selectedValue);
+          state.UIControls.assesmentRadioClick(this.selectedValue);
+          // state.UIControls.prototype.assesmentRadioClick(this.selectedValue);
           return;
         }
         if (this.radioElemID === state.id + "areaScenario-radio-btns") {
-          state.UIControls.prototype.areaRadioClick(this.selectedValue);
+          state.UIControls.areaRadioClick(this.selectedValue);
           return;
         }
       };

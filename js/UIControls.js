@@ -5,13 +5,27 @@ define(["dojo/_base/declare"], function (declare) {
       // #############################################################
       // Object that uses methods to control flow of all UI related functionality
       // UI controls *************************************************
-      state.UIControls = function () {
+      state.UI = function () {
         // these properties can flow throughout all ui related methods
-        this.color = "red";
-        this.speed = "slow";
+        // add an event listener to the BMP button
+        const selectBMPButtonElem = document.querySelector(
+          ".cda-select-bmp-button"
+        );
+        selectBMPButtonElem.addEventListener("click", (evt) => {
+          console.log(evt);
+        });
+
+        // // add an event listener to the back to main screen button
+        // const backToMainButtonElem = document.querySelector(
+        //   ".cda-select-bmp-button"
+        // );
+        // backToMainButtonElem.addEventListener("click", (evt) => {
+        //   console.log(evt);
+        // });
       };
+
       // assesment radio button change
-      state.UIControls.prototype.assesmentRadioClick = function (value) {
+      state.UI.prototype.assesmentRadioClick = function (value) {
         //  reset the area selected array and re-render the component
         state.areaSelectedListComponent.removeAllAreas();
 
@@ -38,7 +52,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       // area radio button change
-      state.UIControls.prototype.areaRadioClick = function (value) {
+      state.UI.prototype.areaRadioClick = function (value) {
         // reset the area selected array and re-render the component
         state.areaSelectedListComponent.removeAllAreas();
 
@@ -54,16 +68,21 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       // delivery radio button change
-      state.UIControls.prototype.deliveryRadioClick = function (value) {
+      state.UI.prototype.deliveryRadioClick = function (value) {
         console.log("area", value);
       };
 
+      // select bmp and back buttons functionality
+      state.UI.prototype.bmpButtonClick = function (evt) {
+        console.log("button click", evt);
+      };
+
       // show/hide DOM elements
-      state.UIControls.prototype.showElement = function (selector) {
+      state.UI.prototype.showElement = function (selector) {
         const elem = document.querySelector(selector);
         elem.style.display = "block";
       };
-      state.UIControls.prototype.hideElement = function (selector) {
+      state.UI.prototype.hideElement = function (selector) {
         const elem = document.querySelector(selector);
         elem.style.display = "none";
       };

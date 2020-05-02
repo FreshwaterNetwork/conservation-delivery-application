@@ -45,16 +45,12 @@ define(["dojo/_base/declare"], function (declare) {
           }
         });
         if (evt.target.value === "sediment-option" && evt.target.checked) {
-          state.UIControls.prototype.showElement(
-            ".cda-sediment-option-wrapper"
-          );
+          state.UIControls.showElement(".cda-sediment-option-wrapper");
         } else if (
           evt.target.value === "sediment-option" &&
           !evt.target.checked
         ) {
-          state.UIControls.prototype.hideElement(
-            ".cda-sediment-option-wrapper"
-          );
+          state.UIControls.hideElement(".cda-sediment-option-wrapper");
         }
       };
     },

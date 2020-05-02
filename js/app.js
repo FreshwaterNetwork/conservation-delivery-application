@@ -8,6 +8,10 @@ define(["dojo/_base/declare"], function (declare) {
       );
       state.areaSelectedListComponent.render();
 
+      // instantiate UI Controls
+      state.UIControls = new state.UI();
+      console.log(state.UIControls);
+
       // build and render assesment radio buttons **********************************************
       state.assesmentRadioButtons = new state.RadioComponent(
         ".cda-assesment-radio-btns",
