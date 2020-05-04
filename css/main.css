@@ -59,7 +59,27 @@ button {
 .cda-area-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
-/* BMP SECTION STYLING ********************************************************************************************************* */
+.cda-area-close {
+  margin-left: 5px;
+  background-color: lightgray;
+  border-radius: 100px;
+  height: 15px;
+  width: 15px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cda-area-close:hover {
+  background-color: darkgray;
+  font-weight: bold;
+  cursor: pointer;
+}
 
+/* BMP SECTION STYLING ********************************************************************************************************* */
+.cda-bmp-select-wrapper {
+  display: none;
+}
 /* report styles ***********************************************/

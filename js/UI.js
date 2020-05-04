@@ -7,21 +7,20 @@ define(["dojo/_base/declare"], function (declare) {
       // UI controls *************************************************
       state.UI = function () {
         // these properties can flow throughout all ui related methods
-        // add an event listener to the BMP button
         const selectBMPButtonElem = document.querySelector(
           ".cda-select-bmp-button"
         );
+        const backToMainButtonElem = document.querySelector(
+          ".cda-back-to-main-button"
+        );
+        // add an event listener to the BMP button
         selectBMPButtonElem.addEventListener("click", (evt) => {
-          console.log(evt);
+          this.bmpButtonClick(evt);
         });
-
-        // // add an event listener to the back to main screen button
-        // const backToMainButtonElem = document.querySelector(
-        //   ".cda-select-bmp-button"
-        // );
-        // backToMainButtonElem.addEventListener("click", (evt) => {
-        //   console.log(evt);
-        // });
+        backToMainButtonElem.addEventListener("click", (evt) => {
+          console.log(evt);
+          this.backToMainButtonClick(evt);
+        });
       };
 
       // assesment radio button change
@@ -75,6 +74,9 @@ define(["dojo/_base/declare"], function (declare) {
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
         console.log("button click", evt);
+      };
+      state.UI.prototype.backToMainButtonClick = function (evt) {
+        console.log("backToMainButtonClick", evt);
       };
 
       // show/hide DOM elements

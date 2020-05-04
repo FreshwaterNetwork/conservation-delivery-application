@@ -7,7 +7,7 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/initProjectData",
-  "./js/UIControls",
+  "./js/UI",
   "./js/CheckboxComponent",
   "./js/RadioBtnComponent",
   "./js/bmp",
@@ -23,7 +23,7 @@ define([
   obj,
   content,
   initProjectData,
-  UIControls,
+  UI,
   CheckboxComponent,
   RadioBtnComponent,
   bmp,
@@ -154,7 +154,7 @@ define([
       // BRING IN OTHER JS FILES
       // instatiate esriapi, ui
       this.esriapi = new esriapi();
-      this.UIControls = new UIControls();
+      this.UI = new UI();
       this.initProjectData = new initProjectData();
       this.areas = new areas();
       this.bmp = new bmp();
@@ -163,7 +163,7 @@ define([
 
       // call the init function to build objects
       this.initProjectData.init(this);
-      this.UIControls.init(this);
+      this.UI.init(this);
       this.esriapi.init(this);
       this.areas.init(this);
       this.bmp.init(this);

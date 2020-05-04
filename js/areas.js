@@ -17,7 +17,9 @@ define(["dojo/_base/declare"], function (declare) {
         };
         // remove area from array and re-render the component
         this.removeArea = function (evt) {
+          console.log(evt);
           const areaID = parseInt(evt.target.parentElement.dataset.areaid);
+          console.log(this.areaList, areaID);
           // remove item from areaList based on ID
           this.areaList = this.areaList.filter((area) => {
             return area.id !== areaID;
@@ -52,7 +54,7 @@ define(["dojo/_base/declare"], function (declare) {
             const template = `
                 <div class='cda-area-wrapper' data-areaid="${area.id}">
                   <div>ID: ${area.id}</div>
-                  <div class='cda-area-close'>X</div>
+                  <div class='cda-area-close'>&#10005;</div>
                 </div>
             `;
             // append template to selected area element
