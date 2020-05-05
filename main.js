@@ -10,8 +10,8 @@ define([
   "./js/UI",
   "./js/CheckboxComponent",
   "./js/RadioBtnComponent",
-  "./js/bmp",
-  "./js/areas",
+  "./js/BmpSelection",
+  "./js/Areas",
   "./js/esriapi",
   "./js/app",
   "dojo/domReady!",
@@ -26,8 +26,8 @@ define([
   UI,
   CheckboxComponent,
   RadioBtnComponent,
-  bmp,
-  areas,
+  BmpSelection,
+  Areas,
   esriapi,
   app
 ) {
@@ -156,8 +156,8 @@ define([
       this.esriapi = new esriapi();
       this.UI = new UI();
       this.initProjectData = new initProjectData();
-      this.areas = new areas();
-      this.bmp = new bmp();
+      this.areas = new Areas();
+      this.bmp = new BmpSelection();
       this.RadioBtnComponent = new RadioBtnComponent();
       this.CheckboxComponent = new CheckboxComponent();
 

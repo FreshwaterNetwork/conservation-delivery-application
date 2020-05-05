@@ -7,18 +7,23 @@ define(["dojo/_base/declare"], function (declare) {
       // UI controls *************************************************
       state.UI = function () {
         // these properties can flow throughout all ui related methods
-        const selectBMPButtonElem = document.querySelector(
+        // wrapper elements
+        // this.mainSelectionWrapper = document.querySelector(".cda-main-wrapper");
+        // this.bmpSelectionWrapper = document.querySelector(
+        //   ".cda-bmp-select-wrapper"
+        // );
+        // button elements
+        this.selectBMPButtonElem = document.querySelector(
           ".cda-select-bmp-button"
         );
-        const backToMainButtonElem = document.querySelector(
+        this.backToMainButtonElem = document.querySelector(
           ".cda-back-to-main-button"
         );
         // add an event listener to the BMP button
-        selectBMPButtonElem.addEventListener("click", (evt) => {
+        this.selectBMPButtonElem.addEventListener("click", (evt) => {
           this.bmpButtonClick(evt);
         });
-        backToMainButtonElem.addEventListener("click", (evt) => {
-          console.log(evt);
+        this.backToMainButtonElem.addEventListener("click", (evt) => {
           this.backToMainButtonClick(evt);
         });
       };
@@ -73,10 +78,28 @@ define(["dojo/_base/declare"], function (declare) {
 
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
-        console.log("button click", evt);
+        if (state.areaSelectedListComponent.areaList.length > 0) {
+          this.hideElement(".cda-main-wrapper");
+          this.showElement(".cda-retreiving-data-wrapper");
+          // get fields from area selection
+          state.getFieldsFromAreaSelection().then(function (fieldArray) {
+            // get rows from data table using selected fields
+            state.selectRowsFromTable(fieldArray).then(function (rows) {
+              // aggregate crop data
+              state.aggregateCropData(rows).then(function (data) {
+                console.log(data);
+                // show and hide elements when everything is done loading and being built
+                state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+                state.UI.prototype.showElement(".cda-bmp-select-wrapper");
+              });
+            });
+          });
+        }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
         console.log("backToMainButtonClick", evt);
+        this.showElement(".cda-main-wrapper");
+        this.hideElement(".cda-bmp-select-wrapper");
       };
 
       // show/hide DOM elements

@@ -10,7 +10,6 @@ define(["dojo/_base/declare"], function (declare) {
 
       // instantiate UI Controls
       state.UIControls = new state.UI();
-      console.log(state.UIControls);
 
       // build and render assesment radio buttons **********************************************
       state.assesmentRadioButtons = new state.RadioComponent(
@@ -47,12 +46,19 @@ define(["dojo/_base/declare"], function (declare) {
       );
       state.sedimentOptionsRadioButton.render();
 
-      // build and render the parameters to select checkbox
-      state.comparisonTypeRadioButtons = new state.RadioComponent(
-        ".cda-comparison-type-radio-btns",
-        state.comparisonTypeRadioData
+      // // build and render the parameters to select checkbox
+      // state.comparisonTypeRadioButtons = new state.RadioComponent(
+      //   ".cda-comparison-type-radio-btns",
+      //   state.comparisonTypeRadioData
+      // );
+      // state.comparisonTypeRadioButtons.render();
+
+      // BMP Selection area *************************************************************************
+      // build and render the crop list
+      state.cropSelectedList = new state.CropSelectedList(
+        ".cda-crop-selected-wrapper"
       );
-      state.comparisonTypeRadioButtons.render();
+      state.cropSelectedList.render();
     },
     // ****************************************
 

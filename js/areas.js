@@ -8,7 +8,6 @@ define(["dojo/_base/declare"], function (declare) {
         // add a new area to the array and re-render the component
         this.addNewArea = function (area) {
           this.areaList.push(area);
-
           // re render field list UI
           this.render();
 
@@ -17,9 +16,7 @@ define(["dojo/_base/declare"], function (declare) {
         };
         // remove area from array and re-render the component
         this.removeArea = function (evt) {
-          console.log(evt);
           const areaID = parseInt(evt.target.parentElement.dataset.areaid);
-          console.log(this.areaList, areaID);
           // remove item from areaList based on ID
           this.areaList = this.areaList.filter((area) => {
             return area.id !== areaID;
