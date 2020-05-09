@@ -137,60 +137,86 @@ define([
       // from the map graphics find out which fields are selected
       state.getFieldsFromAreaSelection = function () {
         return new Promise(function (getFieldsResolve, reject) {
-          const selectedFieldsArray = [];
-          function queryFields(geometry) {
-            return new Promise(function (resolve, reject) {
-              const q = new Query();
-              const qt = new QueryTask(state.obj.url + "/0");
-              q.geometry = geometry;
-              q.outFields = ["*"];
-              q.returnGeometry = true;
-              // execute map query
-              qt.execute(q, function (e) {
-                return resolve(e);
-              });
-            });
-          }
+          // const selectedFieldsArray = [];
+          // function queryFields(geometry) {
+          //   return new Promise(function (resolve, reject) {
+          //     const q = new Query();
+          //     const qt = new QueryTask(state.obj.url + "/0");
+          //     q.geometry = geometry;
+          //     q.outFields = ["*"];
+          //     q.returnGeometry = true;
+          //     // execute map query
+          //     qt.execute(q, function (e) {
+          //       return resolve(e);
+          //     });
+          //   });
+          // }
+          // if (state.map.graphics.graphics.length > 0) {
+          //   // const selectedFieldsArray = [];
+          //   console.log(state.map.graphics.graphics);
+          //   // start a loop counter
+          //   let c = 1;
+          //   state.map.graphics.graphics.forEach((graphic, i) => {
+          //     queryFields(graphic.geometry).then(function (features) {
+          //       features.features.forEach((feature) => {
+          //         selectedFieldsArray.push(feature.attributes.fid_1);
+          //       });
+          //       // once completed the loop and pushing data to array, resolve promise and
+          //       // send the selectedFieldsArray
+          //       // test against loop counter to make sure we have looped through all graphics
+          //       if (state.map.graphics.graphics.length === c) {
+          //         getFieldsResolve(selectedFieldsArray);
+          //       }
+          //       c += 1;
+          //     });
+          //   });
+          // } else {
+          //   throw new Error("You must select an area.....");
+          // }
+        });
+      };
+      // // use the selected fields array to select all the rows from the data table
+      // // Field_Crop_LUT is the table
+      // state.selectRowsFromTable = function (fieldsArray) {
+      //   return new Promise(function (getRowsResolve, reject) {
+      //     // console.log(fieldsArray);
+      //     let where = state.buildFieldTableQuery(fieldsArray);
+      //     console.log(where);
+      //     const q = new Query();
+      //     const qt = new QueryTask(state.obj.url + "/4");
+      //     // q.geometry = mapPoint;
+      //     q.outFields = ["*"];
+      //     q.returnGeometry = true;
+      //     q.where = where;
+      //     // execute map query
+      //     qt.execute(q, function (e) {
+      //       console.log(e);
+      //       return getRowsResolve(e);
+      //     });
+      //   });
+      // };
 
-          if (state.map.graphics.graphics.length > 0) {
-            // const selectedFieldsArray = [];
-            console.log(state.map.graphics.graphics);
-            // start a loop counter
-            let c = 1;
-            state.map.graphics.graphics.forEach((graphic, i) => {
-              queryFields(graphic.geometry).then(function (features) {
-                features.features.forEach((feature) => {
-                  selectedFieldsArray.push(feature.attributes.fid_1);
-                });
-                // once completed the loop and pushing data to array, resolve promise and
-                // send the selectedFieldsArray
-                // test against loop counter to make sure we have looped through all graphics
-                if (state.map.graphics.graphics.length === c) {
-                  getFieldsResolve(selectedFieldsArray);
-                }
-                c += 1;
-              });
-            });
-          } else {
-            throw new Error("You must select an area.....");
-          }
-        });
-      };
-      // use the selected fields array to select all the rows from the data table
-      // Field_Crop_LUT is the table
-      state.selectRowsFromTable = function (fieldsArray) {
-        return new Promise(function (getRowsResolve, reject) {
-          return getRowsResolve("test data");
-        });
-      };
+      // // from the selecetd rows in the data table, aggregate the crop data
+      // // use the aggregated crop data to build out the UI
+      // state.aggregateCropData = function (rows) {
+      //   return new Promise(function (getCropsResolve, reject) {
+      //     return getCropsResolve("get crops resolve");
+      //   });
+      // };
 
-      // from the selecetd rows in the data table, aggregate the crop data
-      // use the aggregated crop data to build out the UI
-      state.aggregateCropData = function (rows) {
-        return new Promise(function (getCropsResolve, reject) {
-          return getCropsResolve("get crops resolve");
-        });
-      };
+      // state.buildFieldTableQuery = function (fieldsArray) {
+      //   let where = "";
+      //   let c = 1;
+      //   fieldsArray.forEach((field, i) => {
+      //     if (c === fieldsArray.length) {
+      //       where += `fid = ${field}`;
+      //     } else {
+      //       where += `fid = ${field} OR `;
+      //     }
+      //     c += 1;
+      //   });
+      //   return where;
+      // };
     },
   });
 });

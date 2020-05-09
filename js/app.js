@@ -55,10 +55,9 @@ define(["dojo/_base/declare"], function (declare) {
 
       // BMP Selection area *************************************************************************
       // build and render the crop list
-      state.cropSelectedList = new state.CropSelectedList(
+      state.cropSelectedListComponent = new state.CropSelectedList(
         ".cda-crop-selected-wrapper"
       );
-      state.cropSelectedList.render();
     },
     // ****************************************
 

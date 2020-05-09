@@ -81,19 +81,22 @@ define(["dojo/_base/declare"], function (declare) {
         if (state.areaSelectedListComponent.areaList.length > 0) {
           this.hideElement(".cda-main-wrapper");
           this.showElement(".cda-retreiving-data-wrapper");
-          // get fields from area selection
-          state.getFieldsFromAreaSelection().then(function (fieldArray) {
-            // get rows from data table using selected fields
-            state.selectRowsFromTable(fieldArray).then(function (rows) {
-              // aggregate crop data
-              state.aggregateCropData(rows).then(function (data) {
-                console.log(data);
-                // show and hide elements when everything is done loading and being built
-                state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
-                state.UI.prototype.showElement(".cda-bmp-select-wrapper");
-              });
+          if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
+            state.getCropsFromAreaSelection().then(function () {
+              // once data processing is finished render the cropSelectedComponent and show hide UI related
+              state.cropSelectedListComponent.render();
+              state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+              state.UI.prototype.showElement(".cda-bmp-select-wrapper");
             });
-          });
+          } else if (
+            state.assesmentRadioButtons.selectedValue === "local-scenario"
+          ) {
+            state.getFieldsFromLocalSelection().then(function (fieldData) {
+              console.log(fieldData);
+              state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+              state.UI.prototype.showElement(".cda-bmp-select-wrapper");
+            });
+          }
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {

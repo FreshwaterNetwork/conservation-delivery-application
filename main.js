@@ -13,6 +13,7 @@ define([
   "./js/BmpSelection",
   "./js/Areas",
   "./js/esriapi",
+  "./js/bmpLogic",
   "./js/app",
   "dojo/domReady!",
 ], function (
@@ -29,6 +30,7 @@ define([
   BmpSelection,
   Areas,
   esriapi,
+  bmpLogic,
   app
 ) {
   return declare(PluginBase, {
@@ -154,6 +156,7 @@ define([
       // BRING IN OTHER JS FILES
       // instatiate esriapi, ui
       this.esriapi = new esriapi();
+      this.bmpLogic = new bmpLogic();
       this.UI = new UI();
       this.initProjectData = new initProjectData();
       this.areas = new Areas();
@@ -165,6 +168,7 @@ define([
       this.initProjectData.init(this);
       this.UI.init(this);
       this.esriapi.init(this);
+      this.bmpLogic.init(this);
       this.areas.init(this);
       this.bmp.init(this);
       this.RadioBtnComponent.init(this);
