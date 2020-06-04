@@ -2,162 +2,143 @@ define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
     init: function (state) {
-      console.log("init bmp");
+      // crop selected list
       state.CropSelectedList = function (renderHook) {
         this.cropSelectedElem = document.querySelector(renderHook);
         this.selectedCrops = [];
 
-        this.addCrop = function (crop) {
-          // consider creating a new BMP here..... and pushing it into crop
-          this.selectedCrops.push(crop);
-        };
-
-        this.sortSelectedCrops = function () {
-          this.selectedCrops.sort(function (a, b) {
-            return b.acres - a.acres;
-          });
-        };
-        // add click event for overall cropSelectedElem, listen for DD changes
-        this.cropSelectedElem.addEventListener("change", (evt) => {
-          console.log(this);
-          //**********  look here for next instructions *********
-          // grab the crop name, and look it up in the cropList
-          // from there populate the current efficeinces for the selectd bmp
-          // then when an input is changed, you can write that change to teh crop lisr as well
-
-          // if its a bmp dropdown menu change
-          if (evt.target.className === "cda-bmp-select-menu") {
-            console.log(this.selectedCrops);
-            console.log(evt);
-            // current dropdown
-            console.log(evt.target);
-            // current value
-            console.log(evt.target.value);
-            // current crop wrapper
-            console.log(evt.target.parentNode.parentNode);
-            const parent = evt.target.parentNode.parentNode;
-            // create a new elem, in this case bmp inputs
-            let div = document.createElement("div");
-            div.innerHTML = `<div>test add elem of ${evt.target.value}</div>`;
-            // append the new div to the parent elem
-            parent.appendChild(div);
-          }
-        });
-
+        // render function ********************************************************************************
         this.render = function () {
           // on each render sort by crop acres
           this.sortSelectedCrops();
           // loop through all the selected crops array and call render on each one
           this.selectedCrops.forEach((crop) => {
-            // let cropWrapper = document.createElement("div");
             crop.render(this.cropSelectedElem);
-            // this.cropSelectedElem.innerHTML += cropWrapper;
-
-            // this.cropSelectedElem.innerHTML += crop.render();
           });
-          console.log(this.selectedCrops);
         };
+        // DOM Events *************************************************************************************
+        // add click event for overall cropSelectedElem, listen for BMP DD changes
+        this.cropSelectedElem.addEventListener("change", (evt) => {
+          // if its a bmp dropdown menu change
+          if (evt.target.className === "cda-bmp-select-menu") {
+            this.bmpDDChange(evt);
+          }
+        });
       };
+      // Crop selected list prototype functions
+      // *******************************************************************************************************************
+      state.CropSelectedList.prototype.bmpDDChange = function (evt) {
+        // get parent elem
+        const parent = evt.target.parentNode.parentNode;
+        // grab the crop name, and look it up in the cropList
+        const cropSelected = evt.target.parentNode.id.split("bmp-wrapper-")[1];
+        // create a new BMP selecd object
+        this.bmpSelectedComponent = new state.BMPSelectedComponent(
+          evt.target.value
+        );
+        // add the crop selected to the properties of the object
+        this.bmpSelectedComponent.crop = cropSelected;
+        this.addBMPSelectionToCrop(cropSelected, this.bmpSelectedComponent);
+        //render the new elem
+        this.bmpSelectedComponent.render(parent);
+        console.log("change the dropdown back to default");
+      };
+      // disable value in dropdown menu for future selections
+      state.CropSelectedList.prototype.disableUsedBMPfromDD = function () {
+        console.log("diable chossen values");
+      };
+      // enable value in dropdown menu after a bmp was unselected
+      state.CropSelectedList.prototype.enableBMPfromDD = function () {
+        console.log("enable DD value");
+      };
+      // reset bmp dropdown menu after bmp was selected
+      state.CropSelectedList.prototype.resetBMPDropdown = function () {
+        console.log("reset dd");
+      };
+      // add a new crop to the selected crops array
+      state.CropSelectedList.prototype.addCrop = function (crop) {
+        this.selectedCrops.push(crop);
+      };
+      // sort selected crops array
+      state.CropSelectedList.prototype.sortSelectedCrops = function () {
+        this.selectedCrops.sort(function (a, b) {
+          return b.acres - a.acres;
+        });
+      };
+      // when a new bmp is selected, add that selection to the crop object
+      state.CropSelectedList.prototype.addBMPSelectionToCrop = function (
+        value,
+        bmpSelected
+      ) {
+        let crop = this.selectedCrops.find((o) => o.name === value);
+        crop.bmpSelected.push(bmpSelected);
+      };
+
+      // crop obeject, each crop is created and added to the crop selected list object
+      // ***********************************************************************************************
       state.Crop = function (cropName, acres, phos_load, nit_load, sed_load) {
-        // add BMP component
         this.bmpSelected = [];
-        this.bmpComponent = new state.BMPSelectionComponent();
         // crop properties
         this.name = cropName;
         this.acres = parseFloat(acres.toFixed(2));
         this.phos_load = parseFloat(phos_load.toFixed(2));
         this.nit_load = parseFloat(nit_load.toFixed(2));
-        this.sed_load - parseFloat(sed_load.toFixed(2));
+        this.sed_load = parseFloat(sed_load.toFixed(2));
 
-        // add click event for overall cropSelectedElem, listen for DD changes
-        console.log();
-        // state.cropSelectedListComponent.cropSelectedElem.addEventListener(
-        //   "change",
-        //   (evt) => {
-        //     console.log(this);
-        //     // if its a bmp dropdown menu change
-        //     if (evt.target.className === "cda-bmp-select-menu") {
-        //       console.log(evt);
-        //       // current dropdown
-        //       console.log(evt.target);
-        //       // current value
-        //       console.log(evt.target.value);
-        //       // current crop wrapper
-        //       console.log(evt.target.parentNode.parentNode);
-        //       const parent = evt.target.parentNode.parentNode;
-        //       // create a new elem, in this case bmp inputs
-        //       let div = document.createElement("div");
-        //       div.innerHTML = `<div>test add elem of ${evt.target.value}</div>`;
-        //       // append the new div to the parent elem
-        //       parent.appendChild(div);
-        //     }
-        //   }
-        // );
-
+        // render function for each crop
         this.render = function (renderHook) {
-          console.log(state.BMPselectMenu);
           let template = `
             <div class='cda-crop-wrapper'>
               <div class='cda-crop-header'>
-                <div>Crop Name: ${cropName}</div>
+                <div>${this.name} - ${this.acres} acres</div>
+                <div>Initial Load (MT): Nit ${this.nit_load} - Phos ${this.phos_load} - Sed ${this.sed_load}</div>
               </div>
-              <div id="bmp-wrapper-${cropName}" class="cda-bmp-component-wrapper">
+              <div id="bmp-wrapper-${this.name}" class="cda-bmp-component-wrapper">
                 ${state.BMPselectMenu}
               </div>
             </div>
           `;
-          console.log(template);
           renderHook.innerHTML += template;
-
-          // now add a BMP component to each crop **********************
-          // let bmpWrapperElem = document.getElementById(
-          //   `bmp-wrapper-${cropName}`
-          // );
-          // this.bmpComponent.render(bmpWrapperElem);
-
-          // ******* this works somewhat ************
-          // let clickElem = renderHook.querySelectorAll(".cda-look-here");
-          // clickElem.forEach((element) => {
-          //   element.addEventListener("click", (evt) => {
-          //     console.log(evt.target);
-          //   });
-          // });
         };
       };
-      state.Crop.prototype.BmpDDChange = function (evt) {
-        console.log(evt);
-        console.log(this);
-      };
-      state.BMPSelectionComponent = function () {
-        this.bmpValues = [
-          {
-            name: "coverCrop",
-            sed_eff: 0.34,
-            nit_eff: 0.2,
-            phos_eff: 0.42,
-          },
-        ];
-        // bmp dropdown
-        this.value = "test value";
-
-        // handle the bmp logic, ie: ex, ov, lsc, etc...
-        // store values from the inputs, add an indicator if input values were changed from default
+      // BMP selected component
+      //**************************************************************************************************************
+      state.BMPSelectedComponent = function (bmpShortName) {
+        // add bmp data as a property, get the data from the bmp_lut_data object
+        this.bmpData = state.bmp_lut_data.find(
+          (o) => o.BMP_Short === bmpShortName
+        );
+        // render the elem
         this.render = function (renderHook) {
+          console.log(this);
           const template = `
-            <div>
-              <div class="cda-look-here">look here</div>
-              <div>look here again</div>
-            </div>
+                <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
+                <div class='cda-bmp-input-wrapper' style='display:flex'>
+                  <div>
+                    <label for="fname">Phos</label>
+                    <br>
+                    <input type="text" id="fname" name="fname" value='${this.bmpData.Phos_Eff}'>
+                  </div>                
+                 
+                  <div>
+                    <label for="fname">Nit</label>
+                    <br>
+                    <input type="text" id="fname" name="fname" value='${this.bmpData.Nitr_Eff}'>
+                  </div> 
+                  
+                  <div>
+                    <label for="fname">Sed</label>
+                    <br>
+                    <input type="text" id="fname" name="fname" value='${this.bmpData.Sed_Eff}'>
+                  </div> 
+                </div>
           `;
-          renderHook.innerHTML = template;
-          console.log(renderHook);
-
-          let clickElem = renderHook.querySelectorAll(".cda-look-here");
-          clickElem.forEach((element) => {
-            element.addEventListener("click", (evt) => {
-              console.log(evt.target);
-            });
-          });
+          // create a new elem, in this case bmp inputs
+          let div = document.createElement("div");
+          div.className = "cda-bmp-selected-wrapper";
+          div.innerHTML = template;
+          // append the new div to the parent elem
+          renderHook.appendChild(div);
         };
       };
     },

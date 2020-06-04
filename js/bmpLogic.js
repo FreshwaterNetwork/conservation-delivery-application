@@ -39,7 +39,6 @@ define([
             state.selectRowsFromTable(fields).then(function (cropRows) {
               state.aggregateCropData(cropRows).then(function (cropData) {
                 state.pushCropDataToComponent(cropData).then(function () {
-                  console.log();
                   getCropsResolve();
                 });
               });
@@ -182,7 +181,7 @@ define([
       };
       state.createBMPDropDown = function () {
         state.BMPselectMenu = `<select placeholder="Pick One Number"  class="cda-bmp-select-menu">`;
-        state.BMPselectMenu += `<option>Select a BMP</option>`;
+        state.BMPselectMenu += `<option>Select a Best Management Practice(s)</option>`;
         $.each(state.bmp_lut_data, (i, v) => {
           state.BMPselectMenu += `<option data-sed_eff="${v.Sed_Eff}" data-phos_eff="${v.Phos_Eff}" data-nitr_eff="${v.Nitr_Eff}" data-nitrBMP_Emc="${v.NitrBMP_EMC}" data-phosBMP_EMC="${v.PhosBMP_EMC}" data-appType="${v.AppType}" data-redFunc="${v.RedFunc}" value="${v.BMP_Short}">${v.BMP_Name}</option>`;
         });

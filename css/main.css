@@ -82,7 +82,22 @@ button {
 .cda-bmp-select-wrapper {
   display: none;
 }
+.cda-bmp-selected-wrapper {
+  margin: 5px;
+  background-color: lightcyan;
+  border: 1px solid black;
+}
 .cda-retreiving-data-wrapper {
   display: none;
+}
+.cda-bmp-select-menu {
+  width: 70%;
+}
+.cda-bmp-input-wrapper input {
+  width: 36px;
+}
+.cda-bmp-selected-header {
+  font-size: 12px;
+  font-weight: bold;
 }
 /* report styles ***********************************************/
