@@ -84,8 +84,9 @@ button {
 }
 .cda-bmp-selected-wrapper {
   margin: 5px;
-  background-color: lightcyan;
+  background-color: rgba(0, 0, 0, 0.05);
   border: 1px solid black;
+  padding: 3px;
 }
 .cda-retreiving-data-wrapper {
   display: none;
@@ -93,11 +94,36 @@ button {
 .cda-bmp-select-menu {
   width: 70%;
 }
-.cda-bmp-input-wrapper input {
-  width: 36px;
+.cda-bmp-selected-wrapper input {
+  width: 45px;
 }
 .cda-bmp-selected-header {
   font-size: 12px;
   font-weight: bold;
+  width: 80%;
 }
+.cda-crop-wrapper {
+  padding: 3px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.cda-crop-header-name {
+  color: #2f6384;
+  font-weight: bold;
+}
+.cda-bmp-remove-button {
+  position: absolute;
+  right: 22px;
+  color: grey;
+}
+.cda-bmp-remove-button:hover {
+  cursor: pointer;
+  color: black;
+  /* background-color: rgba(0, 0, 0, 0.1); */
+}
+.cda-bmp-remove-button:active {
+  transform: translate(1px, 1px);
+}
+
 /* report styles ***********************************************/

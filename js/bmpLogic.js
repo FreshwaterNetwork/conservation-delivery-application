@@ -30,7 +30,6 @@ define([
   "use strict";
   return declare(null, {
     init: function (state) {
-      console.log("init bmp logic");
       // when area selection is checked ************************************************
       state.getCropsFromAreaSelection = function () {
         // chain multiple promises to handle async queries
@@ -179,14 +178,46 @@ define([
           }
         });
       };
+      // create html for bmp selection dropdown menu
       state.createBMPDropDown = function () {
+        const lscValues = [];
+        const ovValues = [];
+        const exValues = [];
+
+        state.bmp_lut_data.forEach((bmp) => {
+          console.log(bmp);
+          if (bmp.RedFunc === "LSC") {
+            lscValues.push(bmp);
+          }
+          if (bmp.AppType === "EX" && bmp.RedFunc !== "LSC") {
+            exValues.push(bmp);
+          }
+          if (bmp.AppType === "OV") {
+            ovValues.push(bmp);
+          }
+        });
         state.BMPselectMenu = `<select placeholder="Pick One Number"  class="cda-bmp-select-menu">`;
         state.BMPselectMenu += `<option>Select a Best Management Practice(s)</option>`;
-        $.each(state.bmp_lut_data, (i, v) => {
-          state.BMPselectMenu += `<option data-sed_eff="${v.Sed_Eff}" data-phos_eff="${v.Phos_Eff}" data-nitr_eff="${v.Nitr_Eff}" data-nitrBMP_Emc="${v.NitrBMP_EMC}" data-phosBMP_EMC="${v.PhosBMP_EMC}" data-appType="${v.AppType}" data-redFunc="${v.RedFunc}" value="${v.BMP_Short}">${v.BMP_Name}</option>`;
+
+        state.BMPselectMenu += `<optgroup label="Load Source Change BMP's">`;
+        lscValues.forEach((bmp) => {
+          state.BMPselectMenu += `<option data-sed_eff="${bmp.Sed_Eff}" data-phos_eff="${bmp.Phos_Eff}" data-nitr_eff="${bmp.Nitr_Eff}" data-nitrBMP_Emc="${bmp.NitrBMP_EMC}" data-phosBMP_EMC="${bmp.PhosBMP_EMC}" appType="${bmp.AppType}" redFunc="${bmp.RedFunc}" value="${bmp.BMP_Short}">${bmp.BMP_Name}</option>`;
         });
+        state.BMPselectMenu += `optgroup`;
+
+        state.BMPselectMenu += `<optgroup label="Exclusive BMP's">`;
+        exValues.forEach((bmp) => {
+          state.BMPselectMenu += `<option data-sed_eff="${bmp.Sed_Eff}" data-phos_eff="${bmp.Phos_Eff}" data-nitr_eff="${bmp.Nitr_Eff}" data-nitrBMP_Emc="${bmp.NitrBMP_EMC}" data-phosBMP_EMC="${bmp.PhosBMP_EMC}" appType="${bmp.AppType}" redFunc="${bmp.RedFunc}" value="${bmp.BMP_Short}">${bmp.BMP_Name}</option>`;
+        });
+        state.BMPselectMenu += `optgroup`;
+
+        state.BMPselectMenu += `<optgroup label="Overlapping BMP's">`;
+        ovValues.forEach((bmp) => {
+          state.BMPselectMenu += `<option data-sed_eff="${bmp.Sed_Eff}" data-phos_eff="${bmp.Phos_Eff}" data-nitr_eff="${bmp.Nitr_Eff}" data-nitrBMP_Emc="${bmp.NitrBMP_EMC}" data-phosBMP_EMC="${bmp.PhosBMP_EMC}" appType="${bmp.AppType}" redFunc="${bmp.RedFunc}" value="${bmp.BMP_Short}">${bmp.BMP_Name}</option>`;
+        });
+        state.BMPselectMenu += `optgroup`;
+
         state.BMPselectMenu += `</select>`;
-        // return selectMenu;
       };
       state.createBMPDropDown();
     },

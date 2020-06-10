@@ -17,11 +17,25 @@ define(["dojo/_base/declare"], function (declare) {
           });
         };
         // DOM Events *************************************************************************************
-        // add click event for overall cropSelectedElem, listen for BMP DD changes
+        // add click event for overall cropSelectedElem, listen for BMP DD changes, and input changes
         this.cropSelectedElem.addEventListener("change", (evt) => {
           // if its a bmp dropdown menu change
           if (evt.target.className === "cda-bmp-select-menu") {
             this.bmpDDChange(evt);
+          }
+          // efficiencies input changes
+          if (evt.target.className === "cda-bmp-efficiencies") {
+            this.updateEfficiencies(evt.target);
+          }
+          // percent bmp applied input changes
+          if (evt.target.className === "cda-bmp-percent-applied") {
+            this.updatePercentApplied(evt.target);
+          }
+        });
+        // bmp remove button event
+        this.cropSelectedElem.addEventListener("click", (evt) => {
+          if (evt.target.className === "cda-bmp-remove-button") {
+            this.removeBMPSelection(evt.target);
           }
         });
       };
@@ -38,22 +52,140 @@ define(["dojo/_base/declare"], function (declare) {
         );
         // add the crop selected to the properties of the object
         this.bmpSelectedComponent.crop = cropSelected;
+        // call utility functions
         this.addBMPSelectionToCrop(cropSelected, this.bmpSelectedComponent);
+        this.disableUsedBMPfromDD(evt.target);
+        this.resetBMPDropdown(evt.target);
         //render the new elem
         this.bmpSelectedComponent.render(parent);
-        console.log("change the dropdown back to default");
+      };
+      // when a user changes and default efficiency, update the value in the object
+      // and add a value stating that the default value was changed by the user
+      state.CropSelectedList.prototype.updateEfficiencies = function (target) {
+        // set constants
+        const id = target.id;
+        const inputValue = parseFloat(target.value);
+        const cropName = target.parentNode.parentNode.parentNode.getAttribute(
+          "crop"
+        );
+        const bmpShortName = target.parentNode.parentNode.parentNode.getAttribute(
+          "bmpshortname"
+        );
+
+        // find the current crop in the selected crop array
+        const cropObj = this.selectedCrops.find((o) => o.name === cropName);
+
+        // find the current bmp in the selected bmp array
+        const bmpObj = cropObj.bmpSelected.find(
+          (o) => o.bmpData.BMP_Short === bmpShortName
+        );
+        // update the values
+        if (id === "phosVal") {
+          bmpObj.bmpData.Phos_Eff = inputValue;
+          bmpObj.bmpData.phos_mod = true;
+        }
+        if (id === "nitVal") {
+          bmpObj.bmpData.Nit_Eff = inputValue;
+          bmpObj.bmpData.nit_mod = true;
+        }
+        if (id === "sedVal") {
+          bmpObj.bmpData.Sed_Eff = inputValue;
+          bmpObj.bmpData.sed_mod = true;
+        }
+      };
+      // for EX type BMP's the user is allowed to choose a percentage applied
+      // this precentage cannot add up to above 100%.
+      // add the percentage applied to the obj and add a running total percentage to the crop obj
+      state.CropSelectedList.prototype.updatePercentApplied = function (
+        target
+      ) {
+        const value = parseInt(target.value);
+        const cropName = target.parentNode.parentNode.getAttribute("crop");
+        const bmpShortName = target.parentNode.parentNode.getAttribute(
+          "bmpshortname"
+        );
+        // find the current crop in the selected crop array
+        const cropObj = this.selectedCrops.find((o) => o.name === cropName);
+
+        // find the current bmp in the selected bmp array
+        const bmpObj = cropObj.bmpSelected.find(
+          (o) => o.bmpData.BMP_Short === bmpShortName
+        );
+
+        bmpObj.bmpData.percentApplied = value;
+
+        let totalPercentApplied = 0;
+        cropObj.bmpSelected.forEach((bmp) => {
+          totalPercentApplied += bmp.bmpData.percentApplied;
+        });
+        if (totalPercentApplied > 100) {
+          // ex type bmps applications can not add up to over 100%
+          // throw error somewhere
+          // maybe consider turning this into a function so it can be called other places
+        }
+        console.log(totalPercentApplied);
+        // add the total percent applied to the crop
+        cropObj.totalExPercentApplied = value;
       };
       // disable value in dropdown menu for future selections
-      state.CropSelectedList.prototype.disableUsedBMPfromDD = function () {
-        console.log("diable chossen values");
+      state.CropSelectedList.prototype.disableUsedBMPfromDD = function (
+        target
+      ) {
+        // get app type and redfunc from the bmp_lut table
+        const bmpData = state.bmp_lut_data.find(
+          (o) => o.BMP_Short === target.value
+        );
+        const redfunc = bmpData.RedFunc;
+
+        // loop through all the options in the select menu and disable the options that qualify
+        let options = target.querySelectorAll("option");
+        if (redfunc === "LSC") {
+          // disable the entire Load source change area of the dropdown menu
+          options.forEach((option) => {
+            if (option.getAttribute("redfunc") === "LSC") {
+              option.disabled = true;
+            }
+          });
+        } else {
+          options.forEach((option) => {
+            if (option.value === target.value) {
+              option.disabled = true;
+            }
+          });
+        }
       };
       // enable value in dropdown menu after a bmp was unselected
-      state.CropSelectedList.prototype.enableBMPfromDD = function () {
-        console.log("enable DD value");
+      state.CropSelectedList.prototype.enableBMPfromDD = function (
+        target,
+        bmpShortName
+      ) {
+        // get app type and redfunc from the bmp_lut table
+        const bmpData = state.bmp_lut_data.find(
+          (o) => o.BMP_Short === bmpShortName
+        );
+        const redfunc = bmpData.RedFunc;
+        // get the crop dropdown menu and list options
+        const cropDDMenu = target.parentNode.parentNode.parentNode;
+        const options = cropDDMenu.querySelectorAll("option");
+        // check if the BMP was redfunc type LSC, if so enable all LSC's
+        if (redfunc === "LSC") {
+          // disable the entire Load source change area of the dropdown menu
+          options.forEach((option) => {
+            if (option.getAttribute("redfunc") === "LSC") {
+              option.disabled = false;
+            }
+          });
+        } else {
+          options.forEach((option) => {
+            if (option.value === bmpShortName) {
+              option.disabled = false;
+            }
+          });
+        }
       };
       // reset bmp dropdown menu after bmp was selected
-      state.CropSelectedList.prototype.resetBMPDropdown = function () {
-        console.log("reset dd");
+      state.CropSelectedList.prototype.resetBMPDropdown = function (target) {
+        target.options[0].selected = true;
       };
       // add a new crop to the selected crops array
       state.CropSelectedList.prototype.addCrop = function (crop) {
@@ -73,6 +205,28 @@ define(["dojo/_base/declare"], function (declare) {
         let crop = this.selectedCrops.find((o) => o.name === value);
         crop.bmpSelected.push(bmpSelected);
       };
+      // remove a bmp from the crop
+      state.CropSelectedList.prototype.removeBMPSelection = function (target) {
+        const cropName = target.parentNode.parentNode.getAttribute("crop");
+        const bmpShortName = target.parentNode.parentNode.getAttribute(
+          "bmpshortname"
+        );
+        // find the crop compoenent in the crop selected array
+        const cropComponent = this.selectedCrops.find(
+          (o) => o.name === cropName
+        );
+        // remove the bmp from the crop bmp selected array
+        cropComponent.bmpSelected.splice(
+          cropComponent.bmpSelected.findIndex(
+            (item) => item.bmpData.BMP_Short === bmpShortName
+          ),
+          1
+        );
+        // enable bmp in the dropdown list once its been deleted
+        this.enableBMPfromDD(target, bmpShortName);
+        // remove the bmp component html
+        target.parentNode.parentNode.remove();
+      };
 
       // crop obeject, each crop is created and added to the crop selected list object
       // ***********************************************************************************************
@@ -90,8 +244,10 @@ define(["dojo/_base/declare"], function (declare) {
           let template = `
             <div class='cda-crop-wrapper'>
               <div class='cda-crop-header'>
-                <div>${this.name} - ${this.acres} acres</div>
+                <div><span class="cda-crop-header-name">${this.name}</span> - ${this.acres} acres</div>
                 <div>Initial Load (MT): Nit ${this.nit_load} - Phos ${this.phos_load} - Sed ${this.sed_load}</div>
+                <div>New Load (MT): </div>
+                <div>Reduction (%): </div>
               </div>
               <div id="bmp-wrapper-${this.name}" class="cda-bmp-component-wrapper">
                 ${state.BMPselectMenu}
@@ -108,35 +264,85 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData = state.bmp_lut_data.find(
           (o) => o.BMP_Short === bmpShortName
         );
+
+        // placeholders for user modifications to the default value
+        this.bmpData.sed_mod = false;
+        this.bmpData.phos_mod = false;
+        this.bmpData.nit_mod = false;
+
+        if (this.bmpData.AppType === "EX") {
+          this.bmpData.percentApplied = 0;
+        }
+
         // render the elem
         this.render = function (renderHook) {
-          console.log(this);
           const template = `
-                <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
+                <div style='display:flex'>
+                  <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
+                  <div class='cda-bmp-remove-button'>Remove</div>
+                </div>
+                
                 <div class='cda-bmp-input-wrapper' style='display:flex'>
                   <div>
-                    <label for="fname">Phos</label>
+                    <label for="phosVal">Phos</label>
                     <br>
-                    <input type="text" id="fname" name="fname" value='${this.bmpData.Phos_Eff}'>
+                    <input class="cda-bmp-efficiencies" type="text" id="phosVal" name="fname" value='${this.bmpData.Phos_Eff}'>
                   </div>                
                  
                   <div>
-                    <label for="fname">Nit</label>
+                    <label for="nitVal">Nit</label>
                     <br>
-                    <input type="text" id="fname" name="fname" value='${this.bmpData.Nitr_Eff}'>
+                    <input class="cda-bmp-efficiencies" type="text" id="nitVal" name="fname" value='${this.bmpData.Nitr_Eff}'>
                   </div> 
                   
                   <div>
-                    <label for="fname">Sed</label>
+                    <label for="sedVal">Sed</label>
                     <br>
-                    <input type="text" id="fname" name="fname" value='${this.bmpData.Sed_Eff}'>
+                    <input class="cda-bmp-efficiencies" type="text" id="sedVal" name="fname" value='${this.bmpData.Sed_Eff}'>
                   </div> 
                 </div>
+          `;
+
+          const templateEx = `
+                <div style='display:flex'>
+                  <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
+                  <div class='cda-bmp-remove-button'>Remove</div>
+                </div>
+                
+                <div class='cda-bmp-input-wrapper' style='display:flex'>
+                  <div>
+                    <label for="phosVal">Phos</label>
+                    <br>
+                    <input class="cda-bmp-efficiencies" type="text" id="phosVal" name="fname" value='${this.bmpData.Phos_Eff}'>
+                  </div>                
+                 
+                  <div>
+                    <label for="nitVal">Nit</label>
+                    <br>
+                    <input class="cda-bmp-efficiencies" type="text" id="nitVal" name="fname" value='${this.bmpData.Nitr_Eff}'>
+                  </div> 
+                  
+                  <div>
+                    <label for="sedVal">Sed</label>
+                    <br>
+                    <input class="cda-bmp-efficiencies" type="text" id="sedVal" name="fname" value='${this.bmpData.Sed_Eff}'>
+                  </div> 
+                </div>
+                <div>Apply exclusive BMP to crop: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='0'>%</div>
           `;
           // create a new elem, in this case bmp inputs
           let div = document.createElement("div");
           div.className = "cda-bmp-selected-wrapper";
-          div.innerHTML = template;
+          // add data attributes
+          div.setAttribute("bmpShortName", this.bmpData.BMP_Short);
+          div.setAttribute("crop", this.crop);
+
+          // set the html based on what app type the BMP is
+          if (this.bmpData.AppType === "EX") {
+            div.innerHTML = templateEx;
+          } else {
+            div.innerHTML = template;
+          }
           // append the new div to the parent elem
           renderHook.appendChild(div);
         };
