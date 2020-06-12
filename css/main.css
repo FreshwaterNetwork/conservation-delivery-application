@@ -125,5 +125,8 @@ button {
 .cda-bmp-remove-button:active {
   transform: translate(1px, 1px);
 }
-
+.cda-bmp-exclusive-warning {
+  font-size: 12px;
+  color: maroon;
+}
 /* report styles ***********************************************/

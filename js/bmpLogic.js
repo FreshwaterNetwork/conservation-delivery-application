@@ -185,7 +185,6 @@ define([
         const exValues = [];
 
         state.bmp_lut_data.forEach((bmp) => {
-          console.log(bmp);
           if (bmp.RedFunc === "LSC") {
             lscValues.push(bmp);
           }
