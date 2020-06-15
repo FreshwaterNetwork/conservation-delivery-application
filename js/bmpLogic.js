@@ -180,6 +180,7 @@ define([
       };
       // create html for bmp selection dropdown menu
       state.createBMPDropDown = function () {
+        let dropdowElem = document.createElement("div");
         const lscValues = [];
         const ovValues = [];
         const exValues = [];
@@ -217,6 +218,10 @@ define([
         state.BMPselectMenu += `optgroup`;
 
         state.BMPselectMenu += `</select>`;
+
+        // dropdowElem.innerHTML = state.BMPselectMenu;
+        // state.BMPselectMenu = dropdowElem;
+        // console.log(dropdowElem);
       };
       state.createBMPDropDown();
     },
