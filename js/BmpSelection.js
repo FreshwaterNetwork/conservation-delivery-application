@@ -18,7 +18,6 @@ define(["dojo/_base/declare"], function (declare) {
           });
         };
       };
-
       // CropSelected prototype functions ***********************************************************************
       // add a new crop to the selected crops array
       state.CropSelectedList.prototype.addCrop = function (crop) {
@@ -28,86 +27,6 @@ define(["dojo/_base/declare"], function (declare) {
       state.CropSelectedList.prototype.sortSelectedCrops = function () {
         this.selectedCrops.sort(function (a, b) {
           return b.acres - a.acres;
-        });
-      };
-
-      // when a user changes and default efficiency, update the value in the object
-      // and add a value stating that the default value was changed by the user
-      state.CropSelectedList.prototype.updateEfficiencies = function (target) {
-        // set constants
-        const id = target.id;
-        const inputValue = parseFloat(target.value);
-        const cropName = target.parentNode.parentNode.parentNode.getAttribute(
-          "crop"
-        );
-        const bmpShortName = target.parentNode.parentNode.parentNode.getAttribute(
-          "bmpshortname"
-        );
-
-        // find the current crop in the selected crop array
-        const cropObj = this.selectedCrops.find((o) => o.name === cropName);
-
-        // find the current bmp in the selected bmp array
-        const bmpObj = cropObj.bmpSelected.find(
-          (o) => o.bmpData.BMP_Short === bmpShortName
-        );
-        // update the values
-        if (id === "phosVal") {
-          bmpObj.bmpData.Phos_Eff = inputValue;
-          bmpObj.bmpData.phos_mod = true;
-        }
-        if (id === "nitVal") {
-          bmpObj.bmpData.Nit_Eff = inputValue;
-          bmpObj.bmpData.nit_mod = true;
-        }
-        if (id === "sedVal") {
-          bmpObj.bmpData.Sed_Eff = inputValue;
-          bmpObj.bmpData.sed_mod = true;
-        }
-      };
-      // for EX type BMP's the user is allowed to choose a percentage applied
-      // this precentage cannot add up to above 100%.
-      // add the percentage applied to the obj and add a running total percentage to the crop obj
-      state.CropSelectedList.prototype.updatePercentApplied = function (
-        target
-      ) {
-        const value = parseInt(target.value);
-        const cropName = target.parentNode.parentNode.getAttribute("crop");
-        const bmpShortName = target.parentNode.parentNode.getAttribute(
-          "bmpshortname"
-        );
-        // find the current crop in the selected crop array
-        const cropObj = this.selectedCrops.find((o) => o.name === cropName);
-
-        // find the current bmp in the selected bmp array
-        const bmpObj = cropObj.bmpSelected.find(
-          (o) => o.bmpData.BMP_Short === bmpShortName
-        );
-
-        bmpObj.bmpData.percentApplied = value;
-
-        this.checkExclusiveBMPTotalPercent();
-        // let totalPercentApplied = 0;
-        // cropObj.bmpSelected.forEach((bmp) => {
-        //   totalPercentApplied += bmp.bmpData.percentApplied;
-        // });
-        // if (totalPercentApplied > 100) {
-        //   // ex type bmps applications can not add up to over 100%
-        //   // throw error somewhere
-        //   // maybe consider turning this into a function so it can be called other places
-        // }
-        // console.log(totalPercentApplied);
-        // // add the total percent applied to the crop
-        // cropObj.totalExPercentApplied = value;
-      };
-      state.CropSelectedList.prototype.checkExclusiveBMPTotalPercent = function () {
-        console.log(this.selectedCrops);
-        this.selectedCrops.forEach((crop) => {
-          let totalPercentApplied = 0;
-          console.log(crop);
-          crop.bmpSelected.forEach((bmp) => {
-            console.log(bmp);
-          });
         });
       };
 
@@ -133,6 +52,7 @@ define(["dojo/_base/declare"], function (declare) {
 
         // render function for each crop
         this.render = function () {
+          console.log("####### crop render #######");
           let bmpWrapperElem = document.createElement("div");
           this.bmpSelected.forEach((bmp) => {
             let bmpElem = bmp.render();
@@ -149,7 +69,7 @@ define(["dojo/_base/declare"], function (declare) {
               <div id="bmp-wrapper-${this.name}" class="cda-bmp-component-wrapper">
                 <div class='cda-select-menu'></div>
               </div>
-              <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100% (${this.totalPercentApplied})</div>
+              <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100%</div>
               <div class="cda-bmp-wrapper"></div>
             </div>
           `;
@@ -203,7 +123,6 @@ define(["dojo/_base/declare"], function (declare) {
         let defaultOption = this.BMPselectMenu.querySelectorAll("option")[0];
         defaultOption.selected = true;
       };
-
       // disable used bmp's from dropdown list
       state.Crop.prototype.disableUsedBMPfromDD = function (target) {
         let options = this.BMPselectMenu.querySelectorAll("option");
@@ -266,58 +185,87 @@ define(["dojo/_base/declare"], function (declare) {
         this.render();
       };
       state.Crop.prototype.checkExclusiveBMPTotalPercent = function () {
+        let percentWarningElem = this.cropDiv.querySelector(
+          ".cda-bmp-exclusive-warning"
+        );
         this.totalPercentApplied = 0;
         this.bmpSelected.forEach((bmp) => {
-          console.log(bmp.bmpData.percentApplied);
           this.totalPercentApplied += bmp.bmpData.percentApplied;
         });
-        console.log(this.totalPercentApplied);
+        if (this.totalPercentApplied > 100) {
+          percentWarningElem.style.display = "block";
+        } else {
+          percentWarningElem.style.display = "none";
+        }
+      };
+      state.Crop.prototype.calculatePhosLoad = function () {
+        console.log("calc phos load");
       };
 
       // BMP selected component
       //**************************************************************************************************************
       state.BMPSelectedComponent = function (bmpShortName, crop) {
+        // parent crop
         this.parentCrop = crop;
+        // create a wrapper div
+        this.bmpWrapperElem = document.createElement("div");
+        this.bmpWrapperElem.className = "cda-bmp-selected-wrapper";
         // add bmp data as a property, get the data from the bmp_lut_data object
         this.bmpData = state.bmp_lut_data.find(
           (o) => o.BMP_Short === bmpShortName
         );
-        console.log(this.parentCrop);
+        this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
+        this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
+        this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
+
+        this.bmpData.phos_emc_value = this.bmpData.PhosBMP_EMC;
+        this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EMC;
+
         // placeholders for user modifications to the default value
         this.bmpData.sed_mod = false;
         this.bmpData.phos_mod = false;
         this.bmpData.nit_mod = false;
 
+        this.bmpData.phos_emc_mod = false;
+        this.bmpData.nit_emc_mod = false;
+
         // handle exclusive type bmp's percent applied to crop
         if (this.bmpData.AppType === "EX") {
           this.bmpData.percentApplied = 0;
         }
-        // create a wrapper div
-        this.bmpWrapperElem = document.createElement("div");
-        this.bmpWrapperElem.className = "cda-bmp-selected-wrapper";
 
         // event listeners ***************************************************************
-        this.bmpWrapperElem.addEventListener("click", (evt) => {
-          // if (evt.target.className === "cda-bmp-efficiencies") {
-          //   this.updatePercentApplied(evt.target);
-          // }
-        });
-
         this.bmpWrapperElem.addEventListener("change", (evt) => {
           if (evt.target.className === "cda-bmp-percent-applied") {
             this.updatePercentApplied(evt.target);
+          }
+          if (evt.target.className === "cda-bmp-efficiencies") {
+            this.updateEfficiencies(evt.target);
+          }
+          if (evt.target.className === "cda-bmp-emc") {
+            this.updateEMC(evt.target);
           }
         });
         // render function
         this.render = function () {
           // apply template to the inner html of the div based on whether bmp is ex type
-          let template;
-          if (this.bmpData.AppType === "EX") {
-            template = this.getExTemplate();
-          } else {
-            template = this.getDefaultTemplate();
-          }
+          let template = this.getTemplate();
+
           this.bmpWrapperElem.innerHTML = template;
+
+          let emcElem = this.bmpWrapperElem.querySelector(
+            ".cda-bmp-emc-wrapper"
+          );
+          let exApplyElem = this.bmpWrapperElem.querySelector(
+            ".cda-bmp-ex-wrapper"
+          );
+          if (this.bmpData.AppType === "EX" && this.bmpData.RedFunc !== "LSC") {
+            emcElem.style.display = "none";
+          } else if (this.bmpData.AppType === "OV") {
+            emcElem.style.display = "none";
+            exApplyElem.style.display = "none";
+          }
+
           return this.bmpWrapperElem;
         };
       };
@@ -325,64 +273,102 @@ define(["dojo/_base/declare"], function (declare) {
       state.BMPSelectedComponent.prototype.updatePercentApplied = function (
         target
       ) {
+        console.log("update percent applied");
         this.bmpData.percentApplied = parseInt(target.value);
         this.parentCrop.checkExclusiveBMPTotalPercent();
       };
-      state.BMPSelectedComponent.prototype.getExTemplate = function (evt) {
-        return `
-                <div style='display:flex'>
-                  <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
-                  <div bmpshort="${this.bmpData.BMP_Short}" class='cda-bmp-remove-button'>Remove</div>
-                </div>
+      state.BMPSelectedComponent.prototype.updateEfficiencies = function (
+        target
+      ) {
+        const effValue = target.getAttribute("effValue");
+        const value = parseFloat(target.value);
+        if (effValue === "phos") {
+          this.bmpData.phos_eff_value = value;
+        } else if (effValue === "nit") {
+          this.bmpData.nit_eff_value = value;
+        } else if (effValue === "sed") {
+          this.bmpData.sed_eff_value = value;
+        }
 
-                <div class='cda-bmp-input-wrapper' style='display:flex'>
-                  <div>
-                    <label for="phosVal">Phos</label>
-                    <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="phosVal" name="fname" value='${this.bmpData.Phos_Eff}'>
-                  </div>
+        this.bmpData.phos_mod = false;
+        this.bmpData.nit_mod = false;
+        this.bmpData.sed_mod = false;
 
-                  <div>
-                    <label for="nitVal">Nit</label>
-                    <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="nitVal" name="fname" value='${this.bmpData.Nitr_Eff}'>
-                  </div>
+        if (this.bmpData.phos_eff_value !== this.bmpData.Phos_Eff) {
+          this.bmpData.phos_mod = true;
+        }
+        if (this.bmpData.nit_eff_value !== this.bmpData.Nitr_Eff) {
+          this.bmpData.nit_mod = true;
+        }
+        if (this.bmpData.sed_eff_value !== this.bmpData.Sed_Eff) {
+          this.bmpData.sed_mod = true;
+        }
 
-                  <div>
-                    <label for="sedVal">Sed</label>
-                    <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="sedVal" name="fname" value='${this.bmpData.Sed_Eff}'>
-                  </div>
-                </div>
-                <div>Apply exclusive BMP to crop: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${this.bmpData.percentApplied}'>%</div>
-          `;
+        // console.log(state.cropSelectedListComponent);
+        console.log(this);
       };
-      state.BMPSelectedComponent.prototype.getDefaultTemplate = function (evt) {
+      state.BMPSelectedComponent.prototype.updateEMC = function (target) {
+        const emcValue = target.getAttribute("emcValue");
+        const value = parseFloat(target.value);
+        console.log(emcValue, value);
+        if (emcValue === "phos") {
+          this.bmpData.phos_emc_value = value;
+        } else if (emcValue === "nit") {
+          this.bmpData.nit_emc_value = value;
+        }
+
+        this.bmpData.phos_emc_mod = false;
+        this.bmpData.nit_emc_mod = false;
+
+        if (this.bmpData.phos_emc_value !== this.bmpData.PhosBMP_EMC) {
+          this.bmpData.phos_emc_mod = true;
+        }
+        if (this.bmpData.nit_emc_value !== this.bmpData.NitrBMP_EMC) {
+          this.bmpData.nit_emc_mod = true;
+        }
+        console.log(this);
+      };
+      state.BMPSelectedComponent.prototype.getTemplate = function (evt) {
         return `
                 <div style='display:flex'>
                   <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
                   <div bmpshort="${this.bmpData.BMP_Short}" class='cda-bmp-remove-button'>Remove</div>
                 </div>
-
-                <div class='cda-bmp-input-wrapper' style='display:flex'>
+                <div class="cda-bmp-wrapper-sub-header">Efficiencies</div>
+                <div class='cda-bmp-input-wrapper'>
                   <div>
-                    <label for="phosVal">Phos</label>
+                    <label for="">Phos</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="phosVal" name="fname" value='${this.bmpData.Phos_Eff}'>
+                    <input class="cda-bmp-efficiencies" effValue='phos' type="text"  name="fname" value='${this.bmpData.phos_eff_value}'>
                   </div>
-
                   <div>
-                    <label for="nitVal">Nit</label>
+                    <label for="">Nit</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="nitVal" name="fname" value='${this.bmpData.Nitr_Eff}'>
+                    <input class="cda-bmp-efficiencies" effValue='nit' type="text"  name="fname" value='${this.bmpData.nit_eff_value}'>
                   </div>
-
                   <div>
-                    <label for="sedVal">Sed</label>
+                    <label for="">Sed</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" type="text" id="sedVal" name="fname" value='${this.bmpData.Sed_Eff}'>
+                    <input class="cda-bmp-efficiencies" effValue='sed' type="text"  name="fname" value='${this.bmpData.sed_eff_value}'>
                   </div>
                 </div>
+                <div class="cda-bmp-emc-wrapper">
+                  <div class="cda-bmp-wrapper-sub-header">Event Mean Concentration</div>
+                  <div class='cda-bmp-input-wrapper'>
+                    <div>
+                      <label for="">Phos</label>
+                      <br>
+                      <input class="cda-bmp-emc" emcValue='phos' type="text"  name="fname" value='${this.bmpData.PhosBMP_EMC}'>
+                    </div>
+                    <div>
+                      <label for="">Nit</label>
+                      <br>
+                      <input class="cda-bmp-emc" emcValue='nit' type="text"  name="fname" value='${this.bmpData.NitrBMP_EMC}'>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Apply exclusive BMP to crop: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${this.bmpData.percentApplied}'>%</div>
           `;
       };
     },

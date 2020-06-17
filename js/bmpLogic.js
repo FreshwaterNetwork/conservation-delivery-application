@@ -36,7 +36,9 @@ define([
         return new Promise(function (getCropsResolve, reject) {
           state.getFieldsFromGraphics().then(function (fields) {
             state.selectRowsFromTable(fields).then(function (cropRows) {
+              console.log(cropRows, "crop rows");
               state.aggregateCropData(cropRows).then(function (cropData) {
+                console.log(cropData, "crop data");
                 state.pushCropDataToComponent(cropData).then(function () {
                   getCropsResolve();
                 });
@@ -116,6 +118,7 @@ define([
       state.selectRowsFromTable = function (fieldsArray) {
         return new Promise(function (getRowsResolve, reject) {
           let where = state.buildFieldTableQuery(fieldsArray);
+          console.log(where, "where clause");
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/4");
           q.outFields = ["*"];
@@ -168,6 +171,7 @@ define([
                 // send the selectedFieldsArray
                 // test against loop counter to make sure we have looped through all graphics
                 if (state.map.graphics.graphics.length === c) {
+                  console.log(selectedFieldsArray, "selected areas array");
                   resolve(selectedFieldsArray);
                 }
                 c += 1;

@@ -127,6 +127,20 @@ button {
 }
 .cda-bmp-exclusive-warning {
   font-size: 12px;
+  text-align: center;
+  margin-top: 5px;
   color: maroon;
+  display: none;
 }
+.cda-bmp-input-wrapper {
+  color: grey;
+  margin-left: 15px;
+  display: flex;
+}
+.cda-bmp-wrapper-sub-header {
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 /* report styles ***********************************************/

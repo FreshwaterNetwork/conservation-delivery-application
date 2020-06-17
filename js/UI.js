@@ -8,10 +8,7 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI = function () {
         // these properties can flow throughout all ui related methods
         // wrapper elements
-        // this.mainSelectionWrapper = document.querySelector(".cda-main-wrapper");
-        // this.bmpSelectionWrapper = document.querySelector(
-        //   ".cda-bmp-select-wrapper"
-        // );
+
         // button elements
         this.selectBMPButtonElem = document.querySelector(
           ".cda-select-bmp-button"
@@ -103,6 +100,10 @@ define(["dojo/_base/declare"], function (declare) {
         console.log("backToMainButtonClick", evt);
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
+      };
+
+      state.UI.prototype.createReportButtonClick = function (evt) {
+        console.log(evt);
       };
 
       // show/hide DOM elements

@@ -5,6 +5,7 @@ define([
   "esri/SpatialReference",
   "esri/tasks/query",
   "esri/tasks/QueryTask",
+  "esri/tasks/Geoprocessor",
   "dojo/_base/declare",
   "esri/layers/FeatureLayer",
   "esri/symbols/SimpleLineSymbol",
@@ -19,6 +20,7 @@ define([
   SpatialReference,
   Query,
   QueryTask,
+  Geoprocessor,
   declare,
   FeatureLayer,
   SimpleLineSymbol,
@@ -92,6 +94,7 @@ define([
             // check to make sure the selected area is not in the array
             // also check to make sure the array is less than 5
             const areaList = state.areaSelectedListComponent.areaList;
+
             if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
               // add new area to areaSelected array
               state.areaSelectedListComponent.addNewArea(area);
