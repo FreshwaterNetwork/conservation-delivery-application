@@ -79,6 +79,7 @@ define(["dojo/_base/declare"], function (declare) {
           this.hideElement(".cda-main-wrapper");
           this.showElement(".cda-retreiving-data-wrapper");
           if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
+            // state.getCropsFromAreaSelection();
             state.getCropsFromAreaSelection().then(function () {
               // once data processing is finished render the cropSelectedComponent and show hide UI related
               state.cropSelectedListComponent.render();
@@ -97,9 +98,11 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
-        console.log("backToMainButtonClick", evt);
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
+        // on back button click clear out other crops that have already been rendered
+        state.cropSelectedListComponent.selectedCrops = [];
+        state.cropSelectedListComponent.cropSelectedElem.innerHTML = "";
       };
 
       state.UI.prototype.createReportButtonClick = function (evt) {
@@ -114,6 +117,9 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI.prototype.hideElement = function (selector) {
         const elem = document.querySelector(selector);
         elem.style.display = "none";
+      };
+      state.UI.prototype.numComma = function (x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       };
     },
   });

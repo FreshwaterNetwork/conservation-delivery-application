@@ -1,7 +1,7 @@
 {
 	"visibleLayers": [3],
 	"appAreaVisible": "main",
-	"url": "http://cirrus-web-adapter-241060755.us-west-1.elb.amazonaws.com/arcgis/rest/services/FN_Louisiana/CDA_feature_service_all/MapServer",
+	"url": "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_subset/MapServer",
 	"selectedFields": []
 
 }

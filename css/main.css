@@ -97,6 +97,10 @@ button {
 .cda-bmp-selected-wrapper input {
   width: 45px;
 }
+.cda-select-menu {
+  text-align: center;
+  margin: 7px 0 7px 0;
+}
 .cda-bmp-selected-header {
   font-size: 12px;
   font-weight: bold;
@@ -108,8 +112,13 @@ button {
   border: 1px solid black;
   border-radius: 5px;
 }
+.cda-crop-header {
+  font-size: 19px;
+  text-align: center;
+  border-bottom: 1px solid rgb(47, 99, 132, 0.2);
+}
 .cda-crop-header-name {
-  color: #2f6384;
+  color: rgb(47, 99, 132);
   font-weight: bold;
 }
 .cda-bmp-remove-button {
@@ -142,5 +151,21 @@ button {
   font-weight: bold;
   margin-left: 5px;
 }
-
+.cda-crop-metrics-wrapper {
+  display: flex;
+  font-weight: bold;
+  margin-left: 94px;
+}
+.cda-crop-metrics-wrapper div {
+  width: 80px;
+  text-align: center;
+}
+.cda-crop-load-wrapper {
+  display: flex;
+}
+.cda-crop-load-wrapper div {
+  width: 60px;
+  text-align: center;
+  color: #2f6384;
+}
 /* report styles ***********************************************/

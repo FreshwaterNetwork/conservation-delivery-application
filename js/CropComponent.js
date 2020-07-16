@@ -1,0 +1,431 @@
+define(["dojo/_base/declare"], function (declare) {
+  "use strict";
+  return declare(null, {
+    init: function (state) {
+      // crop obeject, each crop is created and added to the crop selected list object
+      // ***********************************************************************************************
+      state.Crop = function (
+        cropName,
+        acres,
+        phos_load,
+        nit_load,
+        sed_load,
+        kFact,
+        clsFactor,
+        runoff_year,
+        cropRows
+      ) {
+        // create parent crop div for each crop, this is what we will attach all our events to
+        this.cropDiv = document.createElement("div");
+        // bmp selected array
+        this.bmpSelected = [];
+        // set this when creating the Crop
+        // we will then change this up and use this property for any re-renders
+        let bmpDropdownMenu = document.createElement("div");
+        bmpDropdownMenu.innerHTML = state.BMPselectMenu;
+        this.BMPselectMenu = bmpDropdownMenu;
+
+        // crop properties
+        this.name = cropName;
+        this.acres = parseFloat(acres.toFixed(2));
+        this.phos_load = parseFloat(phos_load.toFixed(2));
+        this.nit_load = parseFloat(nit_load.toFixed(2));
+        this.sed_load = parseFloat(sed_load.toFixed(2));
+        this.kFact = parseFloat(kFact.toFixed(2));
+        this.clsFactor = parseFloat(clsFactor.toFixed(2));
+        this.runoff_year = parseFloat(runoff_year.toFixed(2));
+        this.cropRows = cropRows;
+
+        // crop properties after BMP's applied
+        this.nit_rpl = 0;
+        this.nit_percent_reduce = 0;
+
+        this.phos_rpl = 0;
+        this.phos_percent_reduce = 0;
+
+        // render function for each crop ////////////////////////////////////////////////////////////
+        this.render = function () {
+          let bmpWrapperElem = document.createElement("div");
+          this.bmpSelected.forEach((bmp) => {
+            let bmpElem = bmp.render();
+            bmpWrapperElem.appendChild(bmpElem);
+          });
+          let template = `
+            <div class='cda-crop-wrapper'>
+                <div class='cda-crop-header'><span class="cda-crop-header-name">${
+                  this.name
+                }</span> - ${state.UIControls.numComma(this.acres)} acres</div>
+                <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
+
+                <div class="cda-crop-load-wrapper">Initial Load (MT):
+                  <div style="margin-left:0px">${state.UIControls.numComma(
+                    this.nit_load
+                  )}</div> 
+                  <div style="margin-left:18px">${state.UIControls.numComma(
+                    this.phos_load
+                  )}</div> 
+                  <div style="margin-left:23px">${state.UIControls.numComma(
+                    this.sed_load
+                  )}</div>
+                </div>
+                <div class="cda-reduction-new-load-wrapper">
+                    <div class="cda-crop-load-wrapper">New Load (MT): 
+                      <div style="margin-left:6px">${state.UIControls.numComma(
+                        this.nit_rpl
+                      )}</div> 
+                      <div style="margin-left:18px">${state.UIControls.numComma(
+                        this.phos_rpl
+                      )}</div> 
+                      <div style="margin-left:23px">NaN</div>
+                    </div>
+
+                    <div class="cda-crop-load-wrapper">Reduction: 
+                        <div style="margin-left:38px">${state.UIControls.numComma(
+                          this.nit_percent_reduce
+                        )}%</div> 
+                        <div style="margin-left:18px">${state.UIControls.numComma(
+                          this.phos_percent_reduce
+                        )}%</div> 
+                        <div style="margin-left:23px">NaN%</div>
+                    </div>
+                </div>
+                
+              
+              <div id="bmp-wrapper-${
+                this.name
+              }" class="cda-bmp-component-wrapper">
+                <div class='cda-select-menu'></div>
+              </div>
+              <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100%</div>
+              <div class="cda-bmp-wrapper"></div>
+            </div>
+          `;
+
+          // set the crop div inner html
+          this.cropDiv.innerHTML = template;
+
+          // show and hide reduction/new load wrapper based on is there has been any reduction
+          let reductionNewLoadWrapper = this.cropDiv.querySelector(
+            ".cda-reduction-new-load-wrapper"
+          );
+          if (this.nit_rpl > 0) {
+            reductionNewLoadWrapper.style.display = "block";
+          } else {
+            reductionNewLoadWrapper.style.display = "none";
+          }
+
+          // add in bmp element wrapper
+          this.cropDiv
+            .querySelector(".cda-bmp-wrapper")
+            .appendChild(bmpWrapperElem);
+
+          // add in the bmp select meny
+          this.cropDiv
+            .querySelector(".cda-select-menu")
+            .appendChild(this.BMPselectMenu);
+
+          // return the cropDiv on initial render
+          return this.cropDiv;
+        };
+        // DOM events for Crop **************************************************************************************
+        this.cropDiv.addEventListener("change", (evt) => {
+          // if its a bmp dropdown menu change
+          if (evt.target.className === "cda-bmp-select-menu") {
+            this.bmpDDChange(evt);
+          }
+        });
+
+        this.cropDiv.addEventListener("click", (evt) => {
+          // bmp remove button event
+          if (evt.target.className === "cda-bmp-remove-button") {
+            this.removeBMPSelection(evt.target);
+          }
+        });
+      };
+      // Crop prototype functions
+      // *******************************************************************************************************************
+      state.Crop.prototype.bmpDDChange = function (evt) {
+        // create a new BMP selected component
+        this.bmpSelectedComponent = new state.BMPSelectedComponent(
+          evt.target.value,
+          this
+        );
+        //  when a new bmp is selected, add that selection to the crop object
+        this.bmpSelected.push(this.bmpSelectedComponent);
+
+        // calculate reduced load
+        this.calculateReducedLoads();
+
+        // re-render the crop
+        this.render();
+
+        // disable used BMP's from the select menu
+        this.disableUsedBMPfromDD(evt.target);
+
+        // reset the dropdown menu to the default option
+        let defaultOption = this.BMPselectMenu.querySelectorAll("option")[0];
+        defaultOption.selected = true;
+      };
+      // disable used bmp's from dropdown list
+      state.Crop.prototype.disableUsedBMPfromDD = function (target) {
+        let options = this.BMPselectMenu.querySelectorAll("option");
+        const bmpData = state.bmp_lut_data.find(
+          (o) => o.BMP_Short === target.value
+        );
+        const redfunc = bmpData.RedFunc;
+        // loop through all the options in the select menu and disable the options that qualify
+        if (redfunc === "LSC") {
+          // disable the entire Load source change area of the dropdown menu
+          options.forEach((option) => {
+            if (option.getAttribute("redfunc") === "LSC") {
+              option.disabled = true;
+            }
+          });
+        } else {
+          options.forEach((option) => {
+            if (option.value === target.value) {
+              option.disabled = true;
+            }
+          });
+        }
+      };
+      // enable bmp's from dropdown list when removed from the crop
+      state.Crop.prototype.enableBMPfromDD = function (bmpShortName) {
+        // get the crop dropdown menu and list options
+        let options = this.BMPselectMenu.querySelectorAll("option");
+        // get app type and redfunc from the bmp_lut table
+        const bmpData = state.bmp_lut_data.find(
+          (o) => o.BMP_Short === bmpShortName
+        );
+        const redfunc = bmpData.RedFunc;
+
+        // check if the BMP was redfunc type LSC, if so enable all LSC's
+        if (redfunc === "LSC") {
+          // disable the entire Load source change area of the dropdown menu
+          options.forEach((option) => {
+            if (option.getAttribute("redfunc") === "LSC") {
+              option.disabled = false;
+            }
+          });
+        } else {
+          options.forEach((option) => {
+            if (option.value === bmpShortName) {
+              option.disabled = false;
+            }
+          });
+        }
+      };
+      // remove a bmp from the crop
+      state.Crop.prototype.removeBMPSelection = function (target) {
+        // remove bmp from bmp selected array
+        const bmpShortName = target.getAttribute("bmpshort");
+        this.bmpSelected = this.bmpSelected.filter(
+          (bmp) => bmp.bmpData.BMP_Short !== bmpShortName
+        );
+        // enable BMP's in dropdown menu
+        this.enableBMPfromDD(bmpShortName);
+        // re-render the crop
+        this.render();
+        // calculate reduced loads when a BMP is removed
+        this.calculateReducedLoads();
+      };
+      state.Crop.prototype.checkExclusiveBMPTotalPercent = function () {
+        let percentWarningElem = this.cropDiv.querySelector(
+          ".cda-bmp-exclusive-warning"
+        );
+        this.totalPercentApplied = 0;
+        this.bmpSelected.forEach((bmp) => {
+          this.totalPercentApplied += bmp.bmpData.percentApplied;
+        });
+        if (this.totalPercentApplied > 1) {
+          percentWarningElem.style.display = "block";
+        } else {
+          percentWarningElem.style.display = "none";
+        }
+      };
+      state.Crop.prototype.calculateReducedLoads = function () {
+        // find out if there are LSC, EX, OV type bmp's
+        let nit_rpl = 0;
+        let phos_rpl = 0;
+
+        let lscBMP = [];
+        let exBMP = [];
+        let ovBMP = [];
+        // push the bmp into the correct array to be used in claclulations later on
+        this.bmpSelected.forEach((bmp) => {
+          if (bmp.bmpData.RedFunc === "LSC" && bmp.bmpData.percentApplied > 0) {
+            lscBMP.push(bmp);
+          }
+          if (
+            bmp.bmpData.AppType === "EX" &&
+            bmp.bmpData.RedFunc !== "LSC" &&
+            bmp.bmpData.percentApplied > 0
+          ) {
+            exBMP.push(bmp);
+          }
+          if (bmp.bmpData.AppType === "OV") {
+            ovBMP.push(bmp);
+          }
+        });
+        let lsc_length = lscBMP.length;
+        let ex_length = exBMP.length;
+        let ov_length = ovBMP.length;
+
+        // EX, OV, and LSC
+        if (lsc_length > 0 && ex_length > 0 && ov_length > 0) {
+          let PFO = this.calculateEXbmp(exBMP) * this.calculateOVbmp(ovBMP);
+          nit_rpl = this.calculateLSCbmp(lscBMP, PFO);
+        }
+
+        // OV and LSC - COMPLTETE
+        if (lsc_length > 0 && ov_length > 0 && ex_length === 0) {
+          // calculate the OV bmp's first and use as the pass through factor for calculating the LSC bmp
+          nit_rpl = this.calculateLSCbmp(lscBMP, this.calculateOVbmp(ovBMP));
+        }
+        // EX and LSC - COMPLTETE
+        if (ex_length > 0 && lsc_length > 0 && ov_length === 0) {
+          // calculate the OV bmp's first and use as the pass through factor for calculating the LSC bmp
+          nit_rpl = this.calculateLSCbmp(lscBMP, this.calculateEXbmp(exBMP));
+        }
+
+        // EX and OV - COMPLETE
+        if (ex_length > 0 && ov_length > 0 && lsc_length === 0) {
+          nit_rpl =
+            this.nit_load *
+            this.calculateEXbmp("nit", exBMP) *
+            this.calculateOVbmp("nit", ovBMP);
+
+          phos_rpl =
+            this.phos_load *
+            this.calculateEXbmp("phos", exBMP) *
+            this.calculateOVbmp("phos", ovBMP);
+        }
+        // LSC only - COMPLETE
+        if (lsc_length > 0 && ex_length === 0 && ov_length === 0) {
+          nit_rpl = this.calculateLSCbmp("nit", lscBMP, 1);
+          phos_rpl = this.calculateLSCbmp("phos", lscBMP, 1);
+        }
+        // EX only - COMPLETE
+        if (ex_length > 0 && lsc_length === 0 && ov_length === 0) {
+          nit_rpl = this.nit_load * this.calculateEXbmp("nit", exBMP);
+          phos_rpl = this.phos_load * this.calculateEXbmp("phos", exBMP);
+        }
+        // OV only - COMPLETE
+        if (ov_length > 0 && ex_length === 0 && lsc_length === 0) {
+          nit_rpl = this.nit_load * this.calculateOVbmp("nit", ovBMP);
+          phos_rpl = this.phos_load * this.calculateOVbmp("phos", ovBMP);
+        }
+
+        // set final nitrogen value to the crop object property *****************
+        this.nit_rpl = nit_rpl.toFixed(2);
+        if (this.nit_rpl > 0) {
+          this.nit_percent_reduce = (
+            ((this.nit_load - nit_rpl) / this.nit_load) *
+            100
+          ).toFixed(0);
+        } else {
+          this.nit_percent_reduce = 0;
+        }
+        // set final phos value to the crop object property ********************
+        this.phos_rpl = phos_rpl.toFixed(2);
+
+        if (this.phos_rpl > 0) {
+          this.phos_percent_reduce = (
+            ((this.phos_load - phos_rpl) / this.phos_load) *
+            100
+          ).toFixed(0);
+        } else {
+          this.phos_percent_reduce = 0;
+        }
+        // re-render crop
+        this.render();
+      };
+
+      state.Crop.prototype.calculateLSCbmp = function (type, array, PTF) {
+        // calculation vars
+        // equation: RPL=[(EMC×R×A)]×Conv
+        let bmp = array[0];
+        console.log(bmp, "bmp");
+        let percentApplied = bmp.bmpData.percentApplied;
+
+        let emc_value = 0;
+        let eff_value = 0;
+        if (type === "nit") {
+          emc_value = bmp.bmpData.nit_emc_value;
+          eff_value = bmp.bmpData.nit_eff_value;
+        } else if (type === "phos") {
+          emc_value = bmp.bmpData.phos_emc_value;
+          eff_value = bmp.bmpData.phos_eff_value;
+        }
+
+        console.log(emc_value, eff_value, "look here", type, this.cropRows);
+
+        // loop through all crop rows
+        let rpl_lsc = 0;
+        let rpl_non_lsc = 0;
+
+        this.cropRows.forEach((cropRow) => {
+          let R = parseFloat(cropRow.Runoff_in_yr);
+          let crop_area = cropRow.CropArea_acres;
+
+          let applied_acres =
+            percentApplied * parseFloat(cropRow.CropArea_acres);
+
+          rpl_lsc += emc_value * R * applied_acres * 0.000113;
+
+          rpl_non_lsc +=
+            1 *
+            R *
+            (crop_area - percentApplied * crop_area) *
+            (1 - eff_value) *
+            PTF *
+            0.000113;
+        });
+        console.log(rpl_lsc, rpl_non_lsc, "load values");
+        let rpl = rpl_lsc + rpl_non_lsc;
+        return rpl;
+      };
+      state.Crop.prototype.calculateEXbmp = function (type, array) {
+        let PTF;
+        let eff_value = 0;
+        array.forEach((bmp, i) => {
+          let overallCropArea = bmp.parentCrop.acres;
+          if (type === "nit") {
+            eff_value = bmp.bmpData.nit_eff_value;
+          } else if (type === "phos") {
+            eff_value = bmp.bmpData.phos_eff_value;
+          }
+          // let nit_original_load = this.nit_load;
+          let crop_area_applied =
+            bmp.bmpData.percentApplied * bmp.parentCrop.acres;
+          if (i === 0) {
+            PTF = (crop_area_applied / overallCropArea) * eff_value;
+          } else {
+            PTF += (crop_area_applied / overallCropArea) * eff_value;
+          }
+        });
+        PTF = 1 - PTF;
+        return PTF;
+      };
+      state.Crop.prototype.calculateOVbmp = function (type, array) {
+        let PTF;
+        let eff_value = 0;
+        array.forEach((bmp, i) => {
+          // set variables based on what type is being calculated
+          if (type === "nit") {
+            eff_value = bmp.bmpData.nit_eff_value;
+          } else if (type === "phos") {
+            eff_value = bmp.bmpData.phos_eff_value;
+          }
+          // make the calculations
+          if (i === 0) {
+            PTF = parseFloat(1 - eff_value);
+          } else {
+            PTF *= parseFloat(1 - eff_value);
+          }
+        });
+        return PTF;
+      };
+    },
+  });
+});

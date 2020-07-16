@@ -10,7 +10,9 @@ define([
   "./js/UI",
   "./js/CheckboxComponent",
   "./js/RadioBtnComponent",
-  "./js/BmpSelection",
+  "./js/CropComponent",
+  "./js/CropArrayComponent",
+  "./js/BMPComponent",
   "./js/Areas",
   "./js/esriapi",
   "./js/bmpLogic",
@@ -27,7 +29,9 @@ define([
   UI,
   CheckboxComponent,
   RadioBtnComponent,
-  BmpSelection,
+  CropComponent,
+  CropArrayComponent,
+  BMPComponent,
   Areas,
   esriapi,
   bmpLogic,
@@ -160,9 +164,11 @@ define([
       this.UI = new UI();
       this.initProjectData = new initProjectData();
       this.areas = new Areas();
-      this.bmp = new BmpSelection();
       this.RadioBtnComponent = new RadioBtnComponent();
       this.CheckboxComponent = new CheckboxComponent();
+      this.CropArrayComponent = new CropArrayComponent();
+      this.CropComponent = new CropComponent();
+      this.BMPComponent = new BMPComponent();
 
       // call the init function to build objects
       this.initProjectData.init(this);
@@ -170,9 +176,11 @@ define([
       this.esriapi.init(this);
       this.bmpLogic.init(this);
       this.areas.init(this);
-      this.bmp.init(this);
       this.RadioBtnComponent.init(this);
       this.CheckboxComponent.init(this);
+      this.CropArrayComponent.init(this);
+      this.CropComponent.init(this);
+      this.BMPComponent.init(this);
 
       // instantiate and call the App component to control everything
       this.app = new app();

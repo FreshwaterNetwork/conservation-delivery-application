@@ -5,6 +5,7 @@ define([
   "esri/SpatialReference",
   "esri/tasks/query",
   "esri/tasks/QueryTask",
+  "esri/tasks/Geoprocessor",
   "dojo/_base/declare",
   "esri/layers/FeatureLayer",
   "esri/symbols/SimpleLineSymbol",
@@ -19,6 +20,7 @@ define([
   SpatialReference,
   Query,
   QueryTask,
+  Geoprocessor,
   declare,
   FeatureLayer,
   SimpleLineSymbol,
@@ -32,13 +34,35 @@ define([
     init: function (state) {
       // when area selection is checked ************************************************
       state.getCropsFromAreaSelection = function () {
+        // var gp = new Geoprocessor(
+        //   "https://cumulus.tnc.org/arcgis/rest/services/nascience/testGpService/GPServer/testGpService"
+        // );
+        // console.log(gp);
+        // let params = {
+        //   one: "test text",
+        //   two: "test text 2",
+        // };
+        // function statusCallback(e, a) {
+        //   console.log("status", e, a);
+        // }
+        // // statusCallback = function (status) {
+        // //   console.log(status);
+        // // };
+        // function completeCallback(e, a) {
+        //   // console.log("complete", e, a);
+        //   gp.getResultData(e.jobId, "setText", (data) => {
+        //     console.log(data);
+        //   });
+        // }
+        // // console.log("before submit job");
+        // gp.submitJob(params, completeCallback, statusCallback);
+        // console.log("click here");
+
         // chain multiple promises to handle async queries
         return new Promise(function (getCropsResolve, reject) {
           state.getFieldsFromGraphics().then(function (fields) {
             state.selectRowsFromTable(fields).then(function (cropRows) {
-              console.log(cropRows, "crop rows");
               state.aggregateCropData(cropRows).then(function (cropData) {
-                console.log(cropData, "crop data");
                 state.pushCropDataToComponent(cropData).then(function () {
                   getCropsResolve();
                 });
@@ -68,23 +92,43 @@ define([
               orig_phos_load: 0.0,
               orig_nit_load: 0.0,
               orig_sed_load: 0.0,
+              cropRows: [],
             };
           });
           cropRows.features.forEach((crop) => {
+            cropData[crop.attributes.CropName]["cropRows"].push(
+              crop.attributes
+            );
             cropData[crop.attributes.CropName]["acres"] += parseFloat(
               crop.attributes.CropArea_acres
             );
             cropData[crop.attributes.CropName]["orig_phos_load"] += parseFloat(
               crop.attributes.orig_phos_load
             );
+            // if (crop.attributes.CropName === "Soybeans") {
+            //   console.log(cropData[crop.attributes.CropName]["orig_phos_load"]);
+            // }
+
             cropData[crop.attributes.CropName]["orig_nit_load"] += parseFloat(
               crop.attributes.orig_nit_load
             );
             cropData[crop.attributes.CropName]["orig_sed_load"] += parseFloat(
               crop.attributes.orig_sed_load
             );
+            cropData[crop.attributes.CropName]["kFact"] = parseFloat(
+              crop.attributes.KffactF
+            );
+            cropData[crop.attributes.CropName]["clsFactor"] = parseFloat(
+              crop.attributes.Cls_factor
+            );
+            cropData[crop.attributes.CropName]["cropAreaAcres"] = parseFloat(
+              crop.attributes.CropArea_acres
+            );
+            cropData[crop.attributes.CropName]["runoff_year"] = parseFloat(
+              crop.attributes.Runoff_in_yr
+            );
           });
-
+          console.log(cropData);
           return resolve(cropData);
         });
       };
@@ -100,12 +144,20 @@ define([
             const phos_load = cropData[key].orig_phos_load;
             const nit_load = cropData[key].orig_nit_load;
             const sed_load = cropData[key].orig_sed_load;
+            const kFact = cropData[key].kFact;
+            const clsFactor = cropData[key].clsFactor;
+            const runoff_year = cropData[key].runoff_year;
+            const cropRows = cropData[key].cropRows;
             let crop = new state.Crop(
               name,
               acres,
               phos_load,
               nit_load,
-              sed_load
+              sed_load,
+              kFact,
+              clsFactor,
+              runoff_year,
+              cropRows
             );
             state.cropSelectedListComponent.addCrop(crop);
           }
@@ -118,7 +170,10 @@ define([
       state.selectRowsFromTable = function (fieldsArray) {
         return new Promise(function (getRowsResolve, reject) {
           let where = state.buildFieldTableQuery(fieldsArray);
-          console.log(where, "where clause");
+          // let where = "RU = 11";
+          // let where = "RU = 7 OR RU = 3 OR RU = 2";
+          // let where = "RU = 7 OR RU = 6";
+          // console.log(where);
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/4");
           q.outFields = ["*"];
@@ -171,7 +226,6 @@ define([
                 // send the selectedFieldsArray
                 // test against loop counter to make sure we have looped through all graphics
                 if (state.map.graphics.graphics.length === c) {
-                  console.log(selectedFieldsArray, "selected areas array");
                   resolve(selectedFieldsArray);
                 }
                 c += 1;
@@ -225,7 +279,6 @@ define([
 
         // dropdowElem.innerHTML = state.BMPselectMenu;
         // state.BMPselectMenu = dropdowElem;
-        // console.log(dropdowElem);
       };
       state.createBMPDropDown();
     },
