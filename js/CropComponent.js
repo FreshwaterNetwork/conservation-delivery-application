@@ -304,6 +304,7 @@ define(["dojo/_base/declare"], function (declare) {
         if (lsc_length > 0 && ex_length === 0 && ov_length === 0) {
           nit_rpl = this.calculateLSCbmp("nit", lscBMP, 1);
           phos_rpl = this.calculateLSCbmp("phos", lscBMP, 1);
+          console.log(nit_rpl, phos_rpl, "&&&&&&&&&&&&&");
         }
         // EX only - COMPLETE
         if (ex_length > 0 && lsc_length === 0 && ov_length === 0) {
@@ -348,33 +349,46 @@ define(["dojo/_base/declare"], function (declare) {
         console.log(bmp, "bmp");
         let percentApplied = bmp.bmpData.percentApplied;
 
-        let emc_value = 0;
-        let eff_value = 0;
-        if (type === "nit") {
-          emc_value = bmp.bmpData.nit_emc_value;
-          eff_value = bmp.bmpData.nit_eff_value;
-        } else if (type === "phos") {
-          emc_value = bmp.bmpData.phos_emc_value;
-          eff_value = bmp.bmpData.phos_eff_value;
-        }
+        // let emc_value = 0;
+        // let eff_value = 0;
+        // if (type === "nit") {
+        //   emc_value = bmp.bmpData.nit_emc_value;
+        //   eff_value = bmp.bmpData.nit_eff_value;
+        // } else if (type === "phos") {
+        //   emc_value = bmp.bmpData.phos_emc_value;
+        //   eff_value = bmp.bmpData.phos_eff_value;
+        // }
 
-        console.log(emc_value, eff_value, "look here", type, this.cropRows);
+        console.log("look here", type, this.cropRows);
 
         // loop through all crop rows
         let rpl_lsc = 0;
         let rpl_non_lsc = 0;
-
         this.cropRows.forEach((cropRow) => {
+          let emc_crop_value = 0;
+          let emc_bmp_value = 0;
+          let eff_value = 0;
+          if (type === "nit") {
+            emc_bmp_value = bmp.bmpData.nit_emc_value;
+            emc_crop_value = cropRow.Nitr_EMC;
+            eff_value = bmp.bmpData.nit_eff_value;
+          } else if (type === "phos") {
+            emc_bmp_value = bmp.bmpData.phos_emc_value;
+            emc_crop_value = cropRow.Phos_EMC;
+            eff_value = bmp.bmpData.phos_eff_value;
+          }
+
           let R = parseFloat(cropRow.Runoff_in_yr);
           let crop_area = cropRow.CropArea_acres;
 
           let applied_acres =
-            percentApplied * parseFloat(cropRow.CropArea_acres);
+            percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
 
-          rpl_lsc += emc_value * R * applied_acres * 0.000113;
+          // the emc value should be taken from the rowCrop table maybe ???
+          rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
 
           rpl_non_lsc +=
-            1 *
+            emc_crop_value * // This should be PFO ***********
             R *
             (crop_area - percentApplied * crop_area) *
             (1 - eff_value) *
@@ -383,9 +397,11 @@ define(["dojo/_base/declare"], function (declare) {
         });
         console.log(rpl_lsc, rpl_non_lsc, "load values");
         let rpl = rpl_lsc + rpl_non_lsc;
+        console.log(rpl, "******************");
         return rpl;
       };
       state.Crop.prototype.calculateEXbmp = function (type, array) {
+        console.log(array);
         let PTF;
         let eff_value = 0;
         array.forEach((bmp, i) => {
