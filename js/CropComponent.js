@@ -292,19 +292,48 @@ define(["dojo/_base/declare"], function (declare) {
 
         // EX, OV, and LSC
         if (lsc_length > 0 && ex_length > 0 && ov_length > 0) {
-          let PFO = this.calculateEXbmp(exBMP) * this.calculateOVbmp(ovBMP);
-          nit_rpl = this.calculateLSCbmp(lscBMP, PFO);
+          // nitrogen
+          let nit1 = this.calculateLSCbmp1("nit", lscBMP);
+          console.log(this.calculateEXbmp("nit", exBMP));
+          let nit_PFO =
+            this.calculateEXbmp("nit", exBMP) *
+            this.calculateOVbmp("nit", ovBMP);
+          console.log(nit_PFO);
+          let nit2 = this.calculateLSCbmp2("nit", lscBMP, nit_PFO);
+          console.log(nit2);
+          nit_rpl = nit1 + nit2;
         }
 
         // OV and LSC - COMPLTETE
         if (lsc_length > 0 && ov_length > 0 && ex_length === 0) {
           // calculate the OV bmp's first and use as the pass through factor for calculating the LSC bmp
-          nit_rpl = this.calculateLSCbmp(lscBMP, this.calculateOVbmp(ovBMP));
+          // nitrogen
+          let nit1 = this.calculateLSCbmp1("nit", lscBMP);
+          let nit_PFO = this.calculateOVbmp("nit", ovBMP);
+          let nit2 = this.calculateLSCbmp2("nit", lscBMP, nit_PFO);
+          // phos calcs
+          let phos1 = this.calculateLSCbmp1("phos", lscBMP);
+          let phos_PFO = this.calculateOVbmp("phos", ovBMP);
+          let phos2 = this.calculateLSCbmp2("phos", lscBMP, phos_PFO);
+
+          nit_rpl = nit1 + nit2;
+          phos_rpl = phos1 + phos2;
         }
         // EX and LSC - COMPLTETE
         if (ex_length > 0 && lsc_length > 0 && ov_length === 0) {
           // calculate the OV bmp's first and use as the pass through factor for calculating the LSC bmp
-          nit_rpl = this.calculateLSCbmp(lscBMP, this.calculateEXbmp(exBMP));
+          // nitrogen
+          let nit1 = this.calculateLSCbmp1("nit", lscBMP);
+          let nit_PFO = this.calculateEXbmp("nit", exBMP);
+          let nit2 = this.calculateLSCbmp2("nit", lscBMP, nit_PFO);
+          // phos calcs
+          let phos1 = this.calculateLSCbmp1("phos", lscBMP);
+          let phos_PFO = this.calculateEXbmp("phos", exBMP);
+          let phos2 = this.calculateLSCbmp2("phos", lscBMP, phos_PFO);
+
+          nit_rpl = nit1 + nit2;
+          phos_rpl = phos1 + phos2;
+          console.log(nit_rpl, phos_rpl);
         }
 
         // EX and OV - COMPLETE
@@ -321,10 +350,17 @@ define(["dojo/_base/declare"], function (declare) {
         }
         // LSC only - COMPLETE
         if (lsc_length > 0 && ex_length === 0 && ov_length === 0) {
-          nit_rpl = this.calculateLSCbmp("nit", lscBMP, 1);
-          phos_rpl = this.calculateLSCbmp("phos", lscBMP, 1);
-          console.log(nit_rpl, phos_rpl, "&&&&&&&&&&&&&");
+          // calc nit lsc reduced load
+          let nit1 = this.calculateLSCbmp1("nit", lscBMP);
+          let nit2 = this.calculateLSCbmp2("nit", lscBMP, 1);
+          nit_rpl = nit1 + nit2;
+
+          // calc phos lsc reduced load
+          let phos1 = this.calculateLSCbmp1("phos", lscBMP);
+          let phos2 = this.calculateLSCbmp2("phos", lscBMP, 1);
+          phos_rpl = phos1 + phos2;
         }
+
         // EX only - COMPLETE
         if (ex_length > 0 && lsc_length === 0 && ov_length === 0) {
           nit_rpl = this.nit_load * this.calculateEXbmp("nit", exBMP);
@@ -364,6 +400,7 @@ define(["dojo/_base/declare"], function (declare) {
       state.Crop.prototype.calculateLSCbmp = function (type, array, PTF) {
         // calculation vars
         // equation: RPL=[(EMC×R×A)]×Conv
+        console.log(array);
         let bmp = array[0];
         console.log(bmp, "bmp");
         let percentApplied = bmp.bmpData.percentApplied;
@@ -420,8 +457,74 @@ define(["dojo/_base/declare"], function (declare) {
         console.log(rpl, "******************");
         return rpl;
       };
+      state.Crop.prototype.calculateLSCbmp1 = function (type, array, PTF) {
+        let bmp = array[0];
+        let percentApplied = bmp.bmpData.percentApplied;
+
+        // loop through all crop rows
+        let rpl_lsc = 0;
+        this.cropRows.forEach((cropRow) => {
+          let emc_bmp_value = 0;
+          let eff_value = 0;
+          if (type === "nit") {
+            emc_bmp_value = bmp.bmpData.nit_emc_value;
+            eff_value = bmp.bmpData.nit_eff_value;
+          } else if (type === "phos") {
+            emc_bmp_value = bmp.bmpData.phos_emc_value;
+            eff_value = bmp.bmpData.phos_eff_value;
+          }
+
+          let R = parseFloat(cropRow.Runoff_in_yr);
+          let crop_area = cropRow.CropArea_acres;
+
+          let applied_acres =
+            percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
+          rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
+        });
+        return rpl_lsc;
+      };
+      state.Crop.prototype.calculateLSCbmp2 = function (type, array, PTF) {
+        let bmp = array[0];
+        let percentApplied = bmp.bmpData.percentApplied;
+
+        // loop through all crop rows
+        let rpl_non_lsc = 0;
+        this.cropRows.forEach((cropRow) => {
+          let emc_crop_value = 0;
+          let eff_value = 0;
+          if (type === "nit") {
+            emc_crop_value = cropRow.Nitr_EMC;
+            eff_value = bmp.bmpData.nit_eff_value;
+          } else if (type === "phos") {
+            emc_crop_value = cropRow.Phos_EMC;
+            eff_value = bmp.bmpData.phos_eff_value;
+          }
+
+          let R = parseFloat(cropRow.Runoff_in_yr);
+          let crop_area = cropRow.CropArea_acres;
+
+          let applied_acres =
+            percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
+          console.log(
+            emc_crop_value,
+            eff_value,
+            R,
+            crop_area,
+            percentApplied,
+            PTF
+          );
+          rpl_non_lsc +=
+            emc_crop_value *
+            R *
+            (crop_area - percentApplied * crop_area) *
+            (1 - eff_value) *
+            PTF *
+            0.000113;
+        });
+        return rpl_non_lsc;
+      };
+
       state.Crop.prototype.calculateEXbmp = function (type, array) {
-        console.log(array);
         let PTF;
         let eff_value = 0;
         array.forEach((bmp, i) => {
@@ -446,6 +549,7 @@ define(["dojo/_base/declare"], function (declare) {
       state.Crop.prototype.calculateOVbmp = function (type, array) {
         let PTF;
         let eff_value = 0;
+        console.log(array);
         array.forEach((bmp, i) => {
           // set variables based on what type is being calculated
           if (type === "nit") {
