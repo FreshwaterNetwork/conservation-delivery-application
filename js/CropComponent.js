@@ -294,14 +294,20 @@ define(["dojo/_base/declare"], function (declare) {
         if (lsc_length > 0 && ex_length > 0 && ov_length > 0) {
           // nitrogen
           let nit1 = this.calculateLSCbmp1("nit", lscBMP);
-          console.log(this.calculateEXbmp("nit", exBMP));
           let nit_PFO =
             this.calculateEXbmp("nit", exBMP) *
             this.calculateOVbmp("nit", ovBMP);
-          console.log(nit_PFO);
           let nit2 = this.calculateLSCbmp2("nit", lscBMP, nit_PFO);
-          console.log(nit2);
+
+          // phos
+          let phos1 = this.calculateLSCbmp1("phos", lscBMP);
+          let phos_PFO =
+            this.calculateEXbmp("phos", exBMP) *
+            this.calculateOVbmp("phos", ovBMP);
+          let phos2 = this.calculateLSCbmp2("phos", lscBMP, phos_PFO);
+
           nit_rpl = nit1 + nit2;
+          phos_rpl = phos1 + phos2;
         }
 
         // OV and LSC - COMPLTETE
