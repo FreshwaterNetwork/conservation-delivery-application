@@ -239,13 +239,22 @@ define([
       // create html for bmp selection dropdown menu
       state.createBMPDropDown = function () {
         let dropdowElem = document.createElement("div");
-        const lscValues = [];
+        const lscValuesFull = [];
+        const lscValuesDefined = [];
         const ovValues = [];
         const exValues = [];
 
         state.bmp_lut_data.forEach((bmp) => {
           if (bmp.RedFunc === "LSC") {
-            lscValues.push(bmp);
+            if (
+              bmp.BMP_Short === "PastPlanting" ||
+              bmp.BMP_Short === "LandRetire" ||
+              bmp.BMP_Short === "CritPlanting"
+            ) {
+              lscValuesFull.push(bmp);
+            } else {
+              lscValuesDefined.push(bmp);
+            }
           }
           if (bmp.AppType === "EX" && bmp.RedFunc !== "LSC") {
             exValues.push(bmp);
@@ -257,8 +266,14 @@ define([
         state.BMPselectMenu = `<select placeholder="Pick One Number"  class="cda-bmp-select-menu">`;
         state.BMPselectMenu += `<option>Select a Best Management Practice(s)</option>`;
 
-        state.BMPselectMenu += `<optgroup label="Load Source Change BMP's">`;
-        lscValues.forEach((bmp) => {
+        state.BMPselectMenu += `<optgroup label="Load Source Change BMP's (Full Coverage)">`;
+        lscValuesFull.forEach((bmp) => {
+          state.BMPselectMenu += `<option data-sed_eff="${bmp.Sed_Eff}" data-phos_eff="${bmp.Phos_Eff}" data-nitr_eff="${bmp.Nitr_Eff}" data-nitrBMP_Emc="${bmp.NitrBMP_EMC}" data-phosBMP_EMC="${bmp.PhosBMP_EMC}" appType="${bmp.AppType}" redFunc="${bmp.RedFunc}" value="${bmp.BMP_Short}">${bmp.BMP_Name}</option>`;
+        });
+        state.BMPselectMenu += `optgroup`;
+
+        state.BMPselectMenu += `<optgroup label="Load Source Change BMP's (Defined Area)">`;
+        lscValuesDefined.forEach((bmp) => {
           state.BMPselectMenu += `<option data-sed_eff="${bmp.Sed_Eff}" data-phos_eff="${bmp.Phos_Eff}" data-nitr_eff="${bmp.Nitr_Eff}" data-nitrBMP_Emc="${bmp.NitrBMP_EMC}" data-phosBMP_EMC="${bmp.PhosBMP_EMC}" appType="${bmp.AppType}" redFunc="${bmp.RedFunc}" value="${bmp.BMP_Short}">${bmp.BMP_Name}</option>`;
         });
         state.BMPselectMenu += `optgroup`;

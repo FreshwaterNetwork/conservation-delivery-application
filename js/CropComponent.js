@@ -383,9 +383,10 @@ define(["dojo/_base/declare"], function (declare) {
 
           let applied_acres =
             percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
-
+          console.log(applied_acres, cropRow.CropArea_acres, emc_bmp_value, R);
           // the emc value should be taken from the rowCrop table maybe ???
           rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
+          console.log(rpl_lsc);
 
           rpl_non_lsc +=
             emc_crop_value * // This should be PFO ***********
