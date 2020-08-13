@@ -246,11 +246,8 @@ define([
 
         state.bmp_lut_data.forEach((bmp) => {
           if (bmp.RedFunc === "LSC") {
-            if (
-              bmp.BMP_Short === "PastPlanting" ||
-              bmp.BMP_Short === "LandRetire" ||
-              bmp.BMP_Short === "CritPlanting"
-            ) {
+            // if lsc full exists
+            if (bmp.lscFull) {
               lscValuesFull.push(bmp);
             } else {
               lscValuesDefined.push(bmp);

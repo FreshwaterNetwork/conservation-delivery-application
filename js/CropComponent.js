@@ -173,15 +173,25 @@ define(["dojo/_base/declare"], function (declare) {
           (o) => o.BMP_Short === target.value
         );
         const redfunc = bmpData.RedFunc;
+        console.log(bmpData);
         // loop through all the options in the select menu and disable the options that qualify
         if (redfunc === "LSC") {
-          // disable the entire Load source change area of the dropdown menu
-          options.forEach((option) => {
-            if (option.getAttribute("redfunc") === "LSC") {
+          // if lsc full property exists
+          if (bmpData.lscFull) {
+            // disable all values for that crop
+            options.forEach((option) => {
               option.disabled = true;
-            }
-          });
+            });
+          } else {
+            // disable the entire Load source change area of the dropdown menu
+            options.forEach((option) => {
+              if (option.getAttribute("redfunc") === "LSC") {
+                option.disabled = true;
+              }
+            });
+          }
         } else {
+          // disable only the target value option
           options.forEach((option) => {
             if (option.value === target.value) {
               option.disabled = true;
@@ -201,12 +211,19 @@ define(["dojo/_base/declare"], function (declare) {
 
         // check if the BMP was redfunc type LSC, if so enable all LSC's
         if (redfunc === "LSC") {
-          // disable the entire Load source change area of the dropdown menu
-          options.forEach((option) => {
-            if (option.getAttribute("redfunc") === "LSC") {
+          if (bmpData.lscFull) {
+            // enable all values for that crop
+            options.forEach((option) => {
               option.disabled = false;
-            }
-          });
+            });
+          } else {
+            // enable the entire Load source change area of the dropdown menu
+            options.forEach((option) => {
+              if (option.getAttribute("redfunc") === "LSC") {
+                option.disabled = false;
+              }
+            });
+          }
         } else {
           options.forEach((option) => {
             if (option.value === bmpShortName) {
@@ -253,8 +270,10 @@ define(["dojo/_base/declare"], function (declare) {
         let ovBMP = [];
         // push the bmp into the correct array to be used in claclulations later on
         this.bmpSelected.forEach((bmp) => {
-          if (bmp.bmpData.RedFunc === "LSC" && bmp.bmpData.percentApplied > 0) {
-            lscBMP.push(bmp);
+          if (bmp.bmpData.RedFunc === "LSC") {
+            if (bmp.bmpData.percentApplied > 0 || bmp.bmpData.lscFull) {
+              lscBMP.push(bmp);
+            }
           }
           if (
             bmp.bmpData.AppType === "EX" &&
@@ -359,7 +378,7 @@ define(["dojo/_base/declare"], function (declare) {
         //   eff_value = bmp.bmpData.phos_eff_value;
         // }
 
-        console.log("look here", type, this.cropRows);
+        // console.log("look here", type, this.cropRows);
 
         // loop through all crop rows
         let rpl_lsc = 0;
