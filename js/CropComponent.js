@@ -43,6 +43,9 @@ define(["dojo/_base/declare"], function (declare) {
         this.phos_rpl = 0;
         this.phos_percent_reduce = 0;
 
+        this.sed_rpl = 0;
+        this.sed_percent_reduce = 0;
+
         // render function for each crop ////////////////////////////////////////////////////////////
         this.render = function () {
           let bmpWrapperElem = document.createElement("div");
@@ -76,7 +79,9 @@ define(["dojo/_base/declare"], function (declare) {
                       <div style="margin-left:18px">${state.UIControls.numComma(
                         this.phos_rpl
                       )}</div> 
-                      <div style="margin-left:23px">NaN</div>
+                      <div style="margin-left:23px">${state.UIControls.numComma(
+                        this.sed_rpl
+                      )}</div>
                     </div>
 
                     <div class="cda-crop-load-wrapper">Reduction: 
@@ -86,7 +91,9 @@ define(["dojo/_base/declare"], function (declare) {
                         <div style="margin-left:18px">${state.UIControls.numComma(
                           this.phos_percent_reduce
                         )}%</div> 
-                        <div style="margin-left:23px">NaN%</div>
+                        <div style="margin-left:23px">${state.UIControls.numComma(
+                          this.sed_percent_reduce
+                        )}%</div>
                     </div>
                 </div>
                 
@@ -309,15 +316,10 @@ define(["dojo/_base/declare"], function (declare) {
 
           //sediment
           let sed1 = this.calculateLSCbmp1("sed", lscBMP);
-          console.log(sed1, "sed1");
-          console.log(this.calculateEXbmp("sed", exBMP), "sed ex");
-          console.log(this.calculateOVbmp("sed", ovBMP), "sed ov");
           let sed_PFO =
             this.calculateEXbmp("sed", exBMP) *
             this.calculateOVbmp("sed", ovBMP);
-          console.log(sed_PFO, "sed pfo");
-          let sed2 = this.calculateLSCbmp2("sed", lscBMP, nit_PFO);
-          console.log(sed2, "sed2");
+          let sed2 = this.calculateLSCbmp2("sed", lscBMP, sed_PFO);
 
           nit_rpl = nit1 + nit2;
           phos_rpl = phos1 + phos2;
@@ -335,9 +337,14 @@ define(["dojo/_base/declare"], function (declare) {
           let phos1 = this.calculateLSCbmp1("phos", lscBMP);
           let phos_PFO = this.calculateOVbmp("phos", ovBMP);
           let phos2 = this.calculateLSCbmp2("phos", lscBMP, phos_PFO);
+          // sed calcs
+          let sed1 = this.calculateLSCbmp1("sed", lscBMP);
+          let sed_PFO = this.calculateOVbmp("sed", ovBMP);
+          let sed2 = this.calculateLSCbmp2("sed", lscBMP, sed_PFO);
 
           nit_rpl = nit1 + nit2;
           phos_rpl = phos1 + phos2;
+          sed_rpl = sed1 + sed2;
         }
         // EX and LSC - COMPLTETE
         if (ex_length > 0 && lsc_length > 0 && ov_length === 0) {
@@ -350,10 +357,15 @@ define(["dojo/_base/declare"], function (declare) {
           let phos1 = this.calculateLSCbmp1("phos", lscBMP);
           let phos_PFO = this.calculateEXbmp("phos", exBMP);
           let phos2 = this.calculateLSCbmp2("phos", lscBMP, phos_PFO);
+          // sed calcs
+          let sed1 = this.calculateLSCbmp1("sed", lscBMP);
+          let sed_PFO = this.calculateEXbmp("sed", exBMP);
+          let sed2 = this.calculateLSCbmp2("sed", lscBMP, sed_PFO);
 
           nit_rpl = nit1 + nit2;
           phos_rpl = phos1 + phos2;
-          console.log(nit_rpl, phos_rpl);
+          sed_rpl = sed1 + sed2;
+          // console.log(nit_rpl, phos_rpl);
         }
 
         // EX and OV - COMPLETE
@@ -367,6 +379,11 @@ define(["dojo/_base/declare"], function (declare) {
             this.phos_load *
             this.calculateEXbmp("phos", exBMP) *
             this.calculateOVbmp("phos", ovBMP);
+
+          sed_rpl =
+            this.sed_load *
+            this.calculateEXbmp("sed", exBMP) *
+            this.calculateOVbmp("sed", ovBMP);
         }
         // LSC only - COMPLETE
         if (lsc_length > 0 && ex_length === 0 && ov_length === 0) {
@@ -380,21 +397,24 @@ define(["dojo/_base/declare"], function (declare) {
           let phos2 = this.calculateLSCbmp2("phos", lscBMP, 1);
           phos_rpl = phos1 + phos2;
 
-          // calc phos lsc reduced load
+          // calc sed lsc reduced load
           let sed1 = this.calculateLSCbmp1("sed", lscBMP);
           let sed2 = this.calculateLSCbmp2("sed", lscBMP, 1);
           sed_rpl = sed1 + sed2;
+          console.log(sed_rpl, "total", sed1, "1", sed2, "2");
         }
 
         // EX only - COMPLETE
         if (ex_length > 0 && lsc_length === 0 && ov_length === 0) {
           nit_rpl = this.nit_load * this.calculateEXbmp("nit", exBMP);
           phos_rpl = this.phos_load * this.calculateEXbmp("phos", exBMP);
+          sed_rpl = this.sed_load * this.calculateEXbmp("sed", exBMP);
         }
         // OV only - COMPLETE
         if (ov_length > 0 && ex_length === 0 && lsc_length === 0) {
           nit_rpl = this.nit_load * this.calculateOVbmp("nit", ovBMP);
           phos_rpl = this.phos_load * this.calculateOVbmp("phos", ovBMP);
+          sed_rpl = this.sed_load * this.calculateOVbmp("sed", ovBMP);
         }
 
         // set final nitrogen value to the crop object property *****************
@@ -417,6 +437,18 @@ define(["dojo/_base/declare"], function (declare) {
           ).toFixed(0);
         } else {
           this.phos_percent_reduce = 0;
+        }
+
+        // set final phos value to the crop object property ********************
+        this.sed_rpl = sed_rpl.toFixed(2);
+
+        if (this.sed_rpl > 0) {
+          this.sed_percent_reduce = (
+            ((this.sed_load - sed_rpl) / this.sed_load) *
+            100
+          ).toFixed(0);
+        } else {
+          this.sed_percent_reduce = 0;
         }
         // re-render crop
         this.render();
@@ -492,43 +524,33 @@ define(["dojo/_base/declare"], function (declare) {
           let emc_bmp_value = 0;
           let eff_value = 0;
           let R = parseFloat(cropRow.Runoff_in_yr);
-          // let crop_area = cropRow.CropArea_acres;
           let r_factor_100_ton_acre = cropRow.R_Factor_100ft_ton_in_acre_hr;
           let k_factor = cropRow.KffactF;
           let cls_factor = cropRow.Cls_factor;
           let c_bmp = bmp.bmpData.C_BMP;
           let p_bmp = bmp.bmpData.P_BMP;
 
-          console.log(
-            "look here",
-            r_factor_100_ton_acre,
-            k_factor,
-            cls_factor,
-            c_bmp,
-            p_bmp
-          );
-
           let applied_acres =
             percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
 
+          // if nit
           if (type === "nit") {
             emc_bmp_value = bmp.bmpData.nit_emc_value;
             eff_value = bmp.bmpData.nit_eff_value;
 
             // calculate the rpl_lsc for nit
             rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
+
+            // if phos
           } else if (type === "phos") {
             emc_bmp_value = bmp.bmpData.phos_emc_value;
             eff_value = bmp.bmpData.phos_eff_value;
 
             // calculate the rpl_lsc for phos
             rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
-          } else if (type === "sed") {
-            console.log(bmp.bmpData);
-            console.log(cropRow, "crop row");
-            emc_bmp_value = bmp.bmpData.sed_emc_value;
-            eff_value = bmp.bmpData.sed_eff_value;
 
+            // if sed
+          } else if (type === "sed") {
             // calculate the rpl_lsc for sed
             rpl_lsc +=
               applied_acres *
@@ -539,7 +561,6 @@ define(["dojo/_base/declare"], function (declare) {
               p_bmp;
           }
         });
-        console.log(rpl_lsc, "sediment");
         return rpl_lsc;
       };
       state.Crop.prototype.calculateLSCbmp2 = function (type, array, PTF) {
@@ -549,38 +570,55 @@ define(["dojo/_base/declare"], function (declare) {
         // loop through all crop rows
         let rpl_non_lsc = 0;
         this.cropRows.forEach((cropRow) => {
+          let r_factor_100_ton_acre = cropRow.R_Factor_100ft_ton_in_acre_hr;
+          let k_factor = cropRow.KffactF;
+          let cls_factor = cropRow.Cls_factor;
+          let C = cropRow.C;
+          let P = cropRow.P;
+
           let emc_crop_value = 0;
           let eff_value = 0;
-          if (type === "nit") {
-            emc_crop_value = cropRow.Nitr_EMC;
-            eff_value = bmp.bmpData.nit_eff_value;
-          } else if (type === "phos") {
-            emc_crop_value = cropRow.Phos_EMC;
-            eff_value = bmp.bmpData.phos_eff_value;
-          }
 
           let R = parseFloat(cropRow.Runoff_in_yr);
           let crop_area = cropRow.CropArea_acres;
 
-          // let applied_acres =
-          //   percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
-
-          // console.log(
-          //   emc_crop_value,
-          //   eff_value,
-          //   R,
-          //   crop_area,
-          //   percentApplied,
-          //   PTF
-          // );
-          rpl_non_lsc +=
-            emc_crop_value *
-            R *
-            (crop_area - percentApplied * crop_area) *
-            (1 - eff_value) *
-            PTF *
-            0.000113;
+          if (type === "nit") {
+            emc_crop_value = cropRow.Nitr_EMC;
+            eff_value = bmp.bmpData.nit_eff_value;
+            rpl_non_lsc +=
+              emc_crop_value *
+              R *
+              (crop_area - percentApplied * crop_area) *
+              (1 - eff_value) *
+              PTF *
+              0.000113;
+          } else if (type === "phos") {
+            emc_crop_value = cropRow.Phos_EMC;
+            eff_value = bmp.bmpData.phos_eff_value;
+            rpl_non_lsc +=
+              emc_crop_value *
+              R *
+              (crop_area - percentApplied * crop_area) *
+              (1 - eff_value) *
+              PTF *
+              0.000113;
+          } else if (type === "sed") {
+            eff_value = bmp.bmpData.sed_eff_value;
+            // console.log(eff_value, "555555555");
+            // console.log(r_factor_100_ton_acre, k_factor, cls_factor, C, P);
+            rpl_non_lsc +=
+              (crop_area - percentApplied * crop_area) *
+              r_factor_100_ton_acre *
+              k_factor *
+              cls_factor *
+              C *
+              P *
+              (1 - eff_value) *
+              PTF;
+            // console.log(rpl_non_lsc);
+          }
         });
+        // console.log(rpl_non_lsc);
         return rpl_non_lsc;
       };
 
@@ -588,13 +626,15 @@ define(["dojo/_base/declare"], function (declare) {
         let PTF;
         let eff_value = 0;
         array.forEach((bmp, i) => {
-          let overallCropArea = bmp.parentCrop.acres;
           if (type === "nit") {
             eff_value = bmp.bmpData.nit_eff_value;
           } else if (type === "phos") {
             eff_value = bmp.bmpData.phos_eff_value;
+          } else if (type === "sed") {
+            eff_value = bmp.bmpData.sed_eff_value;
           }
-          // let nit_original_load = this.nit_load;
+
+          let overallCropArea = bmp.parentCrop.acres;
           let crop_area_applied =
             bmp.bmpData.percentApplied * bmp.parentCrop.acres;
           if (i === 0) {
@@ -609,13 +649,14 @@ define(["dojo/_base/declare"], function (declare) {
       state.Crop.prototype.calculateOVbmp = function (type, array) {
         let PTF;
         let eff_value = 0;
-        console.log(array);
         array.forEach((bmp, i) => {
           // set variables based on what type is being calculated
           if (type === "nit") {
             eff_value = bmp.bmpData.nit_eff_value;
           } else if (type === "phos") {
             eff_value = bmp.bmpData.phos_eff_value;
+          } else if (type === "sed") {
+            eff_value = bmp.bmpData.sed_eff_value;
           }
           // make the calculations
           if (i === 0) {

@@ -238,22 +238,17 @@ define([
       };
       // create html for bmp selection dropdown menu
       state.createBMPDropDown = function () {
-        console.log("create dropdown");
         let dropdowElem = document.createElement("div");
         const lscValuesFull = [];
         const lscValuesDefined = [];
         const ovValues = [];
         const exValues = [];
-        console.log(state.bmp_lut_data);
         state.bmp_lut_data.forEach((bmp) => {
-          console.log(bmp);
           if (bmp.RedFunc === "LSC") {
             // if lsc full exists
-            console.log(bmp);
             if (bmp.lscFull) {
               lscValuesFull.push(bmp);
             } else {
-              console.log(bmp);
               lscValuesDefined.push(bmp);
             }
           }
