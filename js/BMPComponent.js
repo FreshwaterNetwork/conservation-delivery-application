@@ -18,8 +18,8 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
         this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
 
-        this.bmpData.phos_emc_value = this.bmpData.PhosBMP_EMC;
-        this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EMC;
+        this.bmpData.phos_emc_value = this.bmpData.PhosBMP_EM;
+        this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EM;
 
         // placeholders for user modifications to the default value
         this.bmpData.sed_mod = false;
