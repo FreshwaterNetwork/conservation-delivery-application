@@ -79,7 +79,6 @@ define(["dojo/_base/declare"], function (declare) {
       state.BMPSelectedComponent.prototype.updatePercentApplied = function (
         target
       ) {
-        console.log("update percent applied");
         this.bmpData.percentAppliedDisplay = target.value;
         this.bmpData.percentApplied = parseFloat(target.value / 100);
         this.parentCrop.checkExclusiveBMPTotalPercent();

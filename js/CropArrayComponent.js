@@ -13,8 +13,11 @@ define(["dojo/_base/declare"], function (declare) {
           this.sortSelectedCrops();
           // loop through all the selected crops array and call render on each one
           this.selectedCrops.forEach((crop) => {
-            let cropDiv = crop.render();
-            this.cropSelectedElem.appendChild(cropDiv);
+            // only render the crop if its marked for display
+            if (crop.cropDisplay === 1) {
+              let cropDiv = crop.render();
+              this.cropSelectedElem.appendChild(cropDiv);
+            }
           });
         };
       };

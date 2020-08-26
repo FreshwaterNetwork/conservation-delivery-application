@@ -13,7 +13,8 @@ define(["dojo/_base/declare"], function (declare) {
         kFact,
         clsFactor,
         runoff_year,
-        cropRows
+        cropRows,
+        cropDisplay
       ) {
         // create parent crop div for each crop, this is what we will attach all our events to
         this.cropDiv = document.createElement("div");
@@ -35,14 +36,13 @@ define(["dojo/_base/declare"], function (declare) {
         this.clsFactor = parseFloat(clsFactor.toFixed(2));
         this.runoff_year = parseFloat(runoff_year.toFixed(2));
         this.cropRows = cropRows;
+        this.cropDisplay = cropDisplay;
 
         // crop properties after BMP's applied
         this.nit_rpl = 0;
         this.nit_percent_reduce = 0;
-
         this.phos_rpl = 0;
         this.phos_percent_reduce = 0;
-
         this.sed_rpl = 0;
         this.sed_percent_reduce = 0;
 
@@ -180,7 +180,6 @@ define(["dojo/_base/declare"], function (declare) {
           (o) => o.BMP_Short === target.value
         );
         const redfunc = bmpData.RedFunc;
-        console.log(bmpData);
         // loop through all the options in the select menu and disable the options that qualify
         if (redfunc === "LSC") {
           // if lsc full property exists
@@ -365,7 +364,6 @@ define(["dojo/_base/declare"], function (declare) {
           nit_rpl = nit1 + nit2;
           phos_rpl = phos1 + phos2;
           sed_rpl = sed1 + sed2;
-          // console.log(nit_rpl, phos_rpl);
         }
 
         // EX and OV - COMPLETE
@@ -401,7 +399,6 @@ define(["dojo/_base/declare"], function (declare) {
           let sed1 = this.calculateLSCbmp1("sed", lscBMP);
           let sed2 = this.calculateLSCbmp2("sed", lscBMP, 1);
           sed_rpl = sed1 + sed2;
-          console.log(sed_rpl, "total", sed1, "1", sed2, "2");
         }
 
         // EX only - COMPLETE
@@ -454,66 +451,6 @@ define(["dojo/_base/declare"], function (declare) {
         this.render();
       };
 
-      state.Crop.prototype.calculateLSCbmp = function (type, array, PTF) {
-        // calculation vars
-        // equation: RPL=[(EMC×R×A)]×Conv
-        console.log(array);
-        let bmp = array[0];
-        console.log(bmp, "bmp");
-        let percentApplied = bmp.bmpData.percentApplied;
-
-        // let emc_value = 0;
-        // let eff_value = 0;
-        // if (type === "nit") {
-        //   emc_value = bmp.bmpData.nit_emc_value;
-        //   eff_value = bmp.bmpData.nit_eff_value;
-        // } else if (type === "phos") {
-        //   emc_value = bmp.bmpData.phos_emc_value;
-        //   eff_value = bmp.bmpData.phos_eff_value;
-        // }
-
-        // console.log("look here", type, this.cropRows);
-
-        // loop through all crop rows
-        let rpl_lsc = 0;
-        let rpl_non_lsc = 0;
-        this.cropRows.forEach((cropRow) => {
-          let emc_crop_value = 0;
-          let emc_bmp_value = 0;
-          let eff_value = 0;
-          if (type === "nit") {
-            emc_bmp_value = bmp.bmpData.nit_emc_value;
-            emc_crop_value = cropRow.Nitr_EMC;
-            eff_value = bmp.bmpData.nit_eff_value;
-          } else if (type === "phos") {
-            emc_bmp_value = bmp.bmpData.phos_emc_value;
-            emc_crop_value = cropRow.Phos_EMC;
-            eff_value = bmp.bmpData.phos_eff_value;
-          }
-
-          let R = parseFloat(cropRow.Runoff_in_yr);
-          let crop_area = cropRow.CropArea_acres;
-
-          let applied_acres =
-            percentApplied * parseFloat(cropRow.CropArea_acres); //  = 0
-          console.log(applied_acres, cropRow.CropArea_acres, emc_bmp_value, R);
-          // the emc value should be taken from the rowCrop table maybe ???
-          rpl_lsc += emc_bmp_value * R * applied_acres * 0.000113;
-          console.log(rpl_lsc);
-
-          rpl_non_lsc +=
-            emc_crop_value * // This should be PFO ***********
-            R *
-            (crop_area - percentApplied * crop_area) *
-            (1 - eff_value) *
-            PTF *
-            0.000113;
-        });
-        console.log(rpl_lsc, rpl_non_lsc, "load values");
-        let rpl = rpl_lsc + rpl_non_lsc;
-        console.log(rpl, "******************");
-        return rpl;
-      };
       state.Crop.prototype.calculateLSCbmp1 = function (type, array, PTF) {
         let bmp = array[0];
         let percentApplied = bmp.bmpData.percentApplied;
@@ -604,8 +541,6 @@ define(["dojo/_base/declare"], function (declare) {
               0.000113;
           } else if (type === "sed") {
             eff_value = bmp.bmpData.sed_eff_value;
-            // console.log(eff_value, "555555555");
-            // console.log(r_factor_100_ton_acre, k_factor, cls_factor, C, P);
             rpl_non_lsc +=
               (crop_area - percentApplied * crop_area) *
               r_factor_100_ton_acre *
@@ -615,10 +550,8 @@ define(["dojo/_base/declare"], function (declare) {
               P *
               (1 - eff_value) *
               PTF;
-            // console.log(rpl_non_lsc);
           }
         });
-        // console.log(rpl_non_lsc);
         return rpl_non_lsc;
       };
 

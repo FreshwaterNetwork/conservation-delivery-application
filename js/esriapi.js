@@ -156,7 +156,6 @@ define([
           // }
           // if (state.map.graphics.graphics.length > 0) {
           //   // const selectedFieldsArray = [];
-          //   console.log(state.map.graphics.graphics);
           //   // start a loop counter
           //   let c = 1;
           //   state.map.graphics.graphics.forEach((graphic, i) => {
@@ -182,9 +181,7 @@ define([
       // // Field_Crop_LUT is the table
       // state.selectRowsFromTable = function (fieldsArray) {
       //   return new Promise(function (getRowsResolve, reject) {
-      //     // console.log(fieldsArray);
       //     let where = state.buildFieldTableQuery(fieldsArray);
-      //     console.log(where);
       //     const q = new Query();
       //     const qt = new QueryTask(state.obj.url + "/4");
       //     // q.geometry = mapPoint;
@@ -193,7 +190,6 @@ define([
       //     q.where = where;
       //     // execute map query
       //     qt.execute(q, function (e) {
-      //       console.log(e);
       //       return getRowsResolve(e);
       //     });
       //   });

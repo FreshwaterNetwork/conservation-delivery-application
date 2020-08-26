@@ -59,19 +59,5 @@ define(["dojo/_base/declare"], function (declare) {
         ".cda-crop-selected-wrapper"
       );
     },
-    // ****************************************
-
-    // to build out field selections object
-    // create a field object and populate it.
-    // then create a field selected object
-    // when a selection is made to a field, create new field,
-    // and call the field selections object function addField(field),
-    // from there push field to this.arrayOfFields
-    // then call render function
-    // also create a remove function as well
-
-    // also consider using getters and setters to calculate/validate values before being set
-
-    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   });
 });

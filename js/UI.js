@@ -90,7 +90,6 @@ define(["dojo/_base/declare"], function (declare) {
             state.assesmentRadioButtons.selectedValue === "local-scenario"
           ) {
             state.getFieldsFromLocalSelection().then(function (fieldData) {
-              console.log(fieldData);
               state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
               state.UI.prototype.showElement(".cda-bmp-select-wrapper");
             });
@@ -105,9 +104,7 @@ define(["dojo/_base/declare"], function (declare) {
         state.cropSelectedListComponent.cropSelectedElem.innerHTML = "";
       };
 
-      state.UI.prototype.createReportButtonClick = function (evt) {
-        console.log(evt);
-      };
+      state.UI.prototype.createReportButtonClick = function (evt) {};
 
       // show/hide DOM elements
       state.UI.prototype.showElement = function (selector) {

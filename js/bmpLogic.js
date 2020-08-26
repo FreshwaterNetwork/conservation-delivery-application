@@ -37,26 +37,19 @@ define([
         // var gp = new Geoprocessor(
         //   "https://cumulus.tnc.org/arcgis/rest/services/nascience/testGpService/GPServer/testGpService"
         // );
-        // console.log(gp);
         // let params = {
         //   one: "test text",
         //   two: "test text 2",
         // };
         // function statusCallback(e, a) {
-        //   console.log("status", e, a);
         // }
         // // statusCallback = function (status) {
-        // //   console.log(status);
         // // };
         // function completeCallback(e, a) {
-        //   // console.log("complete", e, a);
         //   gp.getResultData(e.jobId, "setText", (data) => {
-        //     console.log(data);
         //   });
         // }
-        // // console.log("before submit job");
         // gp.submitJob(params, completeCallback, statusCallback);
-        // console.log("click here");
 
         // chain multiple promises to handle async queries
         return new Promise(function (getCropsResolve, reject) {
@@ -99,14 +92,17 @@ define([
             cropData[crop.attributes.CropName]["cropRows"].push(
               crop.attributes
             );
+            cropData[crop.attributes.CropName]["crop_display"] = parseInt(
+              crop.attributes.cropYN
+            );
             cropData[crop.attributes.CropName]["acres"] += parseFloat(
               crop.attributes.CropArea_acres
             );
             cropData[crop.attributes.CropName]["orig_phos_load"] += parseFloat(
               crop.attributes.orig_phos_load
             );
+
             // if (crop.attributes.CropName === "Soybeans") {
-            //   console.log(cropData[crop.attributes.CropName]["orig_phos_load"]);
             // }
 
             cropData[crop.attributes.CropName]["orig_nit_load"] += parseFloat(
@@ -128,7 +124,6 @@ define([
               crop.attributes.Runoff_in_yr
             );
           });
-          console.log(cropData);
           return resolve(cropData);
         });
       };
@@ -148,6 +143,7 @@ define([
             const clsFactor = cropData[key].clsFactor;
             const runoff_year = cropData[key].runoff_year;
             const cropRows = cropData[key].cropRows;
+            const cropDisplay = cropData[key].crop_display;
             let crop = new state.Crop(
               name,
               acres,
@@ -157,7 +153,8 @@ define([
               kFact,
               clsFactor,
               runoff_year,
-              cropRows
+              cropRows,
+              cropDisplay
             );
             state.cropSelectedListComponent.addCrop(crop);
           }
@@ -173,7 +170,6 @@ define([
           // let where = "RU = 11";
           // let where = "RU = 7 OR RU = 3 OR RU = 2";
           // let where = "RU = 7 OR RU = 6";
-          // console.log(where);
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/4");
           q.outFields = ["*"];
