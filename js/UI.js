@@ -81,6 +81,7 @@ define(["dojo/_base/declare"], function (declare) {
           if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
             // state.getCropsFromAreaSelection();
             state.getCropsFromAreaSelection().then(function () {
+              state.totalLoadComponent.render();
               // once data processing is finished render the cropSelectedComponent and show hide UI related
               state.cropSelectedListComponent.render();
               state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");

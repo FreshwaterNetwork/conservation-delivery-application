@@ -12,6 +12,7 @@ define([
   "./js/RadioBtnComponent",
   "./js/CropComponent",
   "./js/CropArrayComponent",
+  "./js/TotalLoadComponent",
   "./js/BMPComponent",
   "./js/Areas",
   "./js/esriapi",
@@ -31,6 +32,7 @@ define([
   RadioBtnComponent,
   CropComponent,
   CropArrayComponent,
+  TotalLoadComponent,
   BMPComponent,
   Areas,
   esriapi,
@@ -167,6 +169,7 @@ define([
       this.RadioBtnComponent = new RadioBtnComponent();
       this.CheckboxComponent = new CheckboxComponent();
       this.CropArrayComponent = new CropArrayComponent();
+      this.TotalLoadComponent = new TotalLoadComponent();
       this.CropComponent = new CropComponent();
       this.BMPComponent = new BMPComponent();
 
@@ -179,6 +182,7 @@ define([
       this.RadioBtnComponent.init(this);
       this.CheckboxComponent.init(this);
       this.CropArrayComponent.init(this);
+      this.TotalLoadComponent.init(this);
       this.CropComponent.init(this);
       this.BMPComponent.init(this);
 

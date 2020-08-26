@@ -58,6 +58,11 @@ define(["dojo/_base/declare"], function (declare) {
       state.cropSelectedListComponent = new state.CropSelectedList(
         ".cda-crop-selected-wrapper"
       );
+
+      // build and render the total load wrapper
+      state.totalLoadComponent = new state.TotalLoadComponent(
+        ".cda-total-load-wrapper"
+      );
     },
   });
 });

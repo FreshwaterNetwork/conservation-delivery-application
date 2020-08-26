@@ -449,6 +449,9 @@ define(["dojo/_base/declare"], function (declare) {
         }
         // re-render crop
         this.render();
+
+        // update the total compoenent to update the overall load
+        state.totalLoadComponent.render();
       };
 
       state.Crop.prototype.calculateLSCbmp1 = function (type, array, PTF) {

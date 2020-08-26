@@ -82,6 +82,36 @@ button {
 .cda-bmp-select-wrapper {
   display: none;
 }
+.cda-bmp-select-wrapper-header {
+  background-color: rgba(244, 244, 244);
+  position: fixed;
+  width: 415px;
+  left: 46px;
+  top: 95px;
+  height: 155px;
+  border-bottom: rgb(205, 213, 213) 1px solid;
+  padding: 7px;
+  box-shadow: -2px 0px 5px 1px rgba(51, 51, 51, 0.3);
+  z-index: 1000;
+}
+.cda-back-to-main-button {
+  padding: 1px !important;
+}
+.cda-create-report-button {
+  padding: 1px !important;
+  position: absolute;
+  right: 7px;
+}
+.cda-bmp-select-header-btns {
+  display: flex;
+}
+.cda-crop-selected-wrapper {
+  margin-top: 155px;
+}
+.cda-total-header {
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+}
 .cda-bmp-selected-wrapper {
   margin: 5px;
   background-color: rgba(0, 0, 0, 0.05);
