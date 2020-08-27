@@ -33,41 +33,45 @@ define(["dojo/_base/declare"], function (declare) {
           this.totalAcres += parseInt(crop.acres);
           if (!isNaN(crop.nit_load)) {
             this.totalNitLoad += crop.nit_load;
+            if (crop.nit_rpl > 0) {
+              this.totalNitRedLoad += parseFloat(crop.nit_rpl);
+            } else {
+              this.totalNitRedLoad += parseFloat(crop.nit_load);
+            }
           }
           if (!isNaN(crop.phos_load)) {
             this.totalPhosLoad += crop.phos_load;
+            if (crop.phos_rpl > 0) {
+              this.totalPhosRedLoad += parseFloat(crop.phos_rpl);
+            } else {
+              this.totalPhosRedLoad += parseFloat(crop.phos_load);
+            }
           }
           if (!isNaN(crop.sed_load)) {
             this.totalSedLoad += crop.sed_load;
-          }
-
-          if (!isNaN(crop.nit_rpl)) {
-            this.totalNitRedLoad += parseFloat(crop.nit_rpl);
-            console.log(this.totalNitRedLoad, "look here", crop.name);
-          }
-          if (!isNaN(crop.phos_rpl)) {
-            this.totalPhosRedLoad += parseFloat(crop.phos_rpl);
-          }
-          if (!isNaN(crop.sed_rpl)) {
-            this.totalSedRedLoad += parseFloat(crop.sed_rpl);
+            if (crop.sed_rpl > 0) {
+              this.totalSedRedLoad += parseFloat(crop.sed_rpl);
+            } else {
+              this.totalSedRedLoad += parseFloat(crop.sed_load);
+            }
           }
         });
 
-        if (this.totalNitRedLoad > 0) {
-          this.totalNitRedLoad = this.totalNitLoad - this.totalNitRedLoad;
-        } else {
-          this.totalNitRedLoad = 0;
-        }
-        if (this.totalPhosRedLoad > 0) {
-          this.totalPhosRedLoad = this.totalPhosLoad - this.totalPhosRedLoad;
-        } else {
-          this.totalPhosRedLoad = 0;
-        }
-        if (this.totalSedRedLoad > 0) {
-          this.totalSedRedLoad = this.totalSedLoad - this.totalSedRedLoad;
-        } else {
-          this.totalSedRedLoad = 0;
-        }
+        // if (this.totalNitRedLoad > 0) {
+        //   this.totalNitRedLoad = this.totalNitLoad - this.totalNitRedLoad;
+        // } else {
+        //   this.totalNitRedLoad = 0;
+        // }
+        // if (this.totalPhosRedLoad > 0) {
+        //   this.totalPhosRedLoad = this.totalPhosLoad - this.totalPhosRedLoad;
+        // } else {
+        //   this.totalPhosRedLoad = 0;
+        // }
+        // if (this.totalSedRedLoad > 0) {
+        //   this.totalSedRedLoad = this.totalSedLoad - this.totalSedRedLoad;
+        // } else {
+        //   this.totalSedRedLoad = 0;
+        // }
 
         this.totalNitPercentReduction = (
           ((this.totalNitLoad - this.totalNitRedLoad) / this.totalNitLoad) *

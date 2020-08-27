@@ -393,6 +393,7 @@ define(["dojo/_base/declare"], function (declare) {
           // calc phos lsc reduced load
           let phos1 = this.calculateLSCbmp1("phos", lscBMP);
           let phos2 = this.calculateLSCbmp2("phos", lscBMP, 1);
+          // console.log(phos1, phos2, "***********");
           phos_rpl = phos1 + phos2;
 
           // calc sed lsc reduced load
@@ -415,7 +416,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
 
         // set final nitrogen value to the crop object property *****************
-        this.nit_rpl = nit_rpl.toFixed(2);
+        this.nit_rpl = parseFloat(nit_rpl).toFixed(2);
         if (this.nit_rpl > 0) {
           this.nit_percent_reduce = (
             ((this.nit_load - nit_rpl) / this.nit_load) *
@@ -425,7 +426,7 @@ define(["dojo/_base/declare"], function (declare) {
           this.nit_percent_reduce = 0;
         }
         // set final phos value to the crop object property ********************
-        this.phos_rpl = phos_rpl.toFixed(2);
+        this.phos_rpl = parseFloat(phos_rpl).toFixed(2);
 
         if (this.phos_rpl > 0) {
           this.phos_percent_reduce = (
@@ -437,7 +438,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
 
         // set final phos value to the crop object property ********************
-        this.sed_rpl = sed_rpl.toFixed(2);
+        this.sed_rpl = parseFloat(sed_rpl).toFixed(2);
 
         if (this.sed_rpl > 0) {
           this.sed_percent_reduce = (

@@ -16,12 +16,24 @@ define(["dojo/_base/declare"], function (declare) {
         this.backToMainButtonElem = document.querySelector(
           ".cda-back-to-main-button"
         );
+        this.createReportButtonElem = document.querySelector(
+          ".cda-create-report-button"
+        );
+        this.backToBMPButtonElem = document.querySelector(
+          ".cda-back-to-bmp-button"
+        );
         // add an event listener to the BMP button
         this.selectBMPButtonElem.addEventListener("click", (evt) => {
           this.bmpButtonClick(evt);
         });
         this.backToMainButtonElem.addEventListener("click", (evt) => {
           this.backToMainButtonClick(evt);
+        });
+        this.createReportButtonElem.addEventListener("click", (evt) => {
+          this.createReportButtonClick(evt);
+        });
+        this.backToBMPButtonElem.addEventListener("click", (evt) => {
+          this.backToBMPButtonClick(evt);
         });
       };
 
@@ -105,7 +117,14 @@ define(["dojo/_base/declare"], function (declare) {
         state.cropSelectedListComponent.cropSelectedElem.innerHTML = "";
       };
 
-      state.UI.prototype.createReportButtonClick = function (evt) {};
+      state.UI.prototype.createReportButtonClick = function (evt) {
+        this.showElement(".cda-report-wrapper");
+        this.hideElement(".cda-bmp-select-wrapper");
+      };
+      state.UI.prototype.backToBMPButtonClick = function (evt) {
+        this.hideElement(".cda-report-wrapper");
+        this.showElement(".cda-bmp-select-wrapper");
+      };
 
       // show/hide DOM elements
       state.UI.prototype.showElement = function (selector) {

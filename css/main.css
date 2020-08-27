@@ -82,6 +82,9 @@ button {
 .cda-bmp-select-wrapper {
   display: none;
 }
+.cda-report-wrapper {
+  display: none;
+}
 .cda-bmp-select-wrapper-header {
   background-color: rgba(244, 244, 244);
   position: fixed;
@@ -94,10 +97,12 @@ button {
   box-shadow: -2px 0px 5px 1px rgba(51, 51, 51, 0.3);
   z-index: 1000;
 }
-.cda-back-to-main-button {
+.cda-back-to-main-button,
+.cda-back-to-bmp-button {
   padding: 1px !important;
 }
-.cda-create-report-button {
+.cda-create-report-button,
+.cda-print-report-button {
   padding: 1px !important;
   position: absolute;
   right: 7px;
