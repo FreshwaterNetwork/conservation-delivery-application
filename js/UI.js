@@ -120,10 +120,21 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI.prototype.createReportButtonClick = function (evt) {
         this.showElement(".cda-report-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
+        console.log(evt.target);
+        const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
+          .parentElement.parentElement.parentElement;
+        console.log(sidebarWrapper);
+        sidebarWrapper.style.width = "750px";
+        const simpleSlider = document.querySelector(".esriSimpleSlider");
+        simpleSlider.style.top = "18px";
       };
       state.UI.prototype.backToBMPButtonClick = function (evt) {
         this.hideElement(".cda-report-wrapper");
         this.showElement(".cda-bmp-select-wrapper");
+        const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
+          .parentElement.parentElement.parentElement;
+        console.log(sidebarWrapper);
+        sidebarWrapper.style.width = "430px";
       };
 
       // show/hide DOM elements

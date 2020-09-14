@@ -204,3 +204,10 @@ button {
   color: #2f6384;
 }
 /* report styles ***********************************************/
+.cda-report-map {
+  width: 80%;
+  margin: auto;
+  border: 1px solid black;
+  height: 300px;
+  margin-top: 20px;
+}
