@@ -111,6 +111,8 @@ define([
       // map click
       function mapClick(mapPoint) {
         let areaSelected = "resource-option";
+        let id_identifier;
+        let layer;
         if (areaSelected === "resource-option") {
           id_identifier = "RU";
           layer = 3;

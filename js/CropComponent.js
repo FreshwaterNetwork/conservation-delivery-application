@@ -25,6 +25,8 @@ define(["dojo/_base/declare"], function (declare) {
         let bmpDropdownMenu = document.createElement("div");
         bmpDropdownMenu.innerHTML = state.BMPselectMenu;
         this.BMPselectMenu = bmpDropdownMenu;
+        // content expanded
+        this.contentExpandedStyle = "none";
 
         // crop properties
         this.name = cropName;
@@ -53,58 +55,72 @@ define(["dojo/_base/declare"], function (declare) {
             let bmpElem = bmp.render();
             bmpWrapperElem.appendChild(bmpElem);
           });
+          // change text value of expand/collapse button
+          if (this.contentExpandedStyle === "none") {
+            this.contentExpandValue = "Expand";
+          } else {
+            this.contentExpandValue = "Collapse";
+          }
           let template = `
             <div class='cda-crop-wrapper'>
-                <div class='cda-crop-header'><span class="cda-crop-header-name">${
-                  this.name
-                }</span> - ${state.UIControls.numComma(this.acres)} acres</div>
-                <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
-
-                <div class="cda-crop-load-wrapper">Initial Load (MT):
-                  <div style="margin-left:0px">${state.UIControls.numComma(
-                    this.nit_load
-                  )}</div> 
-                  <div style="margin-left:18px">${state.UIControls.numComma(
-                    this.phos_load
-                  )}</div> 
-                  <div style="margin-left:23px">${state.UIControls.numComma(
-                    this.sed_load
-                  )}</div>
-                </div>
-                <div class="cda-reduction-new-load-wrapper">
-                    <div class="cda-crop-load-wrapper">New Load (MT): 
-                      <div style="margin-left:6px">${state.UIControls.numComma(
-                        this.nit_rpl
-                      )}</div> 
-                      <div style="margin-left:18px">${state.UIControls.numComma(
-                        this.phos_rpl
-                      )}</div> 
-                      <div style="margin-left:23px">${state.UIControls.numComma(
-                        this.sed_rpl
-                      )}</div>
-                    </div>
-
-                    <div class="cda-crop-load-wrapper">Reduction: 
-                        <div style="margin-left:38px">${state.UIControls.numComma(
-                          this.nit_percent_reduce
-                        )}%</div> 
-                        <div style="margin-left:18px">${state.UIControls.numComma(
-                          this.phos_percent_reduce
-                        )}%</div> 
-                        <div style="margin-left:23px">${state.UIControls.numComma(
-                          this.sed_percent_reduce
-                        )}%</div>
-                    </div>
-                </div>
-                
-              
-              <div id="bmp-wrapper-${
+              <div class='cda-crop-header'><span class="cda-crop-header-name">${
                 this.name
-              }" class="cda-bmp-component-wrapper">
-                <div class='cda-select-menu'></div>
+              }</span> - ${state.UIControls.numComma(this.acres)} acres
+                <div class='cda-crop-expand-collapse'>${
+                  this.contentExpandValue
+                }</div>
               </div>
-              <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100%</div>
-              <div class="cda-bmp-wrapper"></div>
+              <div class='cda-crop-information-wrapper' style="display:${
+                this.contentExpandedStyle
+              }">
+                  <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
+                  <div class="cda-crop-load-wrapper">Initial Load (MT):
+                    <div style="margin-left:0px">${state.UIControls.numComma(
+                      this.nit_load
+                    )}</div> 
+                    <div style="margin-left:18px">${state.UIControls.numComma(
+                      this.phos_load
+                    )}</div> 
+                    <div style="margin-left:23px">${state.UIControls.numComma(
+                      this.sed_load
+                    )}</div>
+                  </div>
+                  <div class="cda-reduction-new-load-wrapper">
+                      <div class="cda-crop-load-wrapper">New Load (MT): 
+                        <div style="margin-left:6px">${state.UIControls.numComma(
+                          this.nit_rpl
+                        )}</div> 
+                        <div style="margin-left:18px">${state.UIControls.numComma(
+                          this.phos_rpl
+                        )}</div> 
+                        <div style="margin-left:23px">${state.UIControls.numComma(
+                          this.sed_rpl
+                        )}</div>
+                      </div>
+
+                      <div class="cda-crop-load-wrapper">Reduction: 
+                          <div style="margin-left:38px">${state.UIControls.numComma(
+                            this.nit_percent_reduce
+                          )}%</div> 
+                          <div style="margin-left:18px">${state.UIControls.numComma(
+                            this.phos_percent_reduce
+                          )}%</div> 
+                          <div style="margin-left:23px">${state.UIControls.numComma(
+                            this.sed_percent_reduce
+                          )}%</div>
+                      </div>
+                  </div>
+                  
+                
+                <div id="bmp-wrapper-${
+                  this.name
+                }" class="cda-bmp-component-wrapper">
+                  <div class='cda-select-menu'></div>
+                </div>
+                <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100%</div>
+                <div class="cda-bmp-wrapper"></div>
+              </div>
+                
             </div>
           `;
 
@@ -115,10 +131,12 @@ define(["dojo/_base/declare"], function (declare) {
           let reductionNewLoadWrapper = this.cropDiv.querySelector(
             ".cda-reduction-new-load-wrapper"
           );
-          if (this.nit_rpl > 0) {
+          if (this.nit_rpl > 0 || this.phos_rpl > 0 || this.sed_rpl > 0) {
             reductionNewLoadWrapper.style.display = "block";
+            this.cropDiv.style.backgroundColor = "#46e24633";
           } else {
             reductionNewLoadWrapper.style.display = "none";
+            this.cropDiv.style.backgroundColor = "white";
           }
 
           // add in bmp element wrapper
@@ -146,6 +164,9 @@ define(["dojo/_base/declare"], function (declare) {
           // bmp remove button event
           if (evt.target.className === "cda-bmp-remove-button") {
             this.removeBMPSelection(evt.target);
+          }
+          if (evt.target.className === "cda-crop-expand-collapse") {
+            this.expandCollapseCropButton(evt.target);
           }
         });
       };
@@ -251,6 +272,21 @@ define(["dojo/_base/declare"], function (declare) {
         this.render();
         // calculate reduced loads when a BMP is removed
         this.calculateReducedLoads();
+      };
+      // remove a bmp from the crop
+      state.Crop.prototype.expandCollapseCropButton = function (target) {
+        let expandContent = target.parentNode.parentNode.querySelector(
+          ".cda-crop-information-wrapper"
+        );
+        if (this.contentExpandedStyle === "none") {
+          target.innerHTML = "Collapse";
+          expandContent.style.display = "block";
+          this.contentExpandedStyle = "block";
+        } else if (this.contentExpandedStyle === "block") {
+          expandContent.style.display = "none";
+          this.contentExpandedStyle = "none";
+          target.innerHTML = "Expand";
+        }
       };
       state.Crop.prototype.checkExclusiveBMPTotalPercent = function () {
         let percentWarningElem = this.cropDiv.querySelector(

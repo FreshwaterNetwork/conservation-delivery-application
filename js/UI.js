@@ -90,23 +90,30 @@ define(["dojo/_base/declare"], function (declare) {
         if (state.areaSelectedListComponent.areaList.length > 0) {
           this.hideElement(".cda-main-wrapper");
           this.showElement(".cda-retreiving-data-wrapper");
-          if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
-            // state.getCropsFromAreaSelection();
-            state.getCropsFromAreaSelection().then(function () {
-              state.totalLoadComponent.render();
-              // once data processing is finished render the cropSelectedComponent and show hide UI related
-              state.cropSelectedListComponent.render();
-              state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
-              state.UI.prototype.showElement(".cda-bmp-select-wrapper");
-            });
-          } else if (
-            state.assesmentRadioButtons.selectedValue === "local-scenario"
-          ) {
-            state.getFieldsFromLocalSelection().then(function (fieldData) {
-              state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
-              state.UI.prototype.showElement(".cda-bmp-select-wrapper");
-            });
-          }
+          state.getCropsFromAreaSelection().then(function () {
+            state.totalLoadComponent.render();
+            // once data processing is finished render the cropSelectedComponent and show hide UI related
+            state.cropSelectedListComponent.render();
+            state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+            state.UI.prototype.showElement(".cda-bmp-select-wrapper");
+          });
+          // if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
+          //   // state.getCropsFromAreaSelection();
+          //   state.getCropsFromAreaSelection().then(function () {
+          //     state.totalLoadComponent.render();
+          //     // once data processing is finished render the cropSelectedComponent and show hide UI related
+          //     state.cropSelectedListComponent.render();
+          //     state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+          //     state.UI.prototype.showElement(".cda-bmp-select-wrapper");
+          //   });
+          // } else if (
+          //   state.assesmentRadioButtons.selectedValue === "local-scenario"
+          // ) {
+          //   state.getFieldsFromLocalSelection().then(function (fieldData) {
+          //     state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
+          //     state.UI.prototype.showElement(".cda-bmp-select-wrapper");
+          //   });
+          // }
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {

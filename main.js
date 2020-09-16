@@ -48,7 +48,7 @@ define([
     resizable: false,
     hasCustomPrint: true,
     size: "custom",
-    width: 430,
+    width: 450,
     hasHelp: true,
 
     // First function called when the user clicks the pluging icon.

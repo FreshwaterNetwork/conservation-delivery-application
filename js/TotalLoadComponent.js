@@ -91,7 +91,7 @@ define(["dojo/_base/declare"], function (declare) {
       };
       state.TotalLoadComponent.prototype.updateTemplate = function () {
         this.template = `
-            <div class="cda-crop-header cda-total-header">
+            <div class=" cda-total-header">
 				<span class="cda-crop-header-name">All Load Sources</span>
 				- ${state.UIControls.numComma(this.totalAcres)} acres
             </div>
