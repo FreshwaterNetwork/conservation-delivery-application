@@ -9,6 +9,7 @@ define([
   "./js/initProjectData",
   "./js/UI",
   "./js/CheckboxComponent",
+  "./js/ReportComponent",
   "./js/RadioBtnComponent",
   "./js/CropComponent",
   "./js/CropArrayComponent",
@@ -29,6 +30,7 @@ define([
   initProjectData,
   UI,
   CheckboxComponent,
+  ReportComponent,
   RadioBtnComponent,
   CropComponent,
   CropArrayComponent,
@@ -172,6 +174,7 @@ define([
       this.TotalLoadComponent = new TotalLoadComponent();
       this.CropComponent = new CropComponent();
       this.BMPComponent = new BMPComponent();
+      this.ReportComponent = new ReportComponent();
 
       // call the init function to build objects
       this.initProjectData.init(this);
@@ -185,6 +188,7 @@ define([
       this.TotalLoadComponent.init(this);
       this.CropComponent.init(this);
       this.BMPComponent.init(this);
+      this.ReportComponent.init(this);
 
       // instantiate and call the App component to control everything
       this.app = new app();

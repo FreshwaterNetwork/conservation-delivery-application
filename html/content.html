@@ -73,20 +73,20 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 	</div>
 
 	<div class="cda-report-wrapper">
-		<div class="cda-bmp-select-header-btns">
+		<div class=" cda-report-sticky-buttons ">
 			<button class="cda-back-to-bmp-button button button-primary">Back</button>
 			<button class="cda-print-report-button button button-primary">Print Report</button>
 		</div>
+		<!-- report header -->
+		<div class="cda-temp-report-header">
+			<h1>Nutrient Conservation Application</h1>
+			<h4>TNC Freshwater Network</h4>
+			<br>
+			<div><b>HUC12's selected:</b>> 123456, 98780623076, 1298637368467836</div>
+		</div>
+		<!-- report map -->
 		<div class="cda-report-map" id="report-map"></div>
-		<h1>Report</h1>
-		<div>Map goes here</div>
-		<br>
-		<div>Report data goes here</div>
+		<!-- report body -->
+		<div class="cda-report-body-wrapper"></div>
 	</div>
-	<!-- <div class="cda-render-list">
-
-	</div>
-	<button class="cda-remove-one">Click me</button>
-	<div id="fields-selected-wrapper" class="cda-fields-selected-wrapper"></div> -->
-
 </div>

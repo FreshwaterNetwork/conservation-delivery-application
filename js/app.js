@@ -63,6 +63,11 @@ define(["dojo/_base/declare"], function (declare) {
       state.totalLoadComponent = new state.TotalLoadComponent(
         ".cda-total-load-wrapper"
       );
+
+      // build report component
+      state.reportComponent = new state.reportComponent(
+        ".cda-report-body-wrapper"
+      );
     },
   });
 });
