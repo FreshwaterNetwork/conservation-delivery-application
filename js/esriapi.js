@@ -51,18 +51,18 @@ define([
       //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
       // }).then(console.log(response)); // { name: "311", id: 0, ... }
 
-      var featURL =
-        "https://services.arcgis.com/F7DSX1DSNSiWmOqh/arcgis/rest/services/CDA_AGO_Feat_Service_test/FeatureServer";
-      var featureLayer = new FeatureLayer(featURL, {
-        mode: FeatureLayer.MODE_ONDEMAND,
-        outFields: ["*"],
-      });
-      $.ajax({
-        url: featURL + "?f=pjson",
-        success: function (result) {
-          console.log(result);
-        },
-      });
+      // var featURL =
+      //   "https://services.arcgis.com/F7DSX1DSNSiWmOqh/arcgis/rest/services/CDA_AGO_Feat_Service_test/FeatureServer";
+      // var featureLayer = new FeatureLayer(featURL, {
+      //   mode: FeatureLayer.MODE_ONDEMAND,
+      //   outFields: ["*"],
+      // });
+      // $.ajax({
+      //   url: featURL + "?f=pjson",
+      //   success: function (result) {
+      //     console.log(result);
+      //   },
+      // });
       // // Make a request for a user with a given ID
       // axios
       //   .get(featURL + "?f=pjson")
@@ -73,7 +73,8 @@ define([
       //     console.log(error);
       //   });
 
-      console.log(featureLayer);
+      // console.log(featureLayer);
+
       // Add dynamic map service
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
         opacity: 0.7,
@@ -109,24 +110,35 @@ define([
       });
       // map click
       function mapClick(mapPoint) {
-        let id_identifier;
-        let layer;
-        if (state.assesmentRadioButtons.selectedValue === "local-scenario") {
-          id_identifier = "fid_1";
-          layer = 0;
-        } else {
-          let areaSelected = state.areaScenarioRadioButtons.selectedValue;
-          if (areaSelected === "resource-option") {
-            id_identifier = "RU";
-            layer = 3;
-          } else if (areaSelected === "huc12-option") {
-            id_identifier = "huc_12";
-            layer = 2;
-          } else if (areaSelected === "catchment-option") {
-            id_identifier = "featureid";
-            layer = 1;
-          }
+        let areaSelected = "resource-option";
+        if (areaSelected === "resource-option") {
+          id_identifier = "RU";
+          layer = 3;
+        } else if (areaSelected === "huc12-option") {
+          id_identifier = "huc_12";
+          layer = 2;
+        } else if (areaSelected === "catchment-option") {
+          id_identifier = "featureid";
+          layer = 1;
         }
+        // let id_identifier;
+        // let layer;
+        // if (state.assesmentRadioButtons.selectedValue === "local-scenario") {
+        //   id_identifier = "fid_1";
+        //   layer = 0;
+        // } else {
+        //   let areaSelected = state.areaScenarioRadioButtons.selectedValue;
+        //   if (areaSelected === "resource-option") {
+        //     id_identifier = "RU";
+        //     layer = 3;
+        //   } else if (areaSelected === "huc12-option") {
+        //     id_identifier = "huc_12";
+        //     layer = 2;
+        //   } else if (areaSelected === "catchment-option") {
+        //     id_identifier = "featureid";
+        //     layer = 1;
+        //   }
+        // }
         esriMapQuery(mapPoint, layer).then(function (features) {
           if (features.length > 0) {
             const id = features[0].attributes[id_identifier];

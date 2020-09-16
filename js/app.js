@@ -12,11 +12,11 @@ define(["dojo/_base/declare"], function (declare) {
       state.UIControls = new state.UI();
 
       // build and render assesment radio buttons **********************************************
-      state.assesmentRadioButtons = new state.RadioComponent(
-        ".cda-assesment-radio-btns",
-        state.assesmentRadioData
-      );
-      state.assesmentRadioButtons.render();
+      // state.assesmentRadioButtons = new state.RadioComponent(
+      //   ".cda-assesment-radio-btns",
+      //   state.assesmentRadioData
+      // );
+      // state.assesmentRadioButtons.render();
 
       // build and render area scenario radio buttons ****************************************
       state.areaScenarioRadioButtons = new state.RadioComponent(
@@ -26,18 +26,18 @@ define(["dojo/_base/declare"], function (declare) {
       state.areaScenarioRadioButtons.render();
 
       // build and render delivery method radio buttons *************************************
-      state.deliveryRadioButtons = new state.RadioComponent(
-        ".cda-delivery-radio-btns",
-        state.deliveryRadioData
-      );
-      state.deliveryRadioButtons.render();
+      // state.deliveryRadioButtons = new state.RadioComponent(
+      //   ".cda-delivery-radio-btns",
+      //   state.deliveryRadioData
+      // );
+      // state.deliveryRadioButtons.render();
 
       // build and render the parameters to select checkbox
-      state.parametersCheckbox = new state.CheckboxComponent(
-        ".cda-parameters-checkbox",
-        state.parametersCheckboxData
-      );
-      state.parametersCheckbox.render();
+      // state.parametersCheckbox = new state.CheckboxComponent(
+      //   ".cda-parameters-checkbox",
+      //   state.parametersCheckboxData
+      // );
+      // state.parametersCheckbox.render();
 
       // build and render sediment options radio buttons *************************************
       state.sedimentOptionsRadioButton = new state.RadioComponent(
