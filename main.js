@@ -7,18 +7,19 @@ define([
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
   "./js/initProjectData",
-  "./js/UI",
-  "./js/CheckboxComponent",
-  "./js/ReportComponent",
-  "./js/RadioBtnComponent",
-  "./js/CropComponent",
-  "./js/CropArrayComponent",
+  "./js/ui/UI",
+  "./js/ui/CheckboxComponent",
+  "./js/ui/RadioBtnComponent",
+  "./js/report/ReportBodyComponent",
+  "./js/report/ReportHeaderComponent",
+  "./js/crop/CropComponent",
+  "./js/crop/CropArrayComponent",
   "./js/TotalLoadComponent",
-  "./js/BMPComponent",
+  "./js/bmp/BMPComponent",
   "./js/Areas",
-  "./js/esriapi",
-  "./js/bmpLogic",
+  "./js/bmp/bmpLogic",
   "./js/app",
+  "./js/esriapi",
   "dojo/domReady!",
 ], function (
   declare,
@@ -30,16 +31,17 @@ define([
   initProjectData,
   UI,
   CheckboxComponent,
-  ReportComponent,
   RadioBtnComponent,
+  ReportBodyComponent,
+  ReportHeaderComponent,
   CropComponent,
   CropArrayComponent,
   TotalLoadComponent,
   BMPComponent,
   Areas,
-  esriapi,
   bmpLogic,
-  app
+  app,
+  esriapi
 ) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
@@ -174,7 +176,8 @@ define([
       this.TotalLoadComponent = new TotalLoadComponent();
       this.CropComponent = new CropComponent();
       this.BMPComponent = new BMPComponent();
-      this.ReportComponent = new ReportComponent();
+      this.ReportBodyComponent = new ReportBodyComponent();
+      this.ReportHeaderComponent = new ReportHeaderComponent();
 
       // call the init function to build objects
       this.initProjectData.init(this);
@@ -188,7 +191,8 @@ define([
       this.TotalLoadComponent.init(this);
       this.CropComponent.init(this);
       this.BMPComponent.init(this);
-      this.ReportComponent.init(this);
+      this.ReportBodyComponent.init(this);
+      this.ReportHeaderComponent.init(this);
 
       // instantiate and call the App component to control everything
       this.app = new app();

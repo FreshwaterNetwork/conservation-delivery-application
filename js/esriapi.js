@@ -44,36 +44,6 @@ define([
         isScrollWheel: false,
         logo: false,
       });
-      // import { getLayer } from "@esri/arcgis-rest-feature-layer";
-
-      // getLayer({
-      //   url:
-      //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
-      // }).then(console.log(response)); // { name: "311", id: 0, ... }
-
-      // var featURL =
-      //   "https://services.arcgis.com/F7DSX1DSNSiWmOqh/arcgis/rest/services/CDA_AGO_Feat_Service_test/FeatureServer";
-      // var featureLayer = new FeatureLayer(featURL, {
-      //   mode: FeatureLayer.MODE_ONDEMAND,
-      //   outFields: ["*"],
-      // });
-      // $.ajax({
-      //   url: featURL + "?f=pjson",
-      //   success: function (result) {
-      //     console.log(result);
-      //   },
-      // });
-      // // Make a request for a user with a given ID
-      // axios
-      //   .get(featURL + "?f=pjson")
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-
-      // console.log(featureLayer);
 
       // Add dynamic map service
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {

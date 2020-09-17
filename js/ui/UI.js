@@ -127,7 +127,8 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI.prototype.createReportButtonClick = function (evt) {
         this.showElement(".cda-report-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
-        state.reportComponent.render();
+        state.reportHeaderComponent.render();
+        state.reportBodyComponent.render();
         console.log(evt.target);
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
           .parentElement.parentElement.parentElement;
