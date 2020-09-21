@@ -224,7 +224,7 @@ button {
 }
 /* report styles ***********************************************/
 .cda-report-map {
-  width: 80%;
+  width: 90%;
   margin: auto;
   border: 1px solid black;
   height: 300px;
@@ -252,11 +252,16 @@ button {
   margin: 0 !important;
 }
 
-.cda-temp-report-header h1,
-.cda-temp-report-header h4 {
-  margin: 0;
-}
 .cda-report-header-wrapper {
+  /* text-align: center; */
+  margin-top: 55px;
+}
+.cda-report-header-wrapper h1,
+.cda-report-header-wrapper h4 {
+  margin: 0;
   text-align: center;
-  margin-top: 50px;
+}
+.cda-report-sub-headers {
+  font-size: 13px;
+  text-decoration: underline;
 }
