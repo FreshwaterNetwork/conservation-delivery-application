@@ -84,6 +84,7 @@ button {
 }
 .cda-report-wrapper {
   display: none;
+  color: #5d6165;
 }
 .cda-bmp-select-wrapper-header {
   background-color: rgba(244, 244, 244);
@@ -264,4 +265,25 @@ button {
 .cda-report-sub-headers {
   font-size: 13px;
   text-decoration: underline;
+  color: rgb(47, 99, 132);
+}
+table td,
+table th {
+  border: 1px solid #999;
+  padding: 0.25rem;
+  text-align: left;
+}
+
+table th {
+  font-weight: 500;
+  color: #000;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 675px;
+  margin: auto;
+}
+.cda-report-header-table {
 }

@@ -129,13 +129,10 @@ define(["dojo/_base/declare"], function (declare) {
         this.hideElement(".cda-bmp-select-wrapper");
         state.reportHeaderComponent.render();
         state.reportBodyComponent.render();
-        console.log(evt.target);
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
           .parentElement.parentElement.parentElement;
-        console.log(sidebarWrapper);
         sidebarWrapper.style.width = "750px";
         const simpleSlider = document.querySelector(".esriSimpleSlider");
-
         simpleSlider.style.top = "18px";
       };
       state.UI.prototype.backToBMPButtonClick = function (evt) {
