@@ -2,18 +2,15 @@ define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
     init: function (state) {
-      console.log("init total load");
       state.TotalLoadComponent = function (renderHook) {
         this.totalLoadElem = document.querySelector(renderHook);
         this.render = () => {
           this.calculateTotals();
-          console.log("beofre render", this.totalAcres);
           this.totalLoadElem.innerHTML = this.template;
         };
       };
       state.TotalLoadComponent.prototype.calculateTotals = function () {
         this.selectedCrops = state.cropSelectedListComponent.selectedCrops;
-        console.log(this.selectedCrops);
 
         this.totalAcres = 0;
 

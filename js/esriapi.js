@@ -35,7 +35,6 @@ define([
   return declare(null, {
     init: function (state) {
       // build print report map
-      console.log(state.id);
       state.printMap = new Map(state.id + "report-map", {
         basemap: "topo",
         center: [-92, 31],

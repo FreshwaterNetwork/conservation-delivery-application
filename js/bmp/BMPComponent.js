@@ -121,17 +121,6 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData.phos_emc_mod = false;
         this.bmpData.nit_emc_mod = false;
 
-        console.log(
-          this.bmpData.PhosBMP_EM,
-          this.bmpData.NitrBMP_EM,
-          "orig value"
-        );
-
-        console.log(
-          this.bmpData.phos_emc_value,
-          this.bmpData.nit_emc_value,
-          "new value"
-        );
         if (this.bmpData.phos_emc_value !== this.bmpData.PhosBMP_EM) {
           this.bmpData.phos_emc_mod = true;
         }

@@ -7,7 +7,6 @@ define(["dojo/_base/declare"], function (declare) {
         this.filteredCropList = [];
         this.template = ``;
         this.render = () => {
-          console.log(state.cropSelectedListComponent);
           this.filterCropList(state.cropSelectedListComponent.selectedCrops);
           this.buildCropTemplate(this.filteredCropList);
           this.reportBodyElem.innerHTML = this.template;
@@ -21,7 +20,6 @@ define(["dojo/_base/declare"], function (declare) {
         filteredCropList.forEach((crop) => {
           const cropTableTemplate = this.createCropTableTemplate(crop);
           const bmpTableTemplate = this.createBMPhtmlTemplate(crop);
-          console.log(bmpTableTemplate);
           this.template += `
             <h5 class="cda-report-sub-headers">${crop.name}</h5>
             ${cropTableTemplate}
@@ -44,7 +42,6 @@ define(["dojo/_base/declare"], function (declare) {
       ) {
         this.bmpHTMLTable = "";
         crop.bmpSelected.forEach((bmp) => {
-          console.log(bmp);
           let percentApplied, nit_emc_value, phos_emc_value;
           let nit_eff_mod, phos_eff_mod, sed_eff_mod, nit_emc_mod, phos_emc_mod;
           let user_modified_class = "cda-user-table-cell-modified";
@@ -56,13 +53,11 @@ define(["dojo/_base/declare"], function (declare) {
             percentApplied = "100";
           }
           if (bmp.bmpData.nit_emc_value) {
-            console.log("yes");
             nit_emc_value = bmp.bmpData.nit_emc_value;
           } else {
             nit_emc_value = "N/A";
           }
           if (bmp.bmpData.phos_emc_value) {
-            console.log("yes");
             phos_emc_value = bmp.bmpData.phos_emc_value;
           } else {
             phos_emc_value = "N/A";
@@ -118,7 +113,6 @@ define(["dojo/_base/declare"], function (declare) {
       state.reportBodyComponent.prototype.createCropTableTemplate = function (
         crop
       ) {
-        console.log(crop);
         this.cropTableHTML = `
           <div>
             <table>

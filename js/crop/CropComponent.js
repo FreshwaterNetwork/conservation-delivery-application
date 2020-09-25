@@ -429,7 +429,6 @@ define(["dojo/_base/declare"], function (declare) {
           // calc phos lsc reduced load
           let phos1 = this.calculateLSCbmp1("phos", lscBMP);
           let phos2 = this.calculateLSCbmp2("phos", lscBMP, 1);
-          // console.log(phos1, phos2, "***********");
           phos_rpl = phos1 + phos2;
 
           // calc sed lsc reduced load

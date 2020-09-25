@@ -2,7 +2,6 @@ define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
     init: function (state) {
-      console.log("report header");
       state.reportHeaderComponent = function (renderHook) {
         // main render hook
         this.reportHeaderElem = document.querySelector(renderHook);
@@ -35,9 +34,7 @@ define(["dojo/_base/declare"], function (declare) {
       };
 
       state.reportHeaderComponent.prototype.buildTemplate = function () {
-        console.log("build template");
         this.tl = state.totalLoadComponent;
-        console.log(state.totalLoadComponent);
         const templete = `
           <div>
             <h5 class="cda-report-sub-headers">Selected Areas:</h5>

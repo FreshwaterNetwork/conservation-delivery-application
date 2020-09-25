@@ -81,9 +81,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       // delivery radio button change
-      state.UI.prototype.deliveryRadioClick = function (value) {
-        console.log("area", value);
-      };
+      state.UI.prototype.deliveryRadioClick = function (value) {};
 
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
