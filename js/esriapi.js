@@ -41,7 +41,7 @@ define([
       // build print report map
       state.printMap = new Map(state.id + "report-map", {
         basemap: "topo",
-        center: [-92.07, 31.14],
+        center: [-94.07, 31.14],
         zoom: 6,
         showAttribution: false,
         isScrollWheel: false,
