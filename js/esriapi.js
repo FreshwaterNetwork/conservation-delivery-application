@@ -13,6 +13,8 @@ define([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/graphic",
+  "esri/graphicsUtils",
+  "esri/layers/GraphicsLayer",
   "dojo/_base/Color",
 ], function (
   ArcGISDynamicMapServiceLayer,
@@ -29,6 +31,8 @@ define([
   SimpleFillSymbol,
   SimpleMarkerSymbol,
   Graphic,
+  graphicsUtils,
+  GraphicsLayer,
   Color
 ) {
   "use strict";
@@ -37,11 +41,12 @@ define([
       // build print report map
       state.printMap = new Map(state.id + "report-map", {
         basemap: "topo",
-        center: [-92, 31],
-        zoom: 5,
+        center: [-92.07, 31.14],
+        zoom: 6,
         showAttribution: false,
         isScrollWheel: false,
         logo: false,
+        autoResize: true,
       });
 
       // Add dynamic map service
@@ -56,6 +61,15 @@ define([
           2
         ),
         new Color([0, 255, 255, 0.1])
+      );
+      state.selectionPrintSymbol = new SimpleFillSymbol(
+        SimpleFillSymbol.STYLE_SOLID,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([252, 252, 0]),
+          2
+        ),
+        new Color([252, 252, 0, 0.1])
       );
       //   t.selectionSymbolHover = new SimpleFillSymbol(
       //     SimpleFillSymbol.STYLE_SOLID,
@@ -201,6 +215,31 @@ define([
           //   throw new Error("You must select an area.....");
           // }
         });
+      };
+      state.updateReportMap = function () {
+        console.log("update report map");
+        state.printMap.graphics.clear();
+        // create a graphics layer
+        var printMapGraphics = new GraphicsLayer();
+        const areaList = state.areaSelectedListComponent.areaList;
+
+        areaList.forEach((area) => {
+          console.log(area.geometry);
+          // printMapGraphics.add(
+          //   new Graphic(area.geometry, state.selectionPrintSymbol)
+          // );
+          state.printMap.graphics.add(
+            new Graphic(area.geometry, state.selectionPrintSymbol)
+          );
+        });
+
+        // state.printMap.addLayers(printMapGraphics);
+
+        // console.log(state.printMap.graphics);
+        // console.log(printMapGraphics);
+        // var extent = graphicsUtils.graphicsExtent(printMapGraphics);
+        // console.log(extent);
+        // state.printMap.setExtent(extent, true);
       };
       // // use the selected fields array to select all the rows from the data table
       // // Field_Crop_LUT is the table

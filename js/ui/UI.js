@@ -132,6 +132,8 @@ define(["dojo/_base/declare"], function (declare) {
         sidebarWrapper.style.width = "750px";
         const simpleSlider = document.querySelector(".esriSimpleSlider");
         simpleSlider.style.top = "18px";
+        // update report map
+        state.updateReportMap();
       };
       state.UI.prototype.backToBMPButtonClick = function (evt) {
         this.hideElement(".cda-report-wrapper");
