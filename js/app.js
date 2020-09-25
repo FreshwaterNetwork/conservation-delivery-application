@@ -19,11 +19,11 @@ define(["dojo/_base/declare"], function (declare) {
       // state.assesmentRadioButtons.render();
 
       // build and render area scenario radio buttons ****************************************
-      state.areaScenarioRadioButtons = new state.RadioComponent(
-        ".cda-areaScenario-radio-btns",
-        state.areaScenarioRadioData
-      );
-      state.areaScenarioRadioButtons.render();
+      // state.areaScenarioRadioButtons = new state.RadioComponent(
+      //   ".cda-areaScenario-radio-btns",
+      //   state.areaScenarioRadioData
+      // );
+      // state.areaScenarioRadioButtons.render();
 
       // build and render delivery method radio buttons *************************************
       // state.deliveryRadioButtons = new state.RadioComponent(
