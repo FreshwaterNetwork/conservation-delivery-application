@@ -285,5 +285,15 @@ table {
   width: 675px;
   margin: auto;
 }
-.cda-report-header-table {
+/* .cda-report-header-table {
+} */
+.cda-bmp-report-table-header {
+  text-align: center;
+  background-color: #ffa5006b;
+}
+.cda-bmp-table-wrapper {
+  margin-top: -1px;
+}
+.cda-user-table-cell-modified {
+  background-color: #81b94d63;
 }

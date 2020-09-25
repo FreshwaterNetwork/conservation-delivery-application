@@ -74,7 +74,7 @@ define(["dojo/_base/declare"], function (declare) {
                 this.contentExpandedStyle
               }">
                   <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
-                  <div class="cda-crop-load-wrapper">Initial Load (MT):
+                  <div class="cda-crop-load-wrapper">Initial Load (Mt):
                     <div style="margin-left:0px">${state.UIControls.numComma(
                       this.nit_load
                     )}</div> 
@@ -86,7 +86,7 @@ define(["dojo/_base/declare"], function (declare) {
                     )}</div>
                   </div>
                   <div class="cda-reduction-new-load-wrapper">
-                      <div class="cda-crop-load-wrapper">New Load (MT): 
+                      <div class="cda-crop-load-wrapper">New Load (Mt): 
                         <div style="margin-left:6px">${state.UIControls.numComma(
                           this.nit_rpl
                         )}</div> 

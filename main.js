@@ -133,6 +133,7 @@ define([
     },
     // Called by activate and builds the plugins elements and functions
     render: function () {
+      console.log(PluginBase);
       // $('#legend-container-0').find('.legend-body').css('height', '99%'); // fix the legend overlap problem
       // $('#search').hide() // hide main search bar when app is open.
       // $('.nav-main-title').html('Wetlands by Design: A Watershed Approach')

@@ -57,7 +57,7 @@ define(["dojo/_base/declare"], function (declare) {
               </thead>
               <tbody>
                 <tr>
-                  <th>Initial Load (MT)</th>
+                  <th>Initial Load (Mt)</th>
                   <td>${state.UIControls.numComma(
                     this.tl.totalNitLoad.toFixed(2)
                   )}</td>
@@ -69,7 +69,7 @@ define(["dojo/_base/declare"], function (declare) {
                   )}</td>
                 </tr>
                 <tr>
-                  <th>New Load (MT)</th>
+                  <th>New Load (Mt)</th>
                   <td>${state.UIControls.numComma(
                     this.tl.totalNitRedLoad.toFixed(2)
                   )}</td>
