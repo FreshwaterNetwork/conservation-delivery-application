@@ -129,7 +129,7 @@ define([
             const id = features[0].attributes[id_identifier];
             const geometry = features[0].geometry;
             // create a new area object
-            let area = new state.Area(geometry, id);
+            let area = new state.Area(geometry, id, "RU");
             // check to make sure the selected area is not in the array
             // also check to make sure the array is less than 5
             const areaList = state.areaSelectedListComponent.areaList;

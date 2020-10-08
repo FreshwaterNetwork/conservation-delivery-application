@@ -65,9 +65,10 @@ define(["dojo/_base/declare"], function (declare) {
         };
       };
 
-      state.Area = function (geometry, areaID) {
-        this.id = areaID;
-        this.geometry = geometry;
+      state.Area = function (geometry, areaID, areaType) {
+        this.areaID = areaID;
+        this.areaGeometry = geometry;
+        this.areaType = areaType;
       };
     },
   });

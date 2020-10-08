@@ -117,6 +117,7 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI.prototype.backToMainButtonClick = function (evt) {
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
+        this.hideElement(".cda-error-retreiving-data-wrapper");
         // on back button click clear out other crops that have already been rendered
         state.cropSelectedListComponent.selectedCrops = [];
         state.cropSelectedListComponent.cropSelectedElem.innerHTML = "";
@@ -142,10 +143,10 @@ define(["dojo/_base/declare"], function (declare) {
           .parentElement.parentElement.parentElement;
         sidebarWrapper.style.width = "450px";
       };
-
       // show/hide DOM elements
       state.UI.prototype.showElement = function (selector) {
         const elem = document.querySelector(selector);
+        console.log(elem);
         elem.style.display = "block";
       };
       state.UI.prototype.hideElement = function (selector) {

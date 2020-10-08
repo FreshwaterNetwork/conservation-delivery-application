@@ -53,15 +53,15 @@ define([
 
         // chain multiple promises to handle async queries
         return new Promise(function (getCropsResolve, reject) {
-          state.getFieldsFromGraphics().then(function (fields) {
-            state.selectRowsFromTable(fields).then(function (cropRows) {
-              state.aggregateCropData(cropRows).then(function (cropData) {
-                state.pushCropDataToComponent(cropData).then(function () {
-                  getCropsResolve();
-                });
+          // state.getFieldsFromGraphics().then(function (fields) {
+          state.selectRowsFromTable().then(function (cropRows) {
+            state.aggregateCropData(cropRows).then(function (cropData) {
+              state.pushCropDataToComponent(cropData).then(function () {
+                getCropsResolve();
               });
             });
           });
+          // });
         });
       };
 
@@ -164,21 +164,35 @@ define([
 
       // use the selected fields array to select all the rows from the data table
       // Field_Crop_LUT is the table
-      state.selectRowsFromTable = function (fieldsArray) {
+      state.selectRowsFromTable = function () {
         return new Promise(function (getRowsResolve, reject) {
-          let where = state.buildFieldTableQuery(fieldsArray);
-          // let where = "RU = 11";
+          // let where = state.buildFieldTableQuery(fieldsArray);
+          const areaType = state.areaSelectedListComponent.areaList[0].areaType;
+          const areaID = state.areaSelectedListComponent.areaList[0].areaID;
+          console.log(areaType);
+          let where = `${areaType} = ${areaID}`;
+          console.log(where);
           // let where = "RU = 7 OR RU = 3 OR RU = 2";
-          // let where = "RU = 7 OR RU = 6";
+          // let where = "RU = 6";
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/4");
           q.outFields = ["*"];
           q.returnGeometry = true;
           q.where = where;
-          // execute map query
-          qt.execute(q, function (e) {
+          console.log(state.areaSelectedListComponent);
+          qt.execute(q, getResults, getError);
+
+          function getResults(e) {
+            console.log(e);
             return getRowsResolve(e);
-          });
+          }
+          function getError(error) {
+            // if error, show back to main button and an error message
+            state.UIControls.showElement(".cda-error-retreiving-data-wrapper");
+            state.UIControls.hideElement(".cda-retreiving-data-wrapper");
+            const errorElem = document.querySelector(".cda-request-error");
+            errorElem.innerHTML = error;
+          }
         });
       };
       state.buildFieldTableQuery = function (fieldsArray) {
