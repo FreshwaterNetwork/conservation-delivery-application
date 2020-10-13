@@ -171,7 +171,7 @@ define([
         state.map.graphics.clear();
         areaList.forEach((area) => {
           state.map.graphics.add(
-            new Graphic(area.geometry, state.selectionSymbol)
+            new Graphic(area.areaGeometry, state.selectionSymbol)
           );
         });
       };

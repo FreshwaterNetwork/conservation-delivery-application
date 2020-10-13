@@ -19,7 +19,7 @@ define(["dojo/_base/declare"], function (declare) {
           const areaID = parseInt(evt.target.parentElement.dataset.areaid);
           // remove item from areaList based on ID
           this.areaList = this.areaList.filter((area) => {
-            return area.id !== areaID;
+            return area.areaID !== areaID;
           });
           // re render field list UI
           this.render();
@@ -49,8 +49,8 @@ define(["dojo/_base/declare"], function (declare) {
           // loop through the area list and build HTML template
           this.areaList.forEach((area) => {
             const template = `
-                <div class='cda-area-wrapper' data-areaid="${area.id}">
-                  <div>ID: ${area.id}</div>
+                <div class='cda-area-wrapper' data-areaid="${area.areaID}">
+                  <div>ID: ${area.areaID}</div>
                   <div class='cda-area-close'>&#10005;</div>
                 </div>
             `;

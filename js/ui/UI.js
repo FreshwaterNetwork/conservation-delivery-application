@@ -16,6 +16,9 @@ define(["dojo/_base/declare"], function (declare) {
         this.backToMainButtonElem = document.querySelector(
           ".cda-back-to-main-button"
         );
+        this.backToMainButtonFromErrorElem = document.querySelector(
+          ".cda-back-to-main-from-error-button"
+        );
         this.createReportButtonElem = document.querySelector(
           ".cda-create-report-button"
         );
@@ -27,6 +30,9 @@ define(["dojo/_base/declare"], function (declare) {
           this.bmpButtonClick(evt);
         });
         this.backToMainButtonElem.addEventListener("click", (evt) => {
+          this.backToMainButtonClick(evt);
+        });
+        this.backToMainButtonFromErrorElem.addEventListener("click", (evt) => {
           this.backToMainButtonClick(evt);
         });
         this.createReportButtonElem.addEventListener("click", (evt) => {
@@ -115,6 +121,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
+        console.log(evt, "look here");
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
         this.hideElement(".cda-error-retreiving-data-wrapper");

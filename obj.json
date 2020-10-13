@@ -1,7 +1,7 @@
 {
 	"visibleLayers": [3],
 	"appAreaVisible": "main",
-	"url": "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_all/MapServer",
+	"url": "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_subset/MapServer",
 	"selectedFields": []
 
 }
