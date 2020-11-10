@@ -96,7 +96,7 @@ define(["dojo/_base/declare"], function (declare) {
             <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
 
             <div class="cda-crop-load-wrapper">Initial Load (Mt):
-                <div style="margin-left:0px">${state.UIControls.numComma(
+                <div style="margin-left:5px">${state.UIControls.numComma(
                   this.totalNitLoad.toFixed(2)
                 )}</div> 
                 <div style="margin-left:18px">${state.UIControls.numComma(
@@ -108,7 +108,7 @@ define(["dojo/_base/declare"], function (declare) {
             </div>
             <div class="cda-reduction-new-load-wrapper">
                 <div class="cda-crop-load-wrapper">New Load (Mt): 
-                    <div style="margin-left:6px">${state.UIControls.numComma(
+                    <div style="margin-left:11px">${state.UIControls.numComma(
                       this.totalNitRedLoad.toFixed(2)
                     )}</div> 
                     <div style="margin-left:18px">${state.UIControls.numComma(
