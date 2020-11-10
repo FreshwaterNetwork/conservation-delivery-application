@@ -159,7 +159,7 @@ define([
           state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
           state.fieldsVisible = true;
         } else {
-          const index = state.obj.visibleLayers.indexOf(0);
+          const index = state.obj.visibleLayers.indexOf(3);
           if (index > -1) {
             state.obj.visibleLayers.splice(index, 1);
           }
