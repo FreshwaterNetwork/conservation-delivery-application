@@ -170,11 +170,11 @@ define([
           });
           // remove the trailing "OR" from the where clause
           where = where.slice(0, -4);
+
+          // table queries
           const query1 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(
-              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/1"
-            );
+            const qt = new QueryTask(t.obj.url + "/4");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -196,9 +196,7 @@ define([
           });
           const query2 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(
-              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/2"
-            );
+            const qt = new QueryTask(t.obj.url + "/5");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -220,9 +218,7 @@ define([
 
           const query3 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(
-              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/3"
-            );
+            const qt = new QueryTask(t.obj.url + "/6");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -245,9 +241,7 @@ define([
           });
           const query4 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(
-              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/4"
-            );
+            const qt = new QueryTask(t.obj.url + "/7");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -266,19 +260,19 @@ define([
               errorElem.innerHTML = error;
             }
           });
-
+          // once all table promises are finished...
           const data = Promise.all([query1, query2, query3, query4]).then(
             (data) => {
               let features1 = data[0].features;
               let features2 = data[1].features;
               let features3 = data[2].features;
               let features4 = data[3].features;
-
+              // combine the various feature sets into one
               let newArr = features1.concat(features2);
               let newArr2 = newArr.concat(features3);
               let newArr3 = newArr2.concat(features4);
               let features = newArr3;
-              console.log(features, "features from dist method");
+              // resolve promise and send features
               return getRowsResolve(features);
             }
           );
