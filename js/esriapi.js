@@ -48,7 +48,7 @@ define([
         logo: false,
         autoResize: true,
       });
-
+      state.fieldsVisible = true;
       // Add dynamic map service
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
         opacity: 0.7,
@@ -98,13 +98,13 @@ define([
         let id_identifier, layer;
         if (areaSelected === "RU") {
           id_identifier = "RU";
-          layer = 3;
+          layer = 2;
         } else if (areaSelected === "HUC12") {
           id_identifier = "HUC_12";
-          layer = 2;
+          layer = 1;
         } else if (areaSelected === "Catchment") {
           id_identifier = "Catchment_ID";
-          layer = 1;
+          layer = 0;
         }
 
         esriMapQuery(mapPoint, layer).then(function (features) {
@@ -147,14 +147,14 @@ define([
       }
       state.displayMapLayers = function (val) {
         if (state.fieldsVisible) {
-          state.obj.visibleLayers = [val, 0];
+          state.obj.visibleLayers = [val, 3];
         } else {
           state.obj.visibleLayers = [val];
         }
         state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
       };
       state.toggleFieldVisibility = function (val) {
-        if (val === 0) {
+        if (val === 3) {
           state.obj.visibleLayers.push(val);
           state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
           state.fieldsVisible = true;

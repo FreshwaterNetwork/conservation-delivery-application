@@ -12,7 +12,7 @@ define(["dojo/_base/declare"], function (declare) {
           values.forEach((value) => {
             const template = `
                 <label class="form-component" for"${value.id}">
-                    <input type="checkbox" id="${value.id}" name="${value.name}" value="${value.value}"></input>
+                    <input checked type="checkbox" id="${value.id}" name="${value.name}" value="${value.value}"></input>
                     <div class="check"></div>
                     <span class="form-text">${value.display}</span>
                 </label>`;
@@ -44,7 +44,7 @@ define(["dojo/_base/declare"], function (declare) {
         console.log(evt.target.value);
         console.log(evt.target.checked);
         if (evt.target.checked) {
-          state.toggleFieldVisibility(0);
+          state.toggleFieldVisibility(3);
         } else {
           state.toggleFieldVisibility(null);
         }

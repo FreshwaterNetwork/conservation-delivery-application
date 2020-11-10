@@ -55,11 +55,11 @@ define(["dojo/_base/declare"], function (declare) {
           this.showElement(".cda-areaScenario-wrapper");
           let value = state.areaScenarioRadioButtons.selectedValue;
           if (value === "huc12-option") {
-            state.displayMapLayers(2);
-          } else if (value === "resource-option") {
-            state.displayMapLayers(3);
-          } else if (value === "catchment-option") {
             state.displayMapLayers(1);
+          } else if (value === "resource-option") {
+            state.displayMapLayers(2);
+          } else if (value === "catchment-option") {
+            state.displayMapLayers(0);
           } else {
             throw new Error("The Value does not match any options");
           }
@@ -77,13 +77,13 @@ define(["dojo/_base/declare"], function (declare) {
 
         // display layers on the map
         if (value === "huc12-option") {
-          state.displayMapLayers(2);
+          state.displayMapLayers(1);
           state.currentlySelectedArea = "HUC12";
         } else if (value === "resource-option") {
-          state.displayMapLayers(3);
+          state.displayMapLayers(2);
           state.currentlySelectedArea = "RU";
         } else if (value === "catchment-option") {
-          state.displayMapLayers(1);
+          state.displayMapLayers(0);
           state.currentlySelectedArea = "Catchment";
         } else {
           throw new Error("The Value does not match any options");
