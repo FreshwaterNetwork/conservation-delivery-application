@@ -13,7 +13,7 @@ button {
 .cda-sidebar-wrapper .form-component {
   margin-bottom: 2px;
   margin-left: 10px;
-  width: 162px;
+  width: 185px;
 }
 .blueFont {
   color: #2f6384;
@@ -32,7 +32,9 @@ button {
 .cda-comparison-type-radio-btns {
   display: grid;
 }
-
+.cda-intro-text {
+  margin-bottom: 20px;
+}
 .cda-delivery-wrapper {
   display: none;
 }
@@ -42,7 +44,7 @@ button {
 }
 .cda-bmp-select-button-wrapper {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 .cda-selected-area-wrapper {
@@ -51,7 +53,7 @@ button {
   border-radius: 5px;
   position: absolute;
   right: 10px;
-  top: 66px;
+  top: 86px;
   width: 170px;
   text-align: center;
   padding: 5px;

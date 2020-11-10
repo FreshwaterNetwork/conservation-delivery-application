@@ -2,6 +2,7 @@ define(["dojo/_base/declare"], function (declare) {
   "use strict";
   return declare(null, {
     init: function (state) {
+      state.currentlySelectedArea = "RU";
       // area selected compoenent ***************************************************************
       state.areaSelectedListComponent = new state.AreaSelectedList(
         ".cda-selected-areas"
@@ -13,17 +14,24 @@ define(["dojo/_base/declare"], function (declare) {
 
       // build and render assesment radio buttons **********************************************
       // state.assesmentRadioButtons = new state.RadioComponent(
-      //   ".cda-assesment-radio-btns",
+      //   ".cda-areaScenario-radio-btns",
       //   state.assesmentRadioData
       // );
       // state.assesmentRadioButtons.render();
 
       // build and render area scenario radio buttons ****************************************
-      // state.areaScenarioRadioButtons = new state.RadioComponent(
-      //   ".cda-areaScenario-radio-btns",
-      //   state.areaScenarioRadioData
-      // );
-      // state.areaScenarioRadioButtons.render();
+      state.areaScenarioRadioButtons = new state.RadioComponent(
+        ".cda-areaScenario-radio-btns",
+        state.areaScenarioRadioData
+      );
+      state.areaScenarioRadioButtons.render();
+
+      // toggle field checkbox
+      state.fieldToggleCheckbox = new state.CheckboxComponent(
+        ".cda-field-toggle",
+        state.fieldToggleCheckboxData
+      );
+      state.fieldToggleCheckbox.render();
 
       // build and render delivery method radio buttons *************************************
       // state.deliveryRadioButtons = new state.RadioComponent(

@@ -77,9 +77,10 @@ define([
       // from the selected rows in the data table, aggregate the crop data
       // use the aggregated crop data to build out the UI
       state.aggregateCropData = function (cropRows) {
+        // console.log(cropRows);
         const cropData = {};
         return new Promise(function (resolve, reject) {
-          cropRows.features.forEach((crop) => {
+          cropRows.forEach((crop) => {
             cropData[crop.attributes.CropName] = {
               acres: 0.0,
               orig_phos_load: 0.0,
@@ -88,7 +89,7 @@ define([
               cropRows: [],
             };
           });
-          cropRows.features.forEach((crop) => {
+          cropRows.forEach((crop) => {
             cropData[crop.attributes.CropName]["cropRows"].push(
               crop.attributes
             );
@@ -101,9 +102,6 @@ define([
             cropData[crop.attributes.CropName]["orig_phos_load"] += parseFloat(
               crop.attributes.orig_phos_load
             );
-
-            // if (crop.attributes.CropName === "Soybeans") {
-            // }
 
             cropData[crop.attributes.CropName]["orig_nit_load"] += parseFloat(
               crop.attributes.orig_nit_load
@@ -166,33 +164,124 @@ define([
       // Field_Crop_LUT is the table
       state.selectRowsFromTable = function () {
         return new Promise(function (getRowsResolve, reject) {
-          // let where = state.buildFieldTableQuery(fieldsArray);
-          const areaType = state.areaSelectedListComponent.areaList[0].areaType;
-          const areaID = state.areaSelectedListComponent.areaList[0].areaID;
-          console.log(areaType);
-          let where = `${areaType} = ${areaID}`;
-          console.log(where);
-          // let where = "RU = 7 OR RU = 3 OR RU = 2";
-          // let where = "RU = 6";
-          const q = new Query();
-          const qt = new QueryTask(state.obj.url + "/4");
-          q.outFields = ["*"];
-          q.returnGeometry = true;
-          q.where = where;
-          console.log(state.areaSelectedListComponent);
-          qt.execute(q, getResults, getError);
+          let where = "";
+          state.areaSelectedListComponent.areaList.forEach((area, i) => {
+            where += `${area.areaType} = ${area.areaID} OR `;
+          });
+          // remove the trailing "OR" from the where clause
+          where = where.slice(0, -4);
+          const query1 = new Promise((resolve) => {
+            const q = new Query();
+            const qt = new QueryTask(
+              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/1"
+            );
+            q.outFields = ["*"];
+            q.returnGeometry = true;
+            q.where = where;
+            qt.execute(q, getResults, getError);
 
-          function getResults(e) {
-            console.log(e);
-            return getRowsResolve(e);
-          }
-          function getError(error) {
-            // if error, show back to main button and an error message
-            state.UIControls.showElement(".cda-error-retreiving-data-wrapper");
-            state.UIControls.hideElement(".cda-retreiving-data-wrapper");
-            const errorElem = document.querySelector(".cda-request-error");
-            errorElem.innerHTML = error;
-          }
+            function getResults(e) {
+              resolve(e);
+            }
+            function getError(error) {
+              console.log(error);
+              // if error, show back to main button and an error message
+              state.UIControls.showElement(
+                ".cda-error-retreiving-data-wrapper"
+              );
+              state.UIControls.hideElement(".cda-retreiving-data-wrapper");
+              const errorElem = document.querySelector(".cda-request-error");
+              errorElem.innerHTML = error;
+            }
+          });
+          const query2 = new Promise((resolve) => {
+            const q = new Query();
+            const qt = new QueryTask(
+              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/2"
+            );
+            q.outFields = ["*"];
+            q.returnGeometry = true;
+            q.where = where;
+            qt.execute(q, getResults, getError);
+            function getResults(e) {
+              resolve(e);
+            }
+            function getError(error) {
+              console.log(error);
+              // if error, show back to main button and an error message
+              state.UIControls.showElement(
+                ".cda-error-retreiving-data-wrapper"
+              );
+              state.UIControls.hideElement(".cda-retreiving-data-wrapper");
+              const errorElem = document.querySelector(".cda-request-error");
+              errorElem.innerHTML = error;
+            }
+          });
+
+          const query3 = new Promise((resolve) => {
+            const q = new Query();
+            const qt = new QueryTask(
+              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/3"
+            );
+            q.outFields = ["*"];
+            q.returnGeometry = true;
+            q.where = where;
+            // console.log(state.areaSelectedListComponent);
+            qt.execute(q, getResults, getError);
+
+            function getResults(e) {
+              resolve(e);
+            }
+            function getError(error) {
+              console.log(error);
+              // if error, show back to main button and an error message
+              state.UIControls.showElement(
+                ".cda-error-retreiving-data-wrapper"
+              );
+              state.UIControls.hideElement(".cda-retreiving-data-wrapper");
+              const errorElem = document.querySelector(".cda-request-error");
+              errorElem.innerHTML = error;
+            }
+          });
+          const query4 = new Promise((resolve) => {
+            const q = new Query();
+            const qt = new QueryTask(
+              "https://cirrus.tnc.org/arcgis/rest/services/FN_Louisiana/CDA_feature_service_table_only/MapServer/4"
+            );
+            q.outFields = ["*"];
+            q.returnGeometry = true;
+            q.where = where;
+            qt.execute(q, getResults, getError);
+            function getResults(e) {
+              resolve(e);
+            }
+            function getError(error) {
+              console.log(error);
+              // if error, show back to main button and an error message
+              state.UIControls.showElement(
+                ".cda-error-retreiving-data-wrapper"
+              );
+              state.UIControls.hideElement(".cda-retreiving-data-wrapper");
+              const errorElem = document.querySelector(".cda-request-error");
+              errorElem.innerHTML = error;
+            }
+          });
+
+          const data = Promise.all([query1, query2, query3, query4]).then(
+            (data) => {
+              let features1 = data[0].features;
+              let features2 = data[1].features;
+              let features3 = data[2].features;
+              let features4 = data[3].features;
+
+              let newArr = features1.concat(features2);
+              let newArr2 = newArr.concat(features3);
+              let newArr3 = newArr2.concat(features4);
+              let features = newArr3;
+              console.log(features, "features from dist method");
+              return getRowsResolve(features);
+            }
+          );
         });
       };
       state.buildFieldTableQuery = function (fieldsArray) {

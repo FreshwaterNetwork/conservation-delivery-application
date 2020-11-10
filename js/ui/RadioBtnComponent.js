@@ -5,7 +5,9 @@ define(["dojo/_base/declare"], function (declare) {
       // radio component  **********************************************
       state.RadioComponent = function (renderHook, values) {
         this.selectedValue = "";
+        console.log(renderHook);
         this.radioElem = document.querySelector(renderHook);
+        console.log(this.radioElem);
         this.radioElemID = this.radioElem.id;
         // render the radio button component
         this.render = function () {

@@ -137,15 +137,16 @@ define(["dojo/_base/declare"], function (declare) {
                 <div class="cda-bmp-wrapper-sub-header">Efficiencies</div>
                 <div class='cda-bmp-input-wrapper'>
                   <div>
-                    <label for="">Phos</label>
-                    <br>
-                    <input class="cda-bmp-efficiencies" effValue='phos' type="text"  name="fname" value='${this.bmpData.phos_eff_value}'>
-                  </div>
-                  <div>
                     <label for="">Nit</label>
                     <br>
                     <input class="cda-bmp-efficiencies" effValue='nit' type="text"  name="fname" value='${this.bmpData.nit_eff_value}'>
                   </div>
+                  <div>
+                    <label for="">Phos</label>
+                    <br>
+                    <input class="cda-bmp-efficiencies" effValue='phos' type="text"  name="fname" value='${this.bmpData.phos_eff_value}'>
+                  </div>
+                  
                   <div>
                     <label for="">Sed</label>
                     <br>

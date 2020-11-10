@@ -93,47 +93,30 @@ define([
       });
       // map click
       function mapClick(mapPoint) {
-        let areaSelected = "resource-option";
-        let id_identifier;
-        let layer;
-        if (areaSelected === "resource-option") {
+        console.log("mapClick");
+        let areaSelected = state.currentlySelectedArea;
+        let id_identifier, layer;
+        if (areaSelected === "RU") {
           id_identifier = "RU";
           layer = 3;
-        } else if (areaSelected === "huc12-option") {
-          id_identifier = "huc_12";
+        } else if (areaSelected === "HUC12") {
+          id_identifier = "HUC_12";
           layer = 2;
-        } else if (areaSelected === "catchment-option") {
-          id_identifier = "featureid";
+        } else if (areaSelected === "Catchment") {
+          id_identifier = "Catchment_ID";
           layer = 1;
         }
-        // let id_identifier;
-        // let layer;
-        // if (state.assesmentRadioButtons.selectedValue === "local-scenario") {
-        //   id_identifier = "fid_1";
-        //   layer = 0;
-        // } else {
-        //   let areaSelected = state.areaScenarioRadioButtons.selectedValue;
-        //   if (areaSelected === "resource-option") {
-        //     id_identifier = "RU";
-        //     layer = 3;
-        //   } else if (areaSelected === "huc12-option") {
-        //     id_identifier = "huc_12";
-        //     layer = 2;
-        //   } else if (areaSelected === "catchment-option") {
-        //     id_identifier = "featureid";
-        //     layer = 1;
-        //   }
-        // }
+
         esriMapQuery(mapPoint, layer).then(function (features) {
           if (features.length > 0) {
             const id = features[0].attributes[id_identifier];
             const geometry = features[0].geometry;
             // create a new area object
-            let area = new state.Area(geometry, id, "RU");
+            let area = new state.Area(geometry, String(id), id_identifier);
             // check to make sure the selected area is not in the array
             // also check to make sure the array is less than 5
             const areaList = state.areaSelectedListComponent.areaList;
-
+            console.log(state.areaSelectedListComponent);
             if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
               // add new area to areaSelected array
               state.areaSelectedListComponent.addNewArea(area);
@@ -163,8 +146,26 @@ define([
         });
       }
       state.displayMapLayers = function (val) {
-        state.obj.visibleLayers = [val];
+        if (state.fieldsVisible) {
+          state.obj.visibleLayers = [val, 0];
+        } else {
+          state.obj.visibleLayers = [val];
+        }
         state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
+      };
+      state.toggleFieldVisibility = function (val) {
+        if (val === 0) {
+          state.obj.visibleLayers.push(val);
+          state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
+          state.fieldsVisible = true;
+        } else {
+          const index = state.obj.visibleLayers.indexOf(0);
+          if (index > -1) {
+            state.obj.visibleLayers.splice(index, 1);
+          }
+          state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
+          state.fieldsVisible = false;
+        }
       };
       state.displayMapGraphics = function () {
         const areaList = state.areaSelectedListComponent.areaList;

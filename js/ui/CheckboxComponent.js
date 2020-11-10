@@ -32,8 +32,23 @@ define(["dojo/_base/declare"], function (declare) {
         if (this.checkboxElemID === state.id + "parameters-checkbox") {
           this.parameterCheckboxClick(evt);
         }
+        if (this.checkboxElemID === state.id + "cda-field-toggle") {
+          this.fieldToggleCheckboxClick(evt);
+          return;
+        }
       };
-
+      state.CheckboxComponent.prototype.fieldToggleCheckboxClick = function (
+        evt
+      ) {
+        console.log(evt.target);
+        console.log(evt.target.value);
+        console.log(evt.target.checked);
+        if (evt.target.checked) {
+          state.toggleFieldVisibility(0);
+        } else {
+          state.toggleFieldVisibility(null);
+        }
+      };
       state.CheckboxComponent.prototype.parameterCheckboxClick = function (
         evt
       ) {

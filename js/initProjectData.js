@@ -51,7 +51,14 @@ define(["dojo/_base/declare"], function (declare) {
           display: "Delivered to Stream",
         },
       ];
-
+      state.fieldToggleCheckboxData = [
+        {
+          name: "parametersCheckboxButton",
+          id: "field-toggle-option",
+          value: "field-toggle-option",
+          display: "View Agricultural Fields",
+        },
+      ];
       state.parametersCheckboxData = [
         {
           name: "parametersCheckboxButton",
