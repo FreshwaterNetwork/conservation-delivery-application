@@ -174,7 +174,7 @@ define([
           // table queries
           const query1 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(t.obj.url + "/4");
+            const qt = new QueryTask(state.obj.url + "/4");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -196,7 +196,7 @@ define([
           });
           const query2 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(t.obj.url + "/5");
+            const qt = new QueryTask(state.obj.url + "/5");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -218,7 +218,7 @@ define([
 
           const query3 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(t.obj.url + "/6");
+            const qt = new QueryTask(state.obj.url + "/6");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -241,7 +241,7 @@ define([
           });
           const query4 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(t.obj.url + "/7");
+            const qt = new QueryTask(state.obj.url + "/7");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
