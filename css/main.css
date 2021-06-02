@@ -320,3 +320,8 @@ table {
 .cda-user-table-cell-modified {
   background-color: #81b94d63;
 }
+.cda-bmp-c-wrapper,
+.cda-bmp-p-wrapper {
+  display: flex;
+  margin-bottom: 5px;
+}

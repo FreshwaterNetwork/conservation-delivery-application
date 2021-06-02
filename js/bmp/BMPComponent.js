@@ -14,9 +14,11 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData = state.bmp_lut_data.find(
           (o) => o.BMP_Short === bmpShortName
         );
-        // this.bmpData.phos_eff_value_percent = this.bmpData.Phos_Eff * 100;
-        // this.bmpData.nit_eff_value_percent = this.bmpData.Nitr_Eff * 100;
-        // this.bmpData.sed_eff_value_percent = this.bmpData.Sed_Eff * 100;
+
+        this.bmpData.c_original_value = this.bmpData.C_BMP;
+        this.bmpData.p_original_value = this.bmpData.P_BMP;
+        this.bmpData.c_mod = false;
+        this.bmpData.p_mod = false;
 
         this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
         this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
@@ -60,6 +62,14 @@ define(["dojo/_base/declare"], function (declare) {
             this.updateEMC(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
+          if (evt.target.classList[0] === "cda-bmp-c") {
+            this.updateC(evt.target);
+            this.parentCrop.calculateReducedLoads();
+          }
+          if (evt.target.classList[0] === "cda-bmp-p") {
+            this.updateP(evt.target);
+            this.parentCrop.calculateReducedLoads();
+          }
         });
         this.bmpWrapperElem.addEventListener("click", (evt) => {
           if (evt.target.classList[0] === "cda-bmp-reset-button") {
@@ -75,6 +85,11 @@ define(["dojo/_base/declare"], function (declare) {
             this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EM;
             this.bmpData.phos_emc_mod = false;
             this.bmpData.nit_emc_mod = false;
+
+            this.bmpData.C_BMP = this.bmpData.c_original_value;
+            this.bmpData.P_BMP = this.bmpData.p_original_value;
+            this.bmpData.c_mod = false;
+            this.bmpData.p_mod = false;
             this.parentCrop.calculateReducedLoads();
           }
         });
@@ -91,11 +106,18 @@ define(["dojo/_base/declare"], function (declare) {
           let exApplyElem = this.bmpWrapperElem.querySelector(
             ".cda-bmp-ex-wrapper"
           );
+          let cElem = this.bmpWrapperElem.querySelector(".cda-bmp-c-wrapper");
+          let pElem = this.bmpWrapperElem.querySelector(".cda-bmp-p-wrapper");
+
           if (this.bmpData.AppType === "EX" && this.bmpData.RedFunc !== "LSC") {
             emcElem.style.display = "none";
+            cElem.style.display = "none";
+            pElem.style.display = "none";
           } else if (this.bmpData.AppType === "OV") {
             emcElem.style.display = "none";
             exApplyElem.style.display = "none";
+            cElem.style.display = "none";
+            pElem.style.display = "none";
           } else if (this.bmpData.lscFull) {
             exApplyElem.style.display = "none";
           }
@@ -163,6 +185,18 @@ define(["dojo/_base/declare"], function (declare) {
           this.bmpData.nit_emc_mod = true;
         }
         console.log(this);
+      };
+      state.BMPSelectedComponent.prototype.updateC = function (target) {
+        this.bmpData.C_BMP = target.value;
+        if (this.bmpData.C_BMP !== this.c_original_value) {
+          this.bmpData.c_mod = true;
+        }
+      };
+      state.BMPSelectedComponent.prototype.updateP = function (target) {
+        this.bmpData.P_BMP = target.value;
+        if (this.bmpData.P_BMP !== this.p_original_value) {
+          this.bmpData.p_mod = true;
+        }
       };
       state.BMPSelectedComponent.prototype.getTemplate = function (evt) {
         return `
@@ -243,6 +277,30 @@ define(["dojo/_base/declare"], function (declare) {
                     </div>
                   </div>
                 </div>
+               <div class="cda-bmp-c-wrapper">
+                  <div class="cda-bmp-wrapper-sub-header">Cover-Management Factor:</div>
+                  <div class='cda-bmp-input-wrapper'>
+                    <div style="margin-left:-5px;">
+                      ${
+                        this.bmpData.c_mod
+                          ? `<input class="cda-bmp-c cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
+                          : `<input class="cda-bmp-c"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="cda-bmp-p-wrapper">
+                  <div class="cda-bmp-wrapper-sub-header">Support Practice Factor:</div>
+                  <div class='cda-bmp-input-wrapper'>
+                    <div style="margin-left:11px;">
+                      ${
+                        this.bmpData.p_mod
+                          ? `<input class="cda-bmp-p cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
+                          : `<input class="cda-bmp-p"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
+                      }
+                    </div>
+                  </div>
+                </div>
                 <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Area of crop to apply BMP to: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${
                   this.bmpData.percentAppliedDisplay
                 }'>%
@@ -252,7 +310,9 @@ define(["dojo/_base/declare"], function (declare) {
                   this.bmpData.phos_emc_mod ||
                   this.bmpData.sed_eff_mod ||
                   this.bmpData.nit_eff_mod ||
-                  this.bmpData.phos_eff_mod
+                  this.bmpData.phos_eff_mod ||
+                  this.bmpData.c_mod ||
+                  this.bmpData.p_mod
                     ? "Reset Values"
                     : ""
                 }</div>
