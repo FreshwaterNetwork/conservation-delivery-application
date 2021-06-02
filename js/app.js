@@ -18,7 +18,7 @@ define(["dojo/_base/declare"], function (declare) {
       //   state.assesmentRadioData
       // );
       // state.assesmentRadioButtons.render();
-
+      // delte this
       // build and render area scenario radio buttons ****************************************
       state.areaScenarioRadioButtons = new state.RadioComponent(
         ".cda-areaScenario-radio-btns",
