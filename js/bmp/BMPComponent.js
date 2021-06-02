@@ -14,17 +14,28 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData = state.bmp_lut_data.find(
           (o) => o.BMP_Short === bmpShortName
         );
+        // this.bmpData.phos_eff_value_percent = this.bmpData.Phos_Eff * 100;
+        // this.bmpData.nit_eff_value_percent = this.bmpData.Nitr_Eff * 100;
+        // this.bmpData.sed_eff_value_percent = this.bmpData.Sed_Eff * 100;
+
         this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
         this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
         this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
 
+        this.bmpData.phos_eff_original_val = this.bmpData.Phos_Eff;
+        this.bmpData.nit_eff_original_val = this.bmpData.Nitr_Eff;
+        this.bmpData.sed_eff_original_val = this.bmpData.Sed_Eff;
+
         this.bmpData.phos_emc_value = this.bmpData.PhosBMP_EM;
         this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EM;
 
+        this.bmpData.phos_emc_original_val = this.bmpData.PhosBMP_EM;
+        this.bmpData.nit_emc_original_val = this.bmpData.NitrBMP_EM;
+
         // placeholders for user modifications to the default value
-        this.bmpData.sed_mod = false;
-        this.bmpData.phos_mod = false;
-        this.bmpData.nit_mod = false;
+        this.bmpData.sed_eff_mod = false;
+        this.bmpData.phos_eff_mod = false;
+        this.bmpData.nit_eff_mod = false;
 
         this.bmpData.phos_emc_mod = false;
         this.bmpData.nit_emc_mod = false;
@@ -37,16 +48,33 @@ define(["dojo/_base/declare"], function (declare) {
 
         // event listeners ***************************************************************
         this.bmpWrapperElem.addEventListener("change", (evt) => {
-          if (evt.target.className === "cda-bmp-percent-applied") {
+          if (evt.target.classList[0] === "cda-bmp-percent-applied") {
             this.updatePercentApplied(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.className === "cda-bmp-efficiencies") {
+          if (evt.target.classList[0] === "cda-bmp-efficiencies") {
             this.updateEfficiencies(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.className === "cda-bmp-emc") {
+          if (evt.target.classList[0] === "cda-bmp-emc") {
             this.updateEMC(evt.target);
+            this.parentCrop.calculateReducedLoads();
+          }
+        });
+        this.bmpWrapperElem.addEventListener("click", (evt) => {
+          if (evt.target.classList[0] === "cda-bmp-reset-button") {
+            console.log("reset", this);
+            this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
+            this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
+            this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
+            this.bmpData.sed_eff_mod = false;
+            this.bmpData.phos_eff_mod = false;
+            this.bmpData.nit_eff_mod = false;
+
+            this.bmpData.phos_emc_value = this.bmpData.PhosBMP_EM;
+            this.bmpData.nit_emc_value = this.bmpData.NitrBMP_EM;
+            this.bmpData.phos_emc_mod = false;
+            this.bmpData.nit_emc_mod = false;
             this.parentCrop.calculateReducedLoads();
           }
         });
@@ -89,25 +117,32 @@ define(["dojo/_base/declare"], function (declare) {
         const effValue = target.getAttribute("effValue");
         const value = parseFloat(target.value);
         if (effValue === "phos") {
-          this.bmpData.phos_eff_value = value;
+          this.bmpData.phos_eff_value = value / 100;
         } else if (effValue === "nit") {
-          this.bmpData.nit_eff_value = value;
+          this.bmpData.nit_eff_value = value / 100;
         } else if (effValue === "sed") {
-          this.bmpData.sed_eff_value = value;
+          this.bmpData.sed_eff_value = value / 100;
         }
 
         this.bmpData.phos_mod = false;
         this.bmpData.nit_mod = false;
         this.bmpData.sed_mod = false;
+        console.log(this);
 
         if (this.bmpData.phos_eff_value !== this.bmpData.Phos_Eff) {
-          this.bmpData.phos_mod = true;
+          this.bmpData.phos_eff_mod = true;
+        } else {
+          this.bmpData.phos_eff_mod = false;
         }
         if (this.bmpData.nit_eff_value !== this.bmpData.Nitr_Eff) {
-          this.bmpData.nit_mod = true;
+          this.bmpData.nit_eff_mod = true;
+        } else {
+          this.bmpData.nit_eff_mod = false;
         }
         if (this.bmpData.sed_eff_value !== this.bmpData.Sed_Eff) {
-          this.bmpData.sed_mod = true;
+          this.bmpData.sed_eff_mod = true;
+        } else {
+          this.bmpData.sed_eff_mod = false;
         }
       };
       state.BMPSelectedComponent.prototype.updateEMC = function (target) {
@@ -127,48 +162,100 @@ define(["dojo/_base/declare"], function (declare) {
         if (this.bmpData.nit_emc_value !== this.bmpData.NitrBMP_EM) {
           this.bmpData.nit_emc_mod = true;
         }
+        console.log(this);
       };
       state.BMPSelectedComponent.prototype.getTemplate = function (evt) {
         return `
                 <div style='display:flex'>
-                  <div class='cda-bmp-selected-header'>${this.bmpData.BMP_Name}</div>
-                  <div bmpshort="${this.bmpData.BMP_Short}" class='cda-bmp-remove-button'>Remove</div>
+                  <div class='cda-bmp-selected-header'>${
+                    this.bmpData.BMP_Name
+                  }</div>
+                  <div bmpshort="${
+                    this.bmpData.BMP_Short
+                  }" class='cda-bmp-remove-button'>Remove BMP</div>
                 </div>
-                <div class="cda-bmp-wrapper-sub-header">Efficiencies</div>
+                <div class="cda-bmp-wrapper-sub-header">Efficiencies (%)</div>
                 <div class='cda-bmp-input-wrapper'>
                   <div>
                     <label for="">Nit</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" effValue='nit' type="text"  name="fname" value='${this.bmpData.nit_eff_value}'>
+                    ${
+                      this.bmpData.nit_eff_mod
+                        ? `<input class="cda-bmp-efficiencies cda-user-table-cell-modified" effValue='nit' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.nit_eff_value * 100
+                          )}'>`
+                        : `<input class="cda-bmp-efficiencies" effValue='nit' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.nit_eff_value * 100
+                          )}'>`
+                    }
+                   
                   </div>
                   <div>
                     <label for="">Phos</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" effValue='phos' type="text"  name="fname" value='${this.bmpData.phos_eff_value}'>
+                    ${
+                      this.bmpData.phos_eff_mod
+                        ? `<input class="cda-bmp-efficiencies cda-user-table-cell-modified" effValue='phos' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.phos_eff_value * 100
+                          )}'>`
+                        : `<input class="cda-bmp-efficiencies" effValue='phos' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.phos_eff_value * 100
+                          )}'>`
+                    }
+                    
                   </div>
                   
                   <div>
                     <label for="">Sed</label>
                     <br>
-                    <input class="cda-bmp-efficiencies" effValue='sed' type="text"  name="fname" value='${this.bmpData.sed_eff_value}'>
+                    ${
+                      this.bmpData.sed_eff_mod
+                        ? `<input class="cda-bmp-efficiencies cda-user-table-cell-modified" effValue='sed' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.sed_eff_value * 100
+                          )}'>`
+                        : `<input class="cda-bmp-efficiencies" effValue='sed' type="text"  name="fname" value='${Math.round(
+                            this.bmpData.sed_eff_value * 100
+                          )}'>`
+                    }
                   </div>
                 </div>
                 <div class="cda-bmp-emc-wrapper">
-                  <div class="cda-bmp-wrapper-sub-header">Event Mean Concentration</div>
+                  <div class="cda-bmp-wrapper-sub-header">Event Mean Concentration (mg/L)</div>
                   <div class='cda-bmp-input-wrapper'>
                     <div>
                       <label for="">Phos</label>
                       <br>
-                      <input class="cda-bmp-emc" emcValue='phos' type="text"  name="fname" value='${this.bmpData.phos_emc_value}'>
+                      ${
+                        this.bmpData.phos_emc_mod
+                          ? `<input class="cda-bmp-emc cda-user-table-cell-modified" emcValue='phos' type="text"  name="fname" value='${this.bmpData.phos_emc_value}'>`
+                          : `<input class="cda-bmp-emc" emcValue='phos' type="text"  name="fname" value='${this.bmpData.phos_emc_value}'>`
+                      }
+                     
                     </div>
                     <div>
                       <label for="">Nit</label>
                       <br>
-                      <input class="cda-bmp-emc" emcValue='nit' type="text"  name="fname" value='${this.bmpData.nit_emc_value}'>
+                      ${
+                        this.bmpData.nit_emc_mod
+                          ? `<input class="cda-bmp-emc cda-user-table-cell-modified" emcValue='nit' type="text"  name="fname" value='${this.bmpData.nit_emc_value}'>`
+                          : `<input class="cda-bmp-emc" emcValue='nit' type="text"  name="fname" value='${this.bmpData.nit_emc_value}'>`
+                      }
                     </div>
                   </div>
                 </div>
-                <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Apply exclusive BMP to crop: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${this.bmpData.percentAppliedDisplay}'>%</div>
+                <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Area of crop to apply BMP to: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${
+                  this.bmpData.percentAppliedDisplay
+                }'>%
+                </div>
+                <div class='cda-bmp-reset-button'>${
+                  this.bmpData.nit_emc_mod ||
+                  this.bmpData.phos_emc_mod ||
+                  this.bmpData.sed_eff_mod ||
+                  this.bmpData.nit_eff_mod ||
+                  this.bmpData.phos_eff_mod
+                    ? "Reset Values"
+                    : ""
+                }</div>
           `;
       };
     },

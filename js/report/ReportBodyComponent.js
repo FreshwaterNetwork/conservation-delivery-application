@@ -62,13 +62,13 @@ define(["dojo/_base/declare"], function (declare) {
           } else {
             phos_emc_value = "N/A";
           }
-          if (bmp.bmpData.nit_mod) {
+          if (bmp.bmpData.nit_eff_mod) {
             nit_eff_mod = user_modified_class;
           }
-          if (bmp.bmpData.phos_mod) {
+          if (bmp.bmpData.phos_eff_mod) {
             phos_eff_mod = user_modified_class;
           }
-          if (bmp.bmpData.sed_mod) {
+          if (bmp.bmpData.sed_eff_mod) {
             sed_eff_mod = user_modified_class;
           }
           if (bmp.bmpData.nit_emc_mod) {

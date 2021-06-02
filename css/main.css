@@ -138,6 +138,10 @@ button {
 }
 .cda-bmp-selected-wrapper input {
   width: 45px;
+  margin-left: 1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: darkgray;
 }
 .cda-select-menu {
   text-align: center;
@@ -186,10 +190,22 @@ button {
   right: 22px;
   color: grey;
 }
+.cda-bmp-reset-button {
+  position: absolute;
+  right: 22px;
+  color: grey;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: auto;
+  margin-top: -18px;
+}
 .cda-bmp-remove-button:hover {
   cursor: pointer;
   color: black;
-  /* background-color: rgba(0, 0, 0, 0.1); */
+}
+.cda-bmp-reset-button:hover {
+  cursor: pointer;
+  color: black;
 }
 .cda-bmp-remove-button:active {
   transform: translate(1px, 1px);
@@ -210,6 +226,8 @@ button {
   font-size: 11px;
   font-weight: bold;
   margin-left: 5px;
+  display: flex;
+  align-items: center;
 }
 .cda-crop-metrics-wrapper {
   display: flex;
