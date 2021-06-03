@@ -131,7 +131,7 @@ define(["dojo/_base/declare"], function (declare) {
       ) {
         this.bmpData.percentAppliedDisplay = target.value;
         this.bmpData.percentApplied = parseFloat(target.value / 100);
-        this.parentCrop.checkExclusiveBMPTotalPercent();
+        // this.parentCrop.checkExclusiveBMPTotalPercent();
       };
       state.BMPSelectedComponent.prototype.updateEfficiencies = function (
         target

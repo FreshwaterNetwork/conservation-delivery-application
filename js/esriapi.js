@@ -53,6 +53,11 @@ define([
       state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
         opacity: 0.7,
       });
+      state.printLayer = new ArcGISDynamicMapServiceLayer(state.obj.url, {
+        opacity: 0.7,
+      });
+      state.printMap.addLayer(state.printLayer);
+
       state.selectionSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
@@ -66,10 +71,10 @@ define([
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([252, 252, 0]),
+          new Color([0, 0, 0]),
           2
         ),
-        new Color([252, 252, 0, 0.1])
+        new Color([252, 252, 0, 0.0])
       );
       //   t.selectionSymbolHover = new SimpleFillSymbol(
       //     SimpleFillSymbol.STYLE_SOLID,
@@ -225,22 +230,25 @@ define([
         const areaList = state.areaSelectedListComponent.areaList;
 
         areaList.forEach((area) => {
-          console.log(area.geometry);
+          console.log(area);
           // printMapGraphics.add(
-          //   new Graphic(area.geometry, state.selectionPrintSymbol)
+          //   new Graphic(area.areaGeometry, state.selectionPrintSymbol)
           // );
           state.printMap.graphics.add(
-            new Graphic(area.geometry, state.selectionPrintSymbol)
+            new Graphic(area.areaGeometry, state.selectionPrintSymbol)
           );
         });
 
         // state.printMap.addLayers(printMapGraphics);
 
-        // console.log(state.printMap.graphics);
+        console.log(state.printMap.graphics.graphics);
         // console.log(printMapGraphics);
-        // var extent = graphicsUtils.graphicsExtent(printMapGraphics);
-        // console.log(extent);
-        // state.printMap.setExtent(extent, true);
+        var extent = graphicsUtils.graphicsExtent(
+          state.printMap.graphics.graphics
+        );
+        console.log(extent);
+        console.log(extent.expand(2));
+        state.printMap.setExtent(extent.expand(2), false);
       };
       // // use the selected fields array to select all the rows from the data table
       // // Field_Crop_LUT is the table

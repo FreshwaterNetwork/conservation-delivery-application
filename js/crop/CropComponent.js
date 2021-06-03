@@ -50,6 +50,7 @@ define(["dojo/_base/declare"], function (declare) {
 
         // render function for each crop ////////////////////////////////////////////////////////////
         this.render = function () {
+          console.log("crop render", this.bmpSelected);
           let bmpWrapperElem = document.createElement("div");
           this.bmpSelected.forEach((bmp) => {
             let bmpElem = bmp.render();
@@ -117,7 +118,7 @@ define(["dojo/_base/declare"], function (declare) {
                 }" class="cda-bmp-component-wrapper">
                   <div class='cda-select-menu'></div>
                 </div>
-                <div class="cda-bmp-exclusive-warning">Exclusive BMP's cannot add up to more than 100%</div>
+                <div class="cda-bmp-exclusive-warning">Exclusive type BMPs cannot add up to more than 100%</div>
                 <div class="cda-bmp-wrapper"></div>
               </div>
                 
@@ -127,17 +128,8 @@ define(["dojo/_base/declare"], function (declare) {
           // set the crop div inner html
           this.cropDiv.innerHTML = template;
 
-          // show and hide reduction/new load wrapper based on is there has been any reduction
-          let reductionNewLoadWrapper = this.cropDiv.querySelector(
-            ".cda-reduction-new-load-wrapper"
-          );
-          if (this.nit_rpl > 0 || this.phos_rpl > 0 || this.sed_rpl > 0) {
-            reductionNewLoadWrapper.style.display = "block";
-            this.cropDiv.style.backgroundColor = "#46e24633";
-          } else {
-            reductionNewLoadWrapper.style.display = "none";
-            this.cropDiv.style.backgroundColor = "white";
-          }
+          // make sure EX type bmps don't add up to more than 100% and make sure an area was selected
+          this.checkBmpSelectionValidity();
 
           // add in bmp element wrapper
           this.cropDiv
@@ -194,6 +186,7 @@ define(["dojo/_base/declare"], function (declare) {
         let defaultOption = this.BMPselectMenu.querySelectorAll("option")[0];
         defaultOption.selected = true;
       };
+
       // disable used bmp's from dropdown list
       state.Crop.prototype.disableUsedBMPfromDD = function (target) {
         let options = this.BMPselectMenu.querySelectorAll("option");
@@ -288,7 +281,12 @@ define(["dojo/_base/declare"], function (declare) {
           target.innerHTML = "Expand";
         }
       };
-      state.Crop.prototype.checkExclusiveBMPTotalPercent = function () {
+      state.Crop.prototype.checkBmpSelectionValidity = function () {
+        // show and hide reduction/new load wrapper based on is there has been any reduction
+        let reductionNewLoadWrapper = this.cropDiv.querySelector(
+          ".cda-reduction-new-load-wrapper"
+        );
+
         let percentWarningElem = this.cropDiv.querySelector(
           ".cda-bmp-exclusive-warning"
         );
@@ -296,10 +294,19 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpSelected.forEach((bmp) => {
           this.totalPercentApplied += bmp.bmpData.percentApplied;
         });
+
         if (this.totalPercentApplied > 1) {
           percentWarningElem.style.display = "block";
+          this.cropDiv.style.backgroundColor = "rgb(255, 0, 0,.2)";
         } else {
           percentWarningElem.style.display = "none";
+          if (this.nit_rpl > 0 || this.phos_rpl > 0 || this.sed_rpl > 0) {
+            reductionNewLoadWrapper.style.display = "block";
+            this.cropDiv.style.backgroundColor = "#46e24633";
+          } else {
+            reductionNewLoadWrapper.style.display = "none";
+            this.cropDiv.style.backgroundColor = "white";
+          }
         }
       };
       state.Crop.prototype.calculateReducedLoads = function () {
