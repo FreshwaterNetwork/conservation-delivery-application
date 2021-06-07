@@ -292,10 +292,12 @@ define(["dojo/_base/declare"], function (declare) {
         );
         this.totalPercentApplied = 0;
         this.bmpSelected.forEach((bmp) => {
-          this.totalPercentApplied += bmp.bmpData.percentApplied;
+          if (bmp.bmpData.percentApplied) {
+            this.totalPercentApplied += bmp.bmpData.percentApplied * 100;
+          }
         });
-
-        if (this.totalPercentApplied > 1) {
+        console.log(this.totalPercentApplied, "************");
+        if (this.totalPercentApplied > 100) {
           percentWarningElem.style.display = "block";
           this.cropDiv.style.backgroundColor = "rgb(255, 0, 0,.2)";
         } else {

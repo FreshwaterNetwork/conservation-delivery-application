@@ -22,6 +22,9 @@ define(["dojo/_base/declare"], function (declare) {
         this.createReportButtonElem = document.querySelector(
           ".cda-create-report-button"
         );
+        this.printReportButtonElem = document.querySelector(
+          ".cda-print-report-button"
+        );
         this.backToBMPButtonElem = document.querySelector(
           ".cda-back-to-bmp-button"
         );
@@ -37,6 +40,9 @@ define(["dojo/_base/declare"], function (declare) {
         });
         this.createReportButtonElem.addEventListener("click", (evt) => {
           this.createReportButtonClick(evt);
+        });
+        this.printReportButtonElem.addEventListener("click", (evt) => {
+          this.printReportButtonClick(evt);
         });
         this.backToBMPButtonElem.addEventListener("click", (evt) => {
           this.backToBMPButtonClick(evt);
@@ -146,6 +152,15 @@ define(["dojo/_base/declare"], function (declare) {
         // update report map
         state.updateReportMap();
       };
+      state.UI.prototype.printReportButtonClick = function (evt) {
+        console.log("clikc", state.id);
+        $("#" + state.id)
+          .parent()
+          .parent()
+          .find(".plugin-print")
+          .trigger("click");
+      };
+
       state.UI.prototype.backToBMPButtonClick = function (evt) {
         this.hideElement(".cda-report-wrapper");
         this.showElement(".cda-bmp-select-wrapper");
