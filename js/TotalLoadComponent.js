@@ -107,7 +107,7 @@ define(["dojo/_base/declare"], function (declare) {
                 )}</div>
             </div>
             <div class="cda-reduction-new-load-wrapper">
-                <div class="cda-crop-load-wrapper">New Load (Mt): 
+                <div class="cda-crop-load-wrapper">New Load (Mt):
                     <div style="margin-left:11px">${state.UIControls.numComma(
                       this.totalNitRedLoad.toFixed(2)
                     )}</div> 
