@@ -228,6 +228,7 @@ button {
   margin-left: 5px;
   display: flex;
   align-items: center;
+  margin-top: 5px;
 }
 .cda-crop-metrics-wrapper {
   display: flex;
@@ -318,7 +319,7 @@ table {
   margin-top: -1px;
 }
 .cda-user-table-cell-modified {
-  background-color: #81b94d63;
+  background-color: #f5e95b94;
 }
 .cda-bmp-c-wrapper,
 .cda-bmp-p-wrapper {

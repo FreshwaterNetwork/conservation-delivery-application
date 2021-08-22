@@ -87,7 +87,7 @@ define(["dojo/_base/declare"], function (declare) {
           state.currentlySelectedArea = "HUC12";
         } else if (value === "resource-option") {
           state.displayMapLayers(2);
-          state.currentlySelectedArea = "RU";
+          state.currentlySelectedArea = "LARU";
         } else if (value === "catchment-option") {
           state.displayMapLayers(0);
           state.currentlySelectedArea = "Catchment";

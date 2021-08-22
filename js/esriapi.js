@@ -101,8 +101,8 @@ define([
         console.log("mapClick");
         let areaSelected = state.currentlySelectedArea;
         let id_identifier, layer;
-        if (areaSelected === "RU") {
-          id_identifier = "RU";
+        if (areaSelected === "LARU") {
+          id_identifier = "LARU";
           layer = 2;
         } else if (areaSelected === "HUC12") {
           id_identifier = "HUC_12";

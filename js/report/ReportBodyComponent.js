@@ -152,13 +152,13 @@ define(["dojo/_base/declare"], function (declare) {
               </thead>
               <tbody>
                 <tr>
-                  <th>Initial Load (Mt)</th>
+                  <th>Initial Load (MT/yr)</th>
                   <td>${crop.nit_load}</td>
                   <td>${crop.phos_load}</td>
                   <td>${crop.sed_load}</td>
                 </tr>
                 <tr>
-                  <th>Reduced Load (Mt)</th>
+                  <th>Reduced Load (MT/yr)</th>
                   <td>${crop.nit_rpl}</td>
                   <td>${crop.phos_rpl}</td>
                   <td>${crop.sed_rpl}</td>

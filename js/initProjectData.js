@@ -363,7 +363,7 @@ define(["dojo/_base/declare"], function (declare) {
           Phos_Eff: 0.2,
           Sed_Eff: 0.42,
           Source: "USEPA, 2018",
-          lscFull: "FullExtent",
+          // lscFull: "FullExtent",
           RedFunc: "LSC",
           AppType: "EX",
           PhosBMP_EM: 0.27,

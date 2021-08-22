@@ -75,7 +75,7 @@ define(["dojo/_base/declare"], function (declare) {
                 this.contentExpandedStyle
               }">
                   <div class="cda-crop-metrics-wrapper"><div>Nit</div><div>Phos</div><div>Sed</div></div>
-                  <div class="cda-crop-load-wrapper">Initial Load (Mt):
+                  <div class="cda-crop-load-wrapper">Initial Load (MT/yr):
                     <div style="margin-left:0px">${state.UIControls.numComma(
                       this.nit_load
                     )}</div> 
@@ -87,7 +87,7 @@ define(["dojo/_base/declare"], function (declare) {
                     )}</div>
                   </div>
                   <div class="cda-reduction-new-load-wrapper">
-                      <div class="cda-crop-load-wrapper">New Load (Mt): 
+                      <div class="cda-crop-load-wrapper">New Load (MT/yr): 
                         <div style="margin-left:6px">${state.UIControls.numComma(
                           this.nit_rpl
                         )}</div> 
@@ -296,10 +296,18 @@ define(["dojo/_base/declare"], function (declare) {
             this.totalPercentApplied += bmp.bmpData.percentApplied * 100;
           }
         });
-        console.log(this.totalPercentApplied, "************");
+        const rptBtn = document.querySelector(".cda-create-report-button");
+        console.log(rptBtn);
+
         if (this.totalPercentApplied > 100) {
           percentWarningElem.style.display = "block";
           this.cropDiv.style.backgroundColor = "rgb(255, 0, 0,.2)";
+          // console.log("disable report btn");
+          console.log(rptBtn, "****************************");
+
+          rptBtn.disabled = true;
+          // show main error
+          // ***************
         } else {
           percentWarningElem.style.display = "none";
           if (this.nit_rpl > 0 || this.phos_rpl > 0 || this.sed_rpl > 0) {
@@ -309,6 +317,8 @@ define(["dojo/_base/declare"], function (declare) {
             reductionNewLoadWrapper.style.display = "none";
             this.cropDiv.style.backgroundColor = "white";
           }
+          console.log("enable report btn");
+          rptBtn.disabled = false;
         }
       };
       state.Crop.prototype.calculateReducedLoads = function () {
