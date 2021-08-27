@@ -14,6 +14,8 @@ define(["dojo/_base/declare"], function (declare) {
           // empty the report header elem on render
           this.reportHeaderElem.innerHTML = "";
 
+          console.log(this.reportHeaderElem, "report header elem");
+
           // create elements and render text
           let headerWrapperElem = document.createElement("div");
           let mainHeaderElem = document.createElement("h1");
@@ -34,11 +36,34 @@ define(["dojo/_base/declare"], function (declare) {
       };
 
       state.reportHeaderComponent.prototype.buildTemplate = function () {
+        const areaList = state.areaSelectedListComponent.areaList;
+        const areaIdList = [];
+        let areaTypeHeader = "";
+        areaList.forEach((area) => {
+          console.log(area);
+          if (area.areaType == "LARU") {
+            areaTypeHeader = "LARU's Selected";
+          } else if (area.areaType == "HUC_12") {
+            areaTypeHeader = "HUC 12's Selected";
+          } else if (area.areaType == "Catchment_ID") {
+            areaTypeHeader = "Catchments's Selected";
+          } else if (area.areaType == "fid") {
+            areaTypeHeader = "Agricultural Fields's Selected";
+          }
+          areaIdList.push(area.areaID);
+        });
+        console.log(areaTypeHeader, areaIdList);
+        let idHtml = "";
+        areaIdList.forEach((id) => {
+          idHtml += `${id} | `;
+        });
+        idHtml = idHtml.slice(0, -3);
+        console.log(idHtml);
         this.tl = state.totalLoadComponent;
         const templete = `
           <div>
             <h5 class="cda-report-sub-headers">Selected Areas:</h5>
-            <div><b>HUC12's selected:</b> 123456, 98780623076, 1298637368467836</div>
+            <div><b>${areaTypeHeader}:</b> ${idHtml}</div>
 
             <h5 class="cda-report-sub-headers">Total Nutrient Reduction:</h5>
             <table class="cda-report-header-table">

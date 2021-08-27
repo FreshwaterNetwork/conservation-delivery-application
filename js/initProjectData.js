@@ -36,6 +36,12 @@ define(["dojo/_base/declare"], function (declare) {
           value: "catchment-option",
           display: "Catchments",
         },
+        {
+          name: "areaScenarioRadioButton",
+          id: "field-option",
+          value: "field-option",
+          display: "Field (Zoom In)",
+        },
       ];
       state.deliveryRadioData = [
         {

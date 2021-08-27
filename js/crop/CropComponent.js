@@ -299,13 +299,15 @@ define(["dojo/_base/declare"], function (declare) {
         const rptBtn = document.querySelector(".cda-create-report-button");
         console.log(rptBtn);
 
+        const mainErrorWarning = document.querySelector(
+          ".cda-overall-error-warning"
+        );
+
         if (this.totalPercentApplied > 100) {
           percentWarningElem.style.display = "block";
           this.cropDiv.style.backgroundColor = "rgb(255, 0, 0,.2)";
-          // console.log("disable report btn");
-          console.log(rptBtn, "****************************");
-
           rptBtn.disabled = true;
+          mainErrorWarning.style.display = "block";
           // show main error
           // ***************
         } else {
@@ -317,8 +319,8 @@ define(["dojo/_base/declare"], function (declare) {
             reductionNewLoadWrapper.style.display = "none";
             this.cropDiv.style.backgroundColor = "white";
           }
-          console.log("enable report btn");
           rptBtn.disabled = false;
+          mainErrorWarning.style.display = "none";
         }
       };
       state.Crop.prototype.calculateReducedLoads = function () {

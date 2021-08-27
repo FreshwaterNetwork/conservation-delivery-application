@@ -87,11 +87,15 @@ button {
 .cda-report-wrapper {
   display: none;
   color: #5d6165;
+  /* display: block; */
+  margin-top: -47px;
+  z-index: 1000000;
+  /* position: fixed; */
 }
 .cda-bmp-select-wrapper-header {
   background-color: rgba(244, 244, 244);
   position: fixed;
-  width: 435px;
+  width: 450px;
   left: 46px;
   top: 95px;
   height: 155px;
@@ -217,6 +221,15 @@ button {
   color: maroon;
   display: none;
 }
+.cda-overall-error-warning {
+  color: maroon;
+  width: 50%;
+  /* margin: auto; */
+  text-align: center;
+  margin-left: 41px;
+  display: none;
+}
+
 .cda-bmp-input-wrapper {
   color: grey;
   margin-left: 15px;
@@ -252,23 +265,19 @@ button {
   width: 90%;
   margin: auto;
   border: 1px solid black;
+  /* margin-left: -7px; */
   height: 300px;
   margin-top: 20px;
+  position: relative;
 }
 .cda-report-sticky-buttons {
   background-color: rgba(244, 244, 244);
-  position: fixed;
-  top: 0px;
-  width: 100%;
-  z-index: 100000000;
-  /* height: 100px; */
   padding: 10px;
-  top: 95px;
-  width: 735px;
-  left: 46px;
+  width: 750px;
   text-align: center;
-  /* box-shadow: -2px 0px 5px 1px rgba(51, 51, 51, 0.3); */
-  box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.3);
+  margin-left: -7px;
+  box-shadow: 0px 2px 5px 0px rgb(51 51 51 / 30%);
+  margin-top: 43px;
 }
 .cda-print-report-button,
 .cda-back-to-bmp-button {
@@ -279,7 +288,8 @@ button {
 
 .cda-report-header-wrapper {
   /* text-align: center; */
-  margin-top: 55px;
+  margin-top: 15px;
+  position: relative;
 }
 .cda-report-header-wrapper h1,
 .cda-report-header-wrapper h4 {
@@ -330,12 +340,12 @@ table {
 .cda-print-map-legend {
   width: 200px;
   background: white;
-  margin-top: -38px;
+  margin-top: -69px;
   z-index: 10000000;
-  position: absolute;
+  position: relative;
   margin-left: 41px;
   border: 1px solid black;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   font-size: 14px;
 }
@@ -345,3 +355,45 @@ table {
   border: 2px solid black;
   margin: 5px;
 }
+.cda-print-map-legend-box-field {
+  width: 40px;
+  height: 20px;
+  /* border: 2px solid black; */
+  background-color: rgb(56, 168, 0);
+  margin: 5px;
+}
+
+/* Print CSS ********************/
+
+.cda-report-body-wrapper {
+  position: relative;
+}
+@media print {
+  .cda-report-wrapper {
+    display: none;
+    page-break-inside: auto;
+  }
+  .cda-report-sticky-buttons {
+    display: none;
+  }
+  body {
+    overflow: visible;
+  }
+  .cda-report-body-wrapper {
+    /* page-break-before: always; */
+    /* position: relative; */
+  }
+  /* #printarea {
+    display: block;
+  } */
+}
+/* close left pane and header at print */
+/* at app start append report at body */
+
+/* hide main html elems and show report elem */
+
+/* 
+then in your css file @print hide anything that you use to build report
+like instructions or buttons.
+
+*/

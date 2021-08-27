@@ -57,6 +57,7 @@ define([
         opacity: 0.7,
       });
       state.printMap.addLayer(state.printLayer);
+      state.printLayer.setVisibleLayers([4]);
 
       state.selectionSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
@@ -76,15 +77,6 @@ define([
         ),
         new Color([252, 252, 0, 0.0])
       );
-      //   t.selectionSymbolHover = new SimpleFillSymbol(
-      //     SimpleFillSymbol.STYLE_SOLID,
-      //     new SimpleLineSymbol(
-      //       SimpleLineSymbol.STYLE_SOLID,
-      //       new Color([255, 255, 0]),
-      //       2
-      //     ),
-      //     new Color([255, 255, 0, 0.1])
-      //   );
 
       // add dynamic layer to map and set visible layers
       state.map.addLayer(state.dynamicLayer);
@@ -110,10 +102,14 @@ define([
         } else if (areaSelected === "Catchment") {
           id_identifier = "Catchment_ID";
           layer = 0;
+        } else if (areaSelected === "Field") {
+          id_identifier = "fid";
+          layer = 3;
         }
 
         esriMapQuery(mapPoint, layer).then(function (features) {
           if (features.length > 0) {
+            console.log("inside", features);
             const id = features[0].attributes[id_identifier];
             const geometry = features[0].geometry;
             // create a new area object
@@ -132,6 +128,7 @@ define([
       // esri map click query
       function esriMapQuery(mapPoint, layer) {
         return new Promise(function (resolve, reject) {
+          console.log("query layer", layer);
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/" + layer);
           q.geometry = mapPoint;
@@ -152,7 +149,7 @@ define([
       }
       state.displayMapLayers = function (val) {
         if (state.fieldsVisible) {
-          state.obj.visibleLayers = [val, 3];
+          state.obj.visibleLayers = [val, 4];
         } else {
           state.obj.visibleLayers = [val];
         }
@@ -206,7 +203,7 @@ define([
           //   state.map.graphics.graphics.forEach((graphic, i) => {
           //     queryFields(graphic.geometry).then(function (features) {
           //       features.features.forEach((feature) => {
-          //         selectedFieldsArray.push(feature.attributes.fid_1);
+          //         selectedFieldsArray.push(feature.attributes.fid);
           //       });
           //       // once completed the loop and pushing data to array, resolve promise and
           //       // send the selectedFieldsArray
@@ -224,6 +221,7 @@ define([
       };
       state.updateReportMap = function () {
         console.log("update report map");
+
         state.printMap.graphics.clear();
         // create a graphics layer
         var printMapGraphics = new GraphicsLayer();
@@ -231,64 +229,19 @@ define([
 
         areaList.forEach((area) => {
           console.log(area);
-          // printMapGraphics.add(
-          //   new Graphic(area.areaGeometry, state.selectionPrintSymbol)
-          // );
+
           state.printMap.graphics.add(
             new Graphic(area.areaGeometry, state.selectionPrintSymbol)
           );
         });
 
-        // state.printMap.addLayers(printMapGraphics);
-
-        console.log(state.printMap.graphics.graphics);
-        // console.log(printMapGraphics);
         var extent = graphicsUtils.graphicsExtent(
           state.printMap.graphics.graphics
         );
-        console.log(extent);
-        console.log(extent.expand(2));
+
         state.printMap.setExtent(extent.expand(2), false);
+        state.printLayer.setVisibleLayers([4]);
       };
-      // // use the selected fields array to select all the rows from the data table
-      // // Field_Crop_LUT is the table
-      // state.selectRowsFromTable = function (fieldsArray) {
-      //   return new Promise(function (getRowsResolve, reject) {
-      //     let where = state.buildFieldTableQuery(fieldsArray);
-      //     const q = new Query();
-      //     const qt = new QueryTask(state.obj.url + "/4");
-      //     // q.geometry = mapPoint;
-      //     q.outFields = ["*"];
-      //     q.returnGeometry = true;
-      //     q.where = where;
-      //     // execute map query
-      //     qt.execute(q, function (e) {
-      //       return getRowsResolve(e);
-      //     });
-      //   });
-      // };
-
-      // // from the selecetd rows in the data table, aggregate the crop data
-      // // use the aggregated crop data to build out the UI
-      // state.aggregateCropData = function (rows) {
-      //   return new Promise(function (getCropsResolve, reject) {
-      //     return getCropsResolve("get crops resolve");
-      //   });
-      // };
-
-      // state.buildFieldTableQuery = function (fieldsArray) {
-      //   let where = "";
-      //   let c = 1;
-      //   fieldsArray.forEach((field, i) => {
-      //     if (c === fieldsArray.length) {
-      //       where += `fid = ${field}`;
-      //     } else {
-      //       where += `fid = ${field} OR `;
-      //     }
-      //     c += 1;
-      //   });
-      //   return where;
-      // };
     },
   });
 });

@@ -21,10 +21,11 @@ define(["dojo/_base/declare"], function (declare) {
           const cropTableTemplate = this.createCropTableTemplate(crop);
           const bmpTableTemplate = this.createBMPhtmlTemplate(crop);
           this.template += `
+          <div style="page-break-before:always;">
             <h5 class="cda-report-sub-headers">${crop.name}</h5>
             ${cropTableTemplate}
             ${bmpTableTemplate}
-          `;
+          </div>`;
         });
       };
 
@@ -55,6 +56,11 @@ define(["dojo/_base/declare"], function (declare) {
 
           if (bmp.bmpData.percentAppliedDisplay) {
             percentApplied = bmp.bmpData.percentAppliedDisplay;
+          } else if (
+            bmp.bmpData.percentAppliedDisplay == 0 &&
+            bmp.bmpData.AppType == "EX"
+          ) {
+            percentApplied = "0";
           } else {
             percentApplied = "100";
           }
@@ -99,7 +105,7 @@ define(["dojo/_base/declare"], function (declare) {
           if (bmp.bmpData.p_mod) {
             p_mod = user_modified_class;
           }
-
+          console.log(bmp.bmpData, "***************");
           this.bmpHTMLTable += `
               <div class="cda-bmp-table-wrapper">
                 <table>

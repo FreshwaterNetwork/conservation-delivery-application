@@ -34,23 +34,6 @@ define([
     init: function (state) {
       // when area selection is checked ************************************************
       state.getCropsFromAreaSelection = function () {
-        // var gp = new Geoprocessor(
-        //   "https://cumulus.tnc.org/arcgis/rest/services/nascience/testGpService/GPServer/testGpService"
-        // );
-        // let params = {
-        //   one: "test text",
-        //   two: "test text 2",
-        // };
-        // function statusCallback(e, a) {
-        // }
-        // // statusCallback = function (status) {
-        // // };
-        // function completeCallback(e, a) {
-        //   gp.getResultData(e.jobId, "setText", (data) => {
-        //   });
-        // }
-        // gp.submitJob(params, completeCallback, statusCallback);
-
         // chain multiple promises to handle async queries
         return new Promise(function (getCropsResolve, reject) {
           // state.getFieldsFromGraphics().then(function (fields) {
@@ -166,15 +149,15 @@ define([
         return new Promise(function (getRowsResolve, reject) {
           let where = "";
           state.areaSelectedListComponent.areaList.forEach((area, i) => {
+            console.log("areaaaa", area);
             where += `${area.areaType} = ${area.areaID} OR `;
           });
           // remove the trailing "OR" from the where clause
           where = where.slice(0, -4);
-
           // table queries
           const query1 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(state.obj.url + "/4");
+            const qt = new QueryTask(state.obj.url + "/5");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -184,7 +167,6 @@ define([
               resolve(e);
             }
             function getError(error) {
-              console.log(error);
               // if error, show back to main button and an error message
               state.UIControls.showElement(
                 ".cda-error-retreiving-data-wrapper"
@@ -196,7 +178,7 @@ define([
           });
           const query2 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(state.obj.url + "/5");
+            const qt = new QueryTask(state.obj.url + "/6");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -205,7 +187,6 @@ define([
               resolve(e);
             }
             function getError(error) {
-              console.log(error);
               // if error, show back to main button and an error message
               state.UIControls.showElement(
                 ".cda-error-retreiving-data-wrapper"
@@ -218,7 +199,7 @@ define([
 
           const query3 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(state.obj.url + "/6");
+            const qt = new QueryTask(state.obj.url + "/7");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -241,7 +222,7 @@ define([
           });
           const query4 = new Promise((resolve) => {
             const q = new Query();
-            const qt = new QueryTask(state.obj.url + "/7");
+            const qt = new QueryTask(state.obj.url + "/8");
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
@@ -313,7 +294,7 @@ define([
             state.map.graphics.graphics.forEach((graphic, i) => {
               queryFields(graphic.geometry).then(function (features) {
                 features.features.forEach((feature) => {
-                  selectedFieldsArray.push(feature.attributes.fid_1);
+                  selectedFieldsArray.push(feature.attributes.fid);
                 });
                 // once completed the loop and pushing data to array, resolve promise and
                 // send the selectedFieldsArray

@@ -120,13 +120,13 @@ define(["dojo/_base/declare"], function (declare) {
                 </div>
 
                 <div class="cda-crop-load-wrapper">Reduction: 
-                    <div style="margin-left:38px">${state.UIControls.numComma(
+                    <div style="margin-left:48px">${state.UIControls.numComma(
                       this.totalNitPercentReduction
                     )}%</div> 
-                    <div style="margin-left:18px">${state.UIControls.numComma(
+                    <div style="margin-left:24px">${state.UIControls.numComma(
                       this.totalPhosPercentReduction
                     )}%</div> 
-                    <div style="margin-left:23px">${state.UIControls.numComma(
+                    <div style="margin-left:11px">${state.UIControls.numComma(
                       this.totalSedPercentReduction
                     )}%</div>
                 </div>

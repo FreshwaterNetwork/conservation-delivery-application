@@ -91,6 +91,9 @@ define(["dojo/_base/declare"], function (declare) {
         } else if (value === "catchment-option") {
           state.displayMapLayers(0);
           state.currentlySelectedArea = "Catchment";
+        } else if (value === "field-option") {
+          state.displayMapLayers(3);
+          state.currentlySelectedArea = "Field";
         } else {
           throw new Error("The Value does not match any options");
         }
@@ -110,23 +113,6 @@ define(["dojo/_base/declare"], function (declare) {
             state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
             state.UI.prototype.showElement(".cda-bmp-select-wrapper");
           });
-          // if (state.assesmentRadioButtons.selectedValue === "area-scenario") {
-          //   // state.getCropsFromAreaSelection();
-          //   state.getCropsFromAreaSelection().then(function () {
-          //     state.totalLoadComponent.render();
-          //     // once data processing is finished render the cropSelectedComponent and show hide UI related
-          //     state.cropSelectedListComponent.render();
-          //     state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
-          //     state.UI.prototype.showElement(".cda-bmp-select-wrapper");
-          //   });
-          // } else if (
-          //   state.assesmentRadioButtons.selectedValue === "local-scenario"
-          // ) {
-          //   state.getFieldsFromLocalSelection().then(function (fieldData) {
-          //     state.UI.prototype.hideElement(".cda-retreiving-data-wrapper");
-          //     state.UI.prototype.showElement(".cda-bmp-select-wrapper");
-          //   });
-          // }
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
@@ -140,8 +126,18 @@ define(["dojo/_base/declare"], function (declare) {
       };
 
       state.UI.prototype.createReportButtonClick = function (evt) {
+        console.log(state.AreaSelectedList.areaList, "areas selected");
         this.showElement(".cda-report-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
+
+        $(".map-container").hide();
+        $("header").hide();
+        $(".nav-apps").hide();
+        $(".sidebar-nav").hide();
+
+        console.log("before header render");
+        // $(".map-container").hide();
+        // $("header").hide();
         state.reportHeaderComponent.render();
         state.reportBodyComponent.render();
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
@@ -153,17 +149,26 @@ define(["dojo/_base/declare"], function (declare) {
         state.updateReportMap();
       };
       state.UI.prototype.printReportButtonClick = function (evt) {
-        console.log("clikc", state.id);
-        $("#" + state.id)
-          .parent()
-          .parent()
-          .find(".plugin-print")
-          .trigger("click");
+        window.print();
+        // console.log("clikc", state.id);
+        // $("#left-pane").hide();
+        // $(".map-container").hide();
+        // $("header").hide();
+        // $("#reportDiv").show();
+        // $("#" + state.id)
+        //   .parent()
+        //   .parent()
+        //   .find(".plugin-print")
+        //   .trigger("click");
       };
 
       state.UI.prototype.backToBMPButtonClick = function (evt) {
         this.hideElement(".cda-report-wrapper");
         this.showElement(".cda-bmp-select-wrapper");
+        $(".map-container").show();
+        $("header").show();
+        $(".nav-apps").show();
+        $(".sidebar-nav").show();
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
           .parentElement.parentElement.parentElement;
         sidebarWrapper.style.width = "450px";

@@ -6,6 +6,7 @@ define([
   "dojo/dom",
   "dojo/text!./obj.json",
   "dojo/text!./html/content.html",
+  "dojo/text!./html/report.html",
   "./js/initProjectData",
   "./js/ui/UI",
   "./js/ui/CheckboxComponent",
@@ -28,6 +29,7 @@ define([
   dom,
   obj,
   content,
+  reportHtml,
   initProjectData,
   UI,
   CheckboxComponent,
@@ -110,6 +112,8 @@ define([
     // Called when user hits 'Save and Share' button. This creates the url that builds the app at a given state using JSON.
     // Write anything to you varObject.json file you have tracked during user activity.
     getState: function () {
+      console.log(this.areaSelectedListComponent.areaList);
+      this.obj.areaList = this.areaSelectedListComponent.areaList;
       // remove this conditional statement when minimize is added
       if ($("#" + this.id).is(":visible")) {
         //extent
@@ -123,12 +127,37 @@ define([
     // Called before activate only when plugin is started from a getState url.
     //It's overwrites the default JSON definfed in initialize with the saved stae JSON.
     setState: function (state) {
+      console.log("set state");
       this.obj = state;
+      console.log(this.obj);
     },
-    // Called when the user hits the print icon
-    beforePrint: function (printDeferred, $printArea, mapObject) {
-      printDeferred.resolve();
+    prePrintModal: function (
+      preModalDeferred,
+      $printSandbox,
+      $modalSandbox,
+      mapObject
+    ) {
+      console.log("pre print modal");
+      // var printReport = $(`${this.id}watershed-report`).detach();
+      //        	printReport.appendTo($printSandbox)
+      window.setTimeout(function () {
+        preModalDeferred.resolve();
+      }, 750);
     },
+    postPrintModal: function (
+      postModalDeferred,
+      $printSandbox,
+      $modalSandbox,
+      mapObject
+    ) {
+      console.log("post print modal");
+      postModalDeferred.resolve();
+    },
+    // // Called when the user hits the print icon
+    // beforePrint: function (printDeferred, $printArea, mapObject) {
+    //   console.log("print function");
+    //   printDeferred.resolve();
+    // },
     // Called by activate and builds the plugins elements and functions
     render: function () {
       // $('#legend-container-0').find('.legend-body').css('height', '99%'); // fix the legend overlap problem
@@ -146,6 +175,7 @@ define([
       });
       this.id = this.appDiv.id;
       dom.byId(this.container).appendChild(this.appDiv.domNode);
+
       $("#" + this.id)
         .parent()
         .addClass("flexColumn");
