@@ -13,7 +13,7 @@ button {
 .cda-sidebar-wrapper .form-component {
   margin-bottom: 2px;
   margin-left: 10px;
-  width: 185px;
+  width: 195px;
 }
 .blueFont {
   color: #2f6384;
@@ -360,40 +360,31 @@ table {
   height: 20px;
   /* border: 2px solid black; */
   background-color: rgb(56, 168, 0);
+  border: 2px solid rgb(56, 168, 0);
   margin: 5px;
 }
 
 /* Print CSS ********************/
-
 .cda-report-body-wrapper {
   position: relative;
 }
 @media print {
+  body {
+    overflow: visible;
+    -webkit-print-color-adjust: exact;
+  }
   .cda-report-wrapper {
     display: none;
-    page-break-inside: auto;
   }
   .cda-report-sticky-buttons {
     display: none;
   }
-  body {
-    overflow: visible;
+
+  .esriSimpleSlider {
+    display: none;
   }
   .cda-report-body-wrapper {
     /* page-break-before: always; */
     /* position: relative; */
   }
-  /* #printarea {
-    display: block;
-  } */
 }
-/* close left pane and header at print */
-/* at app start append report at body */
-
-/* hide main html elems and show report elem */
-
-/* 
-then in your css file @print hide anything that you use to build report
-like instructions or buttons.
-
-*/

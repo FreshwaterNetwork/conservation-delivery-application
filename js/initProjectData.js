@@ -40,7 +40,7 @@ define(["dojo/_base/declare"], function (declare) {
           name: "areaScenarioRadioButton",
           id: "field-option",
           value: "field-option",
-          display: "Field (Zoom In)",
+          display: "Agricultural Field (Zoom In)",
         },
       ];
       state.deliveryRadioData = [

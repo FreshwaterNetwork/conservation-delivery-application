@@ -21,7 +21,7 @@ define(["dojo/_base/declare"], function (declare) {
           const cropTableTemplate = this.createCropTableTemplate(crop);
           const bmpTableTemplate = this.createBMPhtmlTemplate(crop);
           this.template += `
-          <div style="page-break-before:always;">
+          <div>
             <h5 class="cda-report-sub-headers">${crop.name}</h5>
             ${cropTableTemplate}
             ${bmpTableTemplate}
