@@ -43,70 +43,70 @@ define(["dojo/_base/declare"], function (declare) {
       ) {
         this.bmpHTMLTable = "";
         crop.bmpSelected.forEach((bmp) => {
-          let percentApplied, nit_emc_value, phos_emc_value;
-          let nit_eff_mod,
-            phos_eff_mod,
-            sed_eff_mod,
-            nit_emc_mod,
-            phos_emc_mod,
-            p_mod,
-            c_mod;
-          let user_modified_class = "cda-user-table-cell-modified";
-          let bmpName = bmp.bmpData.BMP_Name;
+          if (bmp.bmpToggle) {
+            let percentApplied, nit_emc_value, phos_emc_value;
+            let nit_eff_mod,
+              phos_eff_mod,
+              sed_eff_mod,
+              nit_emc_mod,
+              phos_emc_mod,
+              p_mod,
+              c_mod;
+            let user_modified_class = "cda-user-table-cell-modified";
+            let bmpName = bmp.bmpData.BMP_Name;
 
-          if (bmp.bmpData.percentAppliedDisplay) {
-            percentApplied = bmp.bmpData.percentAppliedDisplay;
-          } else if (
-            bmp.bmpData.percentAppliedDisplay == 0 &&
-            bmp.bmpData.AppType == "EX"
-          ) {
-            percentApplied = "0";
-          } else {
-            percentApplied = "100";
-          }
-          if (bmp.bmpData.nit_emc_value) {
-            nit_emc_value = bmp.bmpData.nit_emc_value;
-          } else {
-            nit_emc_value = "N/A";
-          }
-          if (bmp.bmpData.phos_emc_value) {
-            phos_emc_value = bmp.bmpData.phos_emc_value;
-          } else {
-            phos_emc_value = "N/A";
-          }
-          if (bmp.bmpData.C_BMP) {
-            bmp.bmpData.C_BMP = bmp.bmpData.C_BMP;
-          } else {
-            bmp.bmpData.C_BMP = "N/A";
-          }
-          if (bmp.bmpData.P_BMP) {
-            bmp.bmpData.P_BMP = bmp.bmpData.P_BMP;
-          } else {
-            bmp.bmpData.P_BMP = "N/A";
-          }
-          if (bmp.bmpData.nit_eff_mod) {
-            nit_eff_mod = user_modified_class;
-          }
-          if (bmp.bmpData.phos_eff_mod) {
-            phos_eff_mod = user_modified_class;
-          }
-          if (bmp.bmpData.sed_eff_mod) {
-            sed_eff_mod = user_modified_class;
-          }
-          if (bmp.bmpData.nit_emc_mod) {
-            nit_emc_mod = user_modified_class;
-          }
-          if (bmp.bmpData.phos_emc_mod) {
-            phos_emc_mod = user_modified_class;
-          }
-          if (bmp.bmpData.c_mod) {
-            c_mod = user_modified_class;
-          }
-          if (bmp.bmpData.p_mod) {
-            p_mod = user_modified_class;
-          }
-          console.log(bmp.bmpData, "***************");
-          this.bmpHTMLTable += `
+            if (bmp.bmpData.percentAppliedDisplay) {
+              percentApplied = bmp.bmpData.percentAppliedDisplay;
+            } else if (
+              bmp.bmpData.percentAppliedDisplay == 0 &&
+              bmp.bmpData.AppType == "EX"
+            ) {
+              percentApplied = "0";
+            } else {
+              percentApplied = "100";
+            }
+            if (bmp.bmpData.nit_emc_value) {
+              nit_emc_value = bmp.bmpData.nit_emc_value;
+            } else {
+              nit_emc_value = "N/A";
+            }
+            if (bmp.bmpData.phos_emc_value) {
+              phos_emc_value = bmp.bmpData.phos_emc_value;
+            } else {
+              phos_emc_value = "N/A";
+            }
+            if (bmp.bmpData.C_BMP) {
+              bmp.bmpData.C_BMP = bmp.bmpData.C_BMP;
+            } else {
+              bmp.bmpData.C_BMP = "N/A";
+            }
+            if (bmp.bmpData.P_BMP) {
+              bmp.bmpData.P_BMP = bmp.bmpData.P_BMP;
+            } else {
+              bmp.bmpData.P_BMP = "N/A";
+            }
+            if (bmp.bmpData.nit_eff_mod) {
+              nit_eff_mod = user_modified_class;
+            }
+            if (bmp.bmpData.phos_eff_mod) {
+              phos_eff_mod = user_modified_class;
+            }
+            if (bmp.bmpData.sed_eff_mod) {
+              sed_eff_mod = user_modified_class;
+            }
+            if (bmp.bmpData.nit_emc_mod) {
+              nit_emc_mod = user_modified_class;
+            }
+            if (bmp.bmpData.phos_emc_mod) {
+              phos_emc_mod = user_modified_class;
+            }
+            if (bmp.bmpData.c_mod) {
+              c_mod = user_modified_class;
+            }
+            if (bmp.bmpData.p_mod) {
+              p_mod = user_modified_class;
+            }
+            this.bmpHTMLTable += `
               <div class="cda-bmp-table-wrapper">
                 <table>
                   <thead>
@@ -139,6 +139,7 @@ define(["dojo/_base/declare"], function (declare) {
                 </table>
               </div>
           `;
+          }
         });
         return this.bmpHTMLTable;
       };

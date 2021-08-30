@@ -5,14 +5,11 @@ define(["dojo/_base/declare"], function (declare) {
       // radio component  **********************************************
       state.RadioComponent = function (renderHook, values) {
         this.selectedValue = "";
-        console.log(renderHook);
         this.radioElem = document.querySelector(renderHook);
-        console.log(this.radioElem);
         this.radioElemID = this.radioElem.id;
         // render the radio button component
         this.render = function () {
           values.forEach((value) => {
-            console.log(value);
             const template = `
                 <label class="form-component" for"${value.id}">
                     <input type="radio" id="${value.id}" name="${value.name}" value="${value.value}"></input>

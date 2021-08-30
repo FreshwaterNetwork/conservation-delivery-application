@@ -112,7 +112,6 @@ define([
     // Called when user hits 'Save and Share' button. This creates the url that builds the app at a given state using JSON.
     // Write anything to you varObject.json file you have tracked during user activity.
     getState: function () {
-      console.log(this.areaSelectedListComponent.areaList);
       this.obj.areaList = this.areaSelectedListComponent.areaList;
       // remove this conditional statement when minimize is added
       if ($("#" + this.id).is(":visible")) {

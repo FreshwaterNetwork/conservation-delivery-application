@@ -90,7 +90,6 @@ define([
       });
       // map click
       function mapClick(mapPoint) {
-        console.log("mapClick");
         let areaSelected = state.currentlySelectedArea;
         let id_identifier, layer;
         if (areaSelected === "LARU") {
@@ -109,7 +108,6 @@ define([
 
         esriMapQuery(mapPoint, layer).then(function (features) {
           if (features.length > 0) {
-            console.log("inside", features);
             const id = features[0].attributes[id_identifier];
             const geometry = features[0].geometry;
             // create a new area object
@@ -117,7 +115,6 @@ define([
             // check to make sure the selected area is not in the array
             // also check to make sure the array is less than 5
             const areaList = state.areaSelectedListComponent.areaList;
-            console.log(state.areaSelectedListComponent);
             if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
               // add new area to areaSelected array
               state.areaSelectedListComponent.addNewArea(area);
@@ -128,7 +125,6 @@ define([
       // esri map click query
       function esriMapQuery(mapPoint, layer) {
         return new Promise(function (resolve, reject) {
-          console.log("query layer", layer);
           const q = new Query();
           const qt = new QueryTask(state.obj.url + "/" + layer);
           q.geometry = mapPoint;
@@ -220,16 +216,12 @@ define([
         });
       };
       state.updateReportMap = function () {
-        console.log("update report map");
-
         state.printMap.graphics.clear();
         // create a graphics layer
         var printMapGraphics = new GraphicsLayer();
         const areaList = state.areaSelectedListComponent.areaList;
 
         areaList.forEach((area) => {
-          console.log(area);
-
           state.printMap.graphics.add(
             new Graphic(area.areaGeometry, state.selectionPrintSymbol)
           );

@@ -50,7 +50,6 @@ define(["dojo/_base/declare"], function (declare) {
 
         // render function for each crop ////////////////////////////////////////////////////////////
         this.render = function () {
-          console.log("crop render", this.bmpSelected);
           let bmpWrapperElem = document.createElement("div");
           this.bmpSelected.forEach((bmp) => {
             let bmpElem = bmp.render();
@@ -157,6 +156,7 @@ define(["dojo/_base/declare"], function (declare) {
           if (evt.target.className === "cda-bmp-remove-button") {
             this.removeBMPSelection(evt.target);
           }
+
           if (evt.target.className === "cda-crop-expand-collapse") {
             this.expandCollapseCropButton(evt.target);
           }
@@ -297,7 +297,6 @@ define(["dojo/_base/declare"], function (declare) {
           }
         });
         const rptBtn = document.querySelector(".cda-create-report-button");
-        console.log(rptBtn);
 
         const mainErrorWarning = document.querySelector(
           ".cda-overall-error-warning"
@@ -334,20 +333,23 @@ define(["dojo/_base/declare"], function (declare) {
         let ovBMP = [];
         // push the bmp into the correct array to be used in claclulations later on
         this.bmpSelected.forEach((bmp) => {
-          if (bmp.bmpData.RedFunc === "LSC") {
-            if (bmp.bmpData.percentApplied > 0 || bmp.bmpData.lscFull) {
-              lscBMP.push(bmp);
+          // only push BMP if toggle is true
+          if (bmp.bmpToggle) {
+            if (bmp.bmpData.RedFunc === "LSC") {
+              if (bmp.bmpData.percentApplied > 0 || bmp.bmpData.lscFull) {
+                lscBMP.push(bmp);
+              }
             }
-          }
-          if (
-            bmp.bmpData.AppType === "EX" &&
-            bmp.bmpData.RedFunc !== "LSC" &&
-            bmp.bmpData.percentApplied > 0
-          ) {
-            exBMP.push(bmp);
-          }
-          if (bmp.bmpData.AppType === "OV") {
-            ovBMP.push(bmp);
+            if (
+              bmp.bmpData.AppType === "EX" &&
+              bmp.bmpData.RedFunc !== "LSC" &&
+              bmp.bmpData.percentApplied > 0
+            ) {
+              exBMP.push(bmp);
+            }
+            if (bmp.bmpData.AppType === "OV") {
+              ovBMP.push(bmp);
+            }
           }
         });
         let lsc_length = lscBMP.length;

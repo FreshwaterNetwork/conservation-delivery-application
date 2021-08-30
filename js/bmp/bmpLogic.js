@@ -60,7 +60,6 @@ define([
       // from the selected rows in the data table, aggregate the crop data
       // use the aggregated crop data to build out the UI
       state.aggregateCropData = function (cropRows) {
-        // console.log(cropRows);
         const cropData = {};
         return new Promise(function (resolve, reject) {
           cropRows.forEach((crop) => {
@@ -149,7 +148,6 @@ define([
         return new Promise(function (getRowsResolve, reject) {
           let where = "";
           state.areaSelectedListComponent.areaList.forEach((area, i) => {
-            console.log("areaaaa", area);
             where += `${area.areaType} = ${area.areaID} OR `;
           });
           // remove the trailing "OR" from the where clause
@@ -203,7 +201,6 @@ define([
             q.outFields = ["*"];
             q.returnGeometry = true;
             q.where = where;
-            // console.log(state.areaSelectedListComponent);
             qt.execute(q, getResults, getError);
 
             function getResults(e) {

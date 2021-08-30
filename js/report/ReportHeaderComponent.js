@@ -14,8 +14,6 @@ define(["dojo/_base/declare"], function (declare) {
           // empty the report header elem on render
           this.reportHeaderElem.innerHTML = "";
 
-          console.log(this.reportHeaderElem, "report header elem");
-
           // create elements and render text
           let headerWrapperElem = document.createElement("div");
           let mainHeaderElem = document.createElement("h1");
@@ -40,7 +38,6 @@ define(["dojo/_base/declare"], function (declare) {
         const areaIdList = [];
         let areaTypeHeader = "";
         areaList.forEach((area) => {
-          console.log(area);
           if (area.areaType == "LARU") {
             areaTypeHeader = "LARU's Selected";
           } else if (area.areaType == "HUC_12") {
@@ -52,13 +49,11 @@ define(["dojo/_base/declare"], function (declare) {
           }
           areaIdList.push(area.areaID);
         });
-        console.log(areaTypeHeader, areaIdList);
         let idHtml = "";
         areaIdList.forEach((id) => {
           idHtml += `${id} | `;
         });
         idHtml = idHtml.slice(0, -3);
-        console.log(idHtml);
         this.tl = state.totalLoadComponent;
         const templete = `
           <div>

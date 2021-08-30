@@ -5,6 +5,7 @@ define(["dojo/_base/declare"], function (declare) {
       // BMP selected component
       //**************************************************************************************************************
       state.BMPSelectedComponent = function (bmpShortName, crop) {
+        this.bmpToggle = true;
         // parent crop
         this.parentCrop = crop;
         // create a wrapper div
@@ -73,7 +74,6 @@ define(["dojo/_base/declare"], function (declare) {
         });
         this.bmpWrapperElem.addEventListener("click", (evt) => {
           if (evt.target.classList[0] === "cda-bmp-reset-button") {
-            console.log("reset", this);
             this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
             this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
             this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
@@ -90,6 +90,10 @@ define(["dojo/_base/declare"], function (declare) {
             this.bmpData.P_BMP = this.bmpData.p_original_value;
             this.bmpData.c_mod = false;
             this.bmpData.p_mod = false;
+            this.parentCrop.calculateReducedLoads();
+          }
+          if (evt.target.classList[0] === "cda-bmp-toggle-button") {
+            this.bmpToggle = !this.bmpToggle;
             this.parentCrop.calculateReducedLoads();
           }
         });
@@ -149,7 +153,6 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData.phos_mod = false;
         this.bmpData.nit_mod = false;
         this.bmpData.sed_mod = false;
-        console.log(this);
 
         if (this.bmpData.phos_eff_value !== this.bmpData.Phos_Eff) {
           this.bmpData.phos_eff_mod = true;
@@ -184,7 +187,6 @@ define(["dojo/_base/declare"], function (declare) {
         if (this.bmpData.nit_emc_value !== this.bmpData.NitrBMP_EM) {
           this.bmpData.nit_emc_mod = true;
         }
-        console.log(this);
       };
       state.BMPSelectedComponent.prototype.updateC = function (target) {
         this.bmpData.C_BMP = target.value;
@@ -207,6 +209,11 @@ define(["dojo/_base/declare"], function (declare) {
                   <div bmpshort="${
                     this.bmpData.BMP_Short
                   }" class='cda-bmp-remove-button'>Remove BMP</div>
+                  <div >${
+                    this.bmpToggle == true
+                      ? "<div class='cda-bmp-toggle-button' style='color: maroon;'>Toggle BMP OFF</div>"
+                      : "<div class='cda-bmp-toggle-button' style='color: green;'>Toggle BMP ON</div>"
+                  }</div>
                 </div>
                 <div class="cda-bmp-wrapper-sub-header">Efficiencies (%)</div>
                 <div class='cda-bmp-input-wrapper'>
@@ -305,6 +312,7 @@ define(["dojo/_base/declare"], function (declare) {
                   this.bmpData.percentAppliedDisplay
                 }'>%
                 </div>
+                
                 <div class='cda-bmp-reset-button'>${
                   this.bmpData.nit_emc_mod ||
                   this.bmpData.phos_emc_mod ||

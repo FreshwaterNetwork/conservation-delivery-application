@@ -116,7 +116,6 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
-        console.log(evt, "look here");
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
         this.hideElement(".cda-error-retreiving-data-wrapper");
@@ -126,7 +125,6 @@ define(["dojo/_base/declare"], function (declare) {
       };
 
       state.UI.prototype.createReportButtonClick = function (evt) {
-        console.log(state.AreaSelectedList.areaList, "areas selected");
         this.showElement(".cda-report-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
 
@@ -135,7 +133,6 @@ define(["dojo/_base/declare"], function (declare) {
         $(".nav-apps").hide();
         $(".sidebar-nav").hide();
 
-        console.log("before header render");
         // $(".map-container").hide();
         // $("header").hide();
         state.reportHeaderComponent.render();
@@ -150,7 +147,6 @@ define(["dojo/_base/declare"], function (declare) {
       };
       state.UI.prototype.printReportButtonClick = function (evt) {
         window.print();
-        // console.log("clikc", state.id);
         // $("#left-pane").hide();
         // $(".map-container").hide();
         // $("header").hide();
@@ -176,7 +172,6 @@ define(["dojo/_base/declare"], function (declare) {
       // show/hide DOM elements
       state.UI.prototype.showElement = function (selector) {
         const elem = document.querySelector(selector);
-        console.log(elem);
         elem.style.display = "block";
       };
       state.UI.prototype.hideElement = function (selector) {

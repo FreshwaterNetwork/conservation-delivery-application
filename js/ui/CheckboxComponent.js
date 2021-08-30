@@ -40,9 +40,6 @@ define(["dojo/_base/declare"], function (declare) {
       state.CheckboxComponent.prototype.fieldToggleCheckboxClick = function (
         evt
       ) {
-        console.log(evt.target);
-        console.log(evt.target.value);
-        console.log(evt.target.checked);
         if (evt.target.checked) {
           state.toggleFieldVisibility(3);
         } else {

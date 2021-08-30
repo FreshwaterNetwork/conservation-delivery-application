@@ -8,10 +8,8 @@ define(["dojo/_base/declare"], function (declare) {
         // add a new area to the array and re-render the component
         this.addNewArea = function (area) {
           this.areaList.push(area);
-          console.log(this.areaList);
           // re render field list UI
           this.render();
-
           // update map graphics
           state.displayMapGraphics();
         };
