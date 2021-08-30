@@ -119,6 +119,7 @@ define(["dojo/_base/declare"], function (declare) {
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
         this.hideElement(".cda-error-retreiving-data-wrapper");
+        $("#left-pane").css("overflow-y", "auto");
         // on back button click clear out other crops that have already been rendered
         state.cropSelectedListComponent.selectedCrops = [];
         state.cropSelectedListComponent.cropSelectedElem.innerHTML = "";
@@ -127,14 +128,12 @@ define(["dojo/_base/declare"], function (declare) {
       state.UI.prototype.createReportButtonClick = function (evt) {
         this.showElement(".cda-report-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
-
+        $(".dijitContentPane").css("overflow", "hidden");
+        $(".sidebar").css("box-shadow", "none");
         $(".map-container").hide();
         $("header").hide();
         $(".nav-apps").hide();
         $(".sidebar-nav").hide();
-
-        // $(".map-container").hide();
-        // $("header").hide();
         state.reportHeaderComponent.render();
         state.reportBodyComponent.render();
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
@@ -146,25 +145,23 @@ define(["dojo/_base/declare"], function (declare) {
         state.updateReportMap();
       };
       state.UI.prototype.printReportButtonClick = function (evt) {
+        $("#left-pane").css("overflow-y", "initial");
         window.print();
-        // $("#left-pane").hide();
-        // $(".map-container").hide();
-        // $("header").hide();
-        // $("#reportDiv").show();
-        // $("#" + state.id)
-        //   .parent()
-        //   .parent()
-        //   .find(".plugin-print")
-        //   .trigger("click");
+      };
+      window.onafterprint = (event) => {
+        $(".dijitContentPane").css("overflow", "auto");
+        $("#left-pane").css("overflow-y", "auto");
       };
 
       state.UI.prototype.backToBMPButtonClick = function (evt) {
         this.hideElement(".cda-report-wrapper");
         this.showElement(".cda-bmp-select-wrapper");
+        $(".sidebar").css("box-shadow", "0px 0px 26px 0px rgb(51 51 51 / 42%)");
         $(".map-container").show();
         $("header").show();
         $(".nav-apps").show();
         $(".sidebar-nav").show();
+
         const sidebarWrapper = document.querySelector(".cda-sidebar-wrapper")
           .parentElement.parentElement.parentElement;
         sidebarWrapper.style.width = "450px";

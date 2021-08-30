@@ -7,9 +7,11 @@ define(["dojo/_base/declare"], function (declare) {
         this.filteredCropList = [];
         this.template = ``;
         this.render = () => {
+          this.reportBodyElem.innerHTML = "";
           this.filterCropList(state.cropSelectedListComponent.selectedCrops);
           this.buildCropTemplate(this.filteredCropList);
-          this.reportBodyElem.innerHTML = this.template;
+
+          this.reportBodyElem.innerHTML += this.template;
         };
       };
       // build out the crop table for the report
