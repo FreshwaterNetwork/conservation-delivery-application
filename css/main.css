@@ -2,6 +2,7 @@
 .cda-sidebar-wrapper {
   padding: 7px;
 }
+
 h4,
 h5 {
   margin: 8px 0 8px 0 !important;
@@ -35,6 +36,9 @@ button {
 .cda-intro-text {
   margin-bottom: 20px;
 }
+.cda-blue-text {
+  color: #2f6384;
+}
 .cda-delivery-wrapper {
   display: none;
 }
@@ -51,12 +55,13 @@ button {
   /* background-color: red; */
   border: solid 1px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  position: absolute;
+  /* position: absolute; */
   right: 10px;
   top: 86px;
   width: 170px;
   text-align: center;
   padding: 5px;
+  margin-left: 54px;
 }
 .cda-area-wrapper {
   display: flex;

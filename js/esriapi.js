@@ -152,17 +152,22 @@ define([
         state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
       };
       state.toggleFieldVisibility = function (val) {
-        if (val === 3) {
-          state.obj.visibleLayers.push(val);
+        let value = parseInt(val.value);
+        if (val.checked) {
+          if (value === 4) {
+            state.fieldsVisible = true;
+          }
+          state.obj.visibleLayers.push(value);
           state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
-          state.fieldsVisible = true;
         } else {
-          const index = state.obj.visibleLayers.indexOf(3);
+          if (value === 4) {
+            state.fieldsVisible = false;
+          }
+          const index = state.obj.visibleLayers.indexOf(value);
           if (index > -1) {
             state.obj.visibleLayers.splice(index, 1);
           }
           state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
-          state.fieldsVisible = false;
         }
       };
       state.displayMapGraphics = function () {

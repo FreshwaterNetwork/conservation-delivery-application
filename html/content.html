@@ -5,30 +5,40 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 
 <div class="cda-sidebar-wrapper">
   <div class="cda-main-wrapper">
-    <div class="cda-intro-text">
-      Introduction text Introduction textIntroduction textIntroduction
-      textIntroduction textIntroduction textIntroduction textIntroduction
-      textIntroduction textntestt
-    </div>
-
-    <!-- selected areas component on main page -->
-    <div class="cda-selected-area-wrapper">
-      <h4>Selected areas</h4>
-      <div class="cda-selected-areas"></div>
+    <div class="cda-intro-text cda-blue-text">
+      Welcome to the NRCS Conservation Delivery Application. Use this tool to
+      Calculate nutrient and sediment loads and test Best Management Practice
+      applications. Begin by selecting a scale for your analysis: Resource Unit
+      (RU), 12-digit hydrologic unit (HUC 12), catchment or Agricultural field.
     </div>
 
     <div class="cda-field-toggle-wrapper">
+      <h4>Reference Layers:</h4>
       <div id="cda-field-toggle" class="cda-field-toggle"></div>
     </div>
 
-    <!-- area scenario radio buttons -->
-    <div class="cda-areaScenario-wrapper">
-      <h4>Choose scale:</h4>
-      <div
-        id="areaScenario-radio-btns"
-        class="cda-areaScenario-radio-btns"
-      ></div>
+    <div style="margin-top: 30px" class="cda-blue-text">
+      Click the map to select up to five analysis units from your selected
+      scale. Click “Select Best Management Practices to calculate original loads
+      and begin applying BMPs.
     </div>
+
+    <div style="display: flex">
+      <!-- area scenario radio buttons -->
+      <div class="cda-areaScenario-wrapper">
+        <h4>Choose scale:</h4>
+        <div
+          id="areaScenario-radio-btns"
+          class="cda-areaScenario-radio-btns"
+        ></div>
+      </div>
+      <!-- selected areas component on main page -->
+      <div class="cda-selected-area-wrapper">
+        <h4>Selected areas</h4>
+        <div class="cda-selected-areas"></div>
+      </div>
+    </div>
+
     <!-- assesment radio buttons -->
     <!-- <div class="cda-assesment-wrapper">
 					<h4>Select an assessment type:</h4>

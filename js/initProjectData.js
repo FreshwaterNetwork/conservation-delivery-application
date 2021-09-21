@@ -59,10 +59,22 @@ define(["dojo/_base/declare"], function (declare) {
       ];
       state.fieldToggleCheckboxData = [
         {
-          name: "parametersCheckboxButton",
+          name: "supDataCheckboxButton",
           id: "field-toggle-option",
-          value: "field-toggle-option",
+          value: "4",
           display: "View Agricultural Fields",
+        },
+        {
+          name: "supDataCheckboxButton",
+          id: "field-toggle-option2",
+          value: "5",
+          display: "View Dairy Production",
+        },
+        {
+          name: "supDataCheckboxButton",
+          id: "field-toggle-option3",
+          value: "6",
+          display: "View Poultry Production",
         },
       ];
       state.parametersCheckboxData = [
