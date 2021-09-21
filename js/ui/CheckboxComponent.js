@@ -10,9 +10,17 @@ define(["dojo/_base/declare"], function (declare) {
         // render the checkbox component
         this.render = function () {
           values.forEach((value) => {
+            // ${
+            //   this.bmpToggle == true
+            //     ? "<div class='cda-bmp-toggle-button' style='color: maroon;'>Toggle BMP OFF</div>"
+            //     : "<div class='cda-bmp-toggle-button' style='color: green;'>Toggle BMP ON</div>"
+            // }
             const template = `
                 <label class="form-component" for"${value.id}">
-                    <input checked type="checkbox" id="${value.id}" name="${value.name}" value="${value.value}"></input>
+                    <input ${value.checked == true ? "checked" : ""} 
+                    type="checkbox" id="${value.id}" name="${
+              value.name
+            }" value="${value.value}"></input>
                     <div class="check"></div>
                     <span class="form-text">${value.display}</span>
                 </label>`;
