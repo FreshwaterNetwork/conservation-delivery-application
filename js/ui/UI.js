@@ -103,8 +103,8 @@ define(["dojo/_base/declare"], function (declare) {
 
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
-        state.bmpSelectionOpen = true;
         if (state.areaSelectedListComponent.areaList.length > 0) {
+          state.bmpSelectionOpen = true;
           this.hideElement(".cda-main-wrapper");
           this.showElement(".cda-retreiving-data-wrapper");
           state.getCropsFromAreaSelection().then(function () {
