@@ -126,9 +126,7 @@ define([
     // Called before activate only when plugin is started from a getState url.
     //It's overwrites the default JSON definfed in initialize with the saved stae JSON.
     setState: function (state) {
-      console.log("set state");
       this.obj = state;
-      console.log(this.obj);
     },
     prePrintModal: function (
       preModalDeferred,
@@ -136,9 +134,6 @@ define([
       $modalSandbox,
       mapObject
     ) {
-      console.log("pre print modal");
-      // var printReport = $(`${this.id}watershed-report`).detach();
-      //        	printReport.appendTo($printSandbox)
       window.setTimeout(function () {
         preModalDeferred.resolve();
       }, 750);
@@ -149,12 +144,10 @@ define([
       $modalSandbox,
       mapObject
     ) {
-      console.log("post print modal");
       postModalDeferred.resolve();
     },
     // // Called when the user hits the print icon
     // beforePrint: function (printDeferred, $printArea, mapObject) {
-    //   console.log("print function");
     //   printDeferred.resolve();
     // },
     // Called by activate and builds the plugins elements and functions

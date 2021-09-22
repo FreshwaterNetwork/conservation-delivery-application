@@ -103,7 +103,6 @@ define(["dojo/_base/declare"], function (declare) {
 
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
-        console.log("look here for bmp");
         state.bmpSelectionOpen = true;
         if (state.areaSelectedListComponent.areaList.length > 0) {
           this.hideElement(".cda-main-wrapper");
