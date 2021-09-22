@@ -47,7 +47,7 @@ define([
 ) {
   return declare(PluginBase, {
     // The height and width are set here when an infographic is defined. When the user click Continue it rebuilds the app window with whatever you put in.
-    toolbarName: "Conservation Delivery Application",
+    toolbarName: "NRCS Conservation Delivery Application",
     showServiceLayersInLegend: true,
     allowIdentifyWhenActive: false,
     rendered: false,
@@ -165,6 +165,11 @@ define([
       this.obj.extent = this.map.geographicExtent;
       //$('.basemap-selector').trigger('change', 3);
       this.mapScale = this.map.getScale();
+
+      // hide save and share on site load ************
+      document.querySelectorAll(
+        "#map-utils-control .dropdown-menu li"
+      )[3].style.display = "none";
 
       // ADD HTML TO APP
       // Define Content Pane as HTML parent

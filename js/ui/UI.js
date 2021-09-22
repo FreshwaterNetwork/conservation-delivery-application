@@ -103,6 +103,8 @@ define(["dojo/_base/declare"], function (declare) {
 
       // select bmp and back buttons functionality
       state.UI.prototype.bmpButtonClick = function (evt) {
+        console.log("look here for bmp");
+        state.bmpSelectionOpen = true;
         if (state.areaSelectedListComponent.areaList.length > 0) {
           this.hideElement(".cda-main-wrapper");
           this.showElement(".cda-retreiving-data-wrapper");
@@ -116,6 +118,7 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       state.UI.prototype.backToMainButtonClick = function (evt) {
+        state.bmpSelectionOpen = false;
         this.showElement(".cda-main-wrapper");
         this.hideElement(".cda-bmp-select-wrapper");
         this.hideElement(".cda-error-retreiving-data-wrapper");

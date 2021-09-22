@@ -90,37 +90,39 @@ define([
       });
       // map click
       function mapClick(mapPoint) {
-        let areaSelected = state.currentlySelectedArea;
-        let id_identifier, layer;
-        if (areaSelected === "LARU") {
-          id_identifier = "LARU";
-          layer = 2;
-        } else if (areaSelected === "HUC12") {
-          id_identifier = "HUC_12";
-          layer = 1;
-        } else if (areaSelected === "Catchment") {
-          id_identifier = "Catchment_ID";
-          layer = 0;
-        } else if (areaSelected === "Field") {
-          id_identifier = "fid";
-          layer = 3;
-        }
-
-        esriMapQuery(mapPoint, layer).then(function (features) {
-          if (features.length > 0) {
-            const id = features[0].attributes[id_identifier];
-            const geometry = features[0].geometry;
-            // create a new area object
-            let area = new state.Area(geometry, String(id), id_identifier);
-            // check to make sure the selected area is not in the array
-            // also check to make sure the array is less than 5
-            const areaList = state.areaSelectedListComponent.areaList;
-            if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
-              // add new area to areaSelected array
-              state.areaSelectedListComponent.addNewArea(area);
-            }
+        if (!state.bmpSelectionOpen) {
+          let areaSelected = state.currentlySelectedArea;
+          let id_identifier, layer;
+          if (areaSelected === "LARU") {
+            id_identifier = "LARU";
+            layer = 2;
+          } else if (areaSelected === "HUC12") {
+            id_identifier = "HUC_12";
+            layer = 1;
+          } else if (areaSelected === "Catchment") {
+            id_identifier = "Catchment_ID";
+            layer = 0;
+          } else if (areaSelected === "Field") {
+            id_identifier = "fid";
+            layer = 3;
           }
-        });
+
+          esriMapQuery(mapPoint, layer).then(function (features) {
+            if (features.length > 0) {
+              const id = features[0].attributes[id_identifier];
+              const geometry = features[0].geometry;
+              // create a new area object
+              let area = new state.Area(geometry, String(id), id_identifier);
+              // check to make sure the selected area is not in the array
+              // also check to make sure the array is less than 5
+              const areaList = state.areaSelectedListComponent.areaList;
+              if (!areaList.some((e) => e.id === id) && areaList.length < 5) {
+                // add new area to areaSelected array
+                state.areaSelectedListComponent.addNewArea(area);
+              }
+            }
+          });
+        }
       }
       // esri map click query
       function esriMapQuery(mapPoint, layer) {

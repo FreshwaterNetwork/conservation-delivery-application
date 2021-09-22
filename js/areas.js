@@ -7,7 +7,15 @@ define(["dojo/_base/declare"], function (declare) {
         this.areaList = [];
         // add a new area to the array and re-render the component
         this.addNewArea = function (area) {
-          this.areaList.push(area);
+          let isIn = false;
+          this.areaList.forEach((element) => {
+            if (element.areaID == area.areaID) {
+              isIn = true;
+            }
+          });
+          if (!isIn) {
+            this.areaList.push(area);
+          }
           // re render field list UI
           this.render();
           // update map graphics
