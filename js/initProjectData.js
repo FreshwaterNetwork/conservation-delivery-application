@@ -68,14 +68,14 @@ define(["dojo/_base/declare"], function (declare) {
         {
           name: "supDataCheckboxButton",
           id: "field-toggle-option2",
-          value: "5",
+          value: "6",
           display: "View Dairy Production",
           checked: false,
         },
         {
           name: "supDataCheckboxButton",
           id: "field-toggle-option3",
-          value: "6",
+          value: "5",
           display: "View Poultry Production",
           checked: false,
         },
