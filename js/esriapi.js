@@ -237,9 +237,7 @@ define([
         var extent = graphicsUtils.graphicsExtent(
           state.printMap.graphics.graphics
         );
-
         state.printMap.setExtent(extent.expand(2), false);
-        // state.printMap.setExtent(extent, false);
         state.printLayer.setVisibleLayers([4]);
       };
     },
