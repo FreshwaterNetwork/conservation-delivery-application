@@ -146,10 +146,16 @@ define([
         });
       }
       state.displayMapLayers = function (val) {
+        state.obj.visibleLayers = [];
+        state.obj.visibleLayers.push(val);
         if (state.fieldsVisible) {
-          state.obj.visibleLayers = [val, 4];
-        } else {
-          state.obj.visibleLayers = [val];
+          state.obj.visibleLayers.push(4);
+        }
+        if (state.poultryVisible) {
+          state.obj.visibleLayers.push(5);
+        }
+        if (state.dairyVisible) {
+          state.obj.visibleLayers.push(6);
         }
         state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
       };
@@ -158,12 +164,21 @@ define([
         if (val.checked) {
           if (value === 4) {
             state.fieldsVisible = true;
+          } else if (value === 5) {
+            state.poultryVisible = true;
+          } else if (value === 6) {
+            state.dairyVisible = true;
           }
+
           state.obj.visibleLayers.push(value);
           state.dynamicLayer.setVisibleLayers(state.obj.visibleLayers);
         } else {
           if (value === 4) {
             state.fieldsVisible = false;
+          } else if (value === 5) {
+            state.poultryVisible = false;
+          } else if (value === 6) {
+            state.dairyVisible = false;
           }
           const index = state.obj.visibleLayers.indexOf(value);
           if (index > -1) {

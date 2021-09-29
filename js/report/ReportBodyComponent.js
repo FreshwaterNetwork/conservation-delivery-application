@@ -118,10 +118,10 @@ define(["dojo/_base/declare"], function (declare) {
                     <tr>
                       <th>Percent Applied</th>
                       <th>Nitrogen Effecincy</th>
-                      <th>Phospherous Effecincy</th>
+                      <th>Phosphorus Effecincy</th>
                       <th>Sediment Effecincy</th>
                       <th>Nitrogen EMC</th>
-                      <th>Phospherous EMC</th>
+                      <th>Phosphorus EMC</th>
                       <th>C</th>
                       <th>P</th>
                     </tr>
@@ -155,7 +155,7 @@ define(["dojo/_base/declare"], function (declare) {
                 <tr>
                   <th style="font-weight: bold;">${crop.name}</th>
                   <th>Nitrogen</th>
-                  <th>Phospherous</th>
+                  <th>Phosphorus</th>
                   <th>Sediment</th>
                 </tr>
               </thead>

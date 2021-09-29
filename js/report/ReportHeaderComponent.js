@@ -68,7 +68,7 @@ define(["dojo/_base/declare"], function (declare) {
                     this.tl.totalAcres
                   )} acres</th>
                   <th>Nitrogen</th>
-                  <th>Phospherous</th>
+                  <th>Phosphorus</th>
                   <th>Sediment</th>
                 </tr>
               </thead>

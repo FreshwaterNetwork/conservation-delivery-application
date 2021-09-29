@@ -58,6 +58,7 @@ define(["dojo/_base/declare"], function (declare) {
         this.hideElement(".cda-delivery-wrapper");
         //
         if (value === "area-scenario") {
+          console.log("chnage");
           this.showElement(".cda-areaScenario-wrapper");
           let value = state.areaScenarioRadioButtons.selectedValue;
           if (value === "huc12-option") {

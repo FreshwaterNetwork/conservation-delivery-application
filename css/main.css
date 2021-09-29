@@ -55,6 +55,13 @@ button {
   margin-top: 20px;
   text-align: center;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+.cda-methods-doc-wrapper a {
+  padding: 3px;
+  border-radius: 5px;
+  text-decoration: underline;
 }
 .cda-selected-area-wrapper {
   /* background-color: red; */
