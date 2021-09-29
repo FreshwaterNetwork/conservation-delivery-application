@@ -107,6 +107,7 @@ define(["dojo/_base/declare"], function (declare) {
           let emcElem = this.bmpWrapperElem.querySelector(
             ".cda-bmp-emc-wrapper"
           );
+          let emcInputs = emcElem.querySelectorAll("input");
           let exApplyElem = this.bmpWrapperElem.querySelector(
             ".cda-bmp-ex-wrapper"
           );
@@ -123,6 +124,9 @@ define(["dojo/_base/declare"], function (declare) {
             cElem.style.display = "none";
             pElem.style.display = "none";
           } else if (this.bmpData.lscFull) {
+            emcInputs.forEach((input) => {
+              input.disabled = true;
+            });
             exApplyElem.style.display = "none";
           }
 
