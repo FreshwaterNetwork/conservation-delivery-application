@@ -391,6 +391,17 @@ table {
   margin: 5px;
 }
 
+.cda-c-p-wrapper {
+  margin-top: 5px;
+  border: 1px solid grey;
+  width: 235px;
+  padding: 5px;
+}
+.cda-bmp-sed-header {
+  font-weight: bold;
+  font-size: 12px;
+}
+
 /* Print CSS ********************/
 .cda-report-body-wrapper {
   position: relative;

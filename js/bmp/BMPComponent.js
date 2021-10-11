@@ -288,29 +288,33 @@ define(["dojo/_base/declare"], function (declare) {
                     </div>
                   </div>
                 </div>
-               <div class="cda-bmp-c-wrapper">
-                  <div class="cda-bmp-wrapper-sub-header">Cover-Management Factor:</div>
-                  <div class='cda-bmp-input-wrapper'>
-                    <div style="margin-left:-5px;">
-                      ${
-                        this.bmpData.c_mod
-                          ? `<input class="cda-bmp-c cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
-                          : `<input class="cda-bmp-c"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
-                      }
+                <div class="cda-c-p-wrapper" >
+                  <div class="cda-bmp-sed-header">Sediment Management for BMP area</div>
+                  <div class="cda-bmp-c-wrapper">
+                    <div class="cda-bmp-wrapper-sub-header">Cover-Management Factor:</div>
+                    <div class='cda-bmp-input-wrapper'>
+                      <div style="margin-left:-5px;">
+                        ${
+                          this.bmpData.c_mod
+                            ? `<input class="cda-bmp-c cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
+                            : `<input class="cda-bmp-c"  type="text"  name="fname" value='${this.bmpData.C_BMP}'>`
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="cda-bmp-p-wrapper">
-                  <div class="cda-bmp-wrapper-sub-header">Support Practice Factor:</div>
-                  <div class='cda-bmp-input-wrapper'>
-                    <div style="margin-left:11px;">
-                      ${
-                        this.bmpData.p_mod
-                          ? `<input class="cda-bmp-p cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
-                          : `<input class="cda-bmp-p"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
-                      }
+                  <div class="cda-bmp-p-wrapper">
+                    <div class="cda-bmp-wrapper-sub-header">Support Practice Factor:</div>
+                    <div class='cda-bmp-input-wrapper'>
+                      <div style="margin-left:11px;">
+                        ${
+                          this.bmpData.p_mod
+                            ? `<input class="cda-bmp-p cda-user-table-cell-modified"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
+                            : `<input class="cda-bmp-p"  type="text"  name="fname" value='${this.bmpData.P_BMP}'>`
+                        }
+                      </div>
                     </div>
                   </div>
+
                 </div>
                 <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Area of crop to apply BMP to: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${
                   this.bmpData.percentAppliedDisplay

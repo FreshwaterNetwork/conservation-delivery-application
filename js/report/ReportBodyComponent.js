@@ -20,11 +20,15 @@ define(["dojo/_base/declare"], function (declare) {
       ) {
         this.template = "";
         filteredCropList.forEach((crop) => {
+          console.log(crop);
           const cropTableTemplate = this.createCropTableTemplate(crop);
           const bmpTableTemplate = this.createBMPhtmlTemplate(crop);
+
           this.template += `
           <div>
-            <h5 class="cda-report-sub-headers">${crop.name}</h5>
+            <h5 class="cda-report-sub-headers">${
+              crop.name
+            } - (${state.UIControls.numComma(crop.acres.toFixed(0))} acres)</h5>
             ${cropTableTemplate}
             ${bmpTableTemplate}
           </div>`;
@@ -45,6 +49,7 @@ define(["dojo/_base/declare"], function (declare) {
       ) {
         this.bmpHTMLTable = "";
         crop.bmpSelected.forEach((bmp) => {
+          console.log(bmp);
           if (bmp.bmpToggle) {
             let percentApplied, nit_emc_value, phos_emc_value;
             let nit_eff_mod,
