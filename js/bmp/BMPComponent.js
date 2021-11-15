@@ -1,5 +1,5 @@
-define(["dojo/_base/declare"], function (declare) {
-  "use strict";
+define(['dojo/_base/declare'], function (declare) {
+  'use strict';
   return declare(null, {
     init: function (state) {
       // BMP selected component
@@ -9,8 +9,8 @@ define(["dojo/_base/declare"], function (declare) {
         // parent crop
         this.parentCrop = crop;
         // create a wrapper div
-        this.bmpWrapperElem = document.createElement("div");
-        this.bmpWrapperElem.className = "cda-bmp-selected-wrapper";
+        this.bmpWrapperElem = document.createElement('div');
+        this.bmpWrapperElem.className = 'cda-bmp-selected-wrapper';
         // add bmp data as a property, get the data from the bmp_lut_data object
         this.bmpData = state.bmp_lut_data.find(
           (o) => o.BMP_Short === bmpShortName
@@ -44,36 +44,36 @@ define(["dojo/_base/declare"], function (declare) {
         this.bmpData.nit_emc_mod = false;
 
         // handle exclusive type bmp's percent applied to crop
-        if (this.bmpData.AppType === "EX") {
+        if (this.bmpData.AppType === 'EX') {
           this.bmpData.percentApplied = 0;
           this.bmpData.percentAppliedDisplay = 0;
         }
 
         // event listeners ***************************************************************
-        this.bmpWrapperElem.addEventListener("change", (evt) => {
-          if (evt.target.classList[0] === "cda-bmp-percent-applied") {
+        this.bmpWrapperElem.addEventListener('change', (evt) => {
+          if (evt.target.classList[0] === 'cda-bmp-percent-applied') {
             this.updatePercentApplied(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.classList[0] === "cda-bmp-efficiencies") {
+          if (evt.target.classList[0] === 'cda-bmp-efficiencies') {
             this.updateEfficiencies(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.classList[0] === "cda-bmp-emc") {
+          if (evt.target.classList[0] === 'cda-bmp-emc') {
             this.updateEMC(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.classList[0] === "cda-bmp-c") {
+          if (evt.target.classList[0] === 'cda-bmp-c') {
             this.updateC(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.classList[0] === "cda-bmp-p") {
+          if (evt.target.classList[0] === 'cda-bmp-p') {
             this.updateP(evt.target);
             this.parentCrop.calculateReducedLoads();
           }
         });
-        this.bmpWrapperElem.addEventListener("click", (evt) => {
-          if (evt.target.classList[0] === "cda-bmp-reset-button") {
+        this.bmpWrapperElem.addEventListener('click', (evt) => {
+          if (evt.target.classList[0] === 'cda-bmp-reset-button') {
             this.bmpData.phos_eff_value = this.bmpData.Phos_Eff;
             this.bmpData.nit_eff_value = this.bmpData.Nitr_Eff;
             this.bmpData.sed_eff_value = this.bmpData.Sed_Eff;
@@ -92,7 +92,7 @@ define(["dojo/_base/declare"], function (declare) {
             this.bmpData.p_mod = false;
             this.parentCrop.calculateReducedLoads();
           }
-          if (evt.target.classList[0] === "cda-bmp-toggle-button") {
+          if (evt.target.classList[0] === 'cda-bmp-toggle-button') {
             this.bmpToggle = !this.bmpToggle;
             this.parentCrop.calculateReducedLoads();
           }
@@ -105,29 +105,36 @@ define(["dojo/_base/declare"], function (declare) {
           this.bmpWrapperElem.innerHTML = template;
 
           let emcElem = this.bmpWrapperElem.querySelector(
-            ".cda-bmp-emc-wrapper"
+            '.cda-bmp-emc-wrapper'
           );
-          let emcInputs = emcElem.querySelectorAll("input");
+          let emcInputs = emcElem.querySelectorAll('input');
           let exApplyElem = this.bmpWrapperElem.querySelector(
-            ".cda-bmp-ex-wrapper"
+            '.cda-bmp-ex-wrapper'
           );
-          let cElem = this.bmpWrapperElem.querySelector(".cda-bmp-c-wrapper");
-          let pElem = this.bmpWrapperElem.querySelector(".cda-bmp-p-wrapper");
+          // let exApplyElem = this.bmpWrapperElem.querySelector(
+          //   '.cda-bmp-ex-wrapper'
+          // );
 
-          if (this.bmpData.AppType === "EX" && this.bmpData.RedFunc !== "LSC") {
-            emcElem.style.display = "none";
-            cElem.style.display = "none";
-            pElem.style.display = "none";
-          } else if (this.bmpData.AppType === "OV") {
-            emcElem.style.display = "none";
-            exApplyElem.style.display = "none";
-            cElem.style.display = "none";
-            pElem.style.display = "none";
+          let cElem = this.bmpWrapperElem.querySelector('.cda-bmp-c-wrapper');
+          let pElem = this.bmpWrapperElem.querySelector('.cda-bmp-p-wrapper');
+          let cpWrapper = this.bmpWrapperElem.querySelector('.cda-c-p-wrapper');
+
+          if (this.bmpData.AppType === 'EX' && this.bmpData.RedFunc !== 'LSC') {
+            emcElem.style.display = 'none';
+            cElem.style.display = 'none';
+            pElem.style.display = 'none';
+            cpWrapper.style.display = 'none';
+          } else if (this.bmpData.AppType === 'OV') {
+            emcElem.style.display = 'none';
+            exApplyElem.style.display = 'none';
+            cElem.style.display = 'none';
+            pElem.style.display = 'none';
+            cpWrapper.style.display = 'none';
           } else if (this.bmpData.lscFull) {
             emcInputs.forEach((input) => {
               input.disabled = true;
             });
-            exApplyElem.style.display = "none";
+            exApplyElem.style.display = 'none';
           }
 
           return this.bmpWrapperElem;
@@ -144,13 +151,13 @@ define(["dojo/_base/declare"], function (declare) {
       state.BMPSelectedComponent.prototype.updateEfficiencies = function (
         target
       ) {
-        const effValue = target.getAttribute("effValue");
+        const effValue = target.getAttribute('effValue');
         const value = parseFloat(target.value);
-        if (effValue === "phos") {
+        if (effValue === 'phos') {
           this.bmpData.phos_eff_value = value / 100;
-        } else if (effValue === "nit") {
+        } else if (effValue === 'nit') {
           this.bmpData.nit_eff_value = value / 100;
-        } else if (effValue === "sed") {
+        } else if (effValue === 'sed') {
           this.bmpData.sed_eff_value = value / 100;
         }
 
@@ -175,11 +182,11 @@ define(["dojo/_base/declare"], function (declare) {
         }
       };
       state.BMPSelectedComponent.prototype.updateEMC = function (target) {
-        const emcValue = target.getAttribute("emcValue");
+        const emcValue = target.getAttribute('emcValue');
         const value = parseFloat(target.value);
-        if (emcValue === "phos") {
+        if (emcValue === 'phos') {
           this.bmpData.phos_emc_value = value;
-        } else if (emcValue === "nit") {
+        } else if (emcValue === 'nit') {
           this.bmpData.nit_emc_value = value;
         }
         this.bmpData.phos_emc_mod = false;
@@ -288,6 +295,9 @@ define(["dojo/_base/declare"], function (declare) {
                     </div>
                   </div>
                 </div>
+
+
+
                 <div class="cda-c-p-wrapper" >
                   <div class="cda-bmp-sed-header">Sediment Management for BMP area</div>
                   <div class="cda-bmp-c-wrapper">
@@ -314,8 +324,10 @@ define(["dojo/_base/declare"], function (declare) {
                       </div>
                     </div>
                   </div>
-
                 </div>
+
+
+
                 <div class="cda-bmp-wrapper-sub-header cda-bmp-ex-wrapper">Area of crop to apply BMP to: <input class="cda-bmp-percent-applied" type="text" id="" name="" value='${
                   this.bmpData.percentAppliedDisplay
                 }'>%
@@ -329,8 +341,8 @@ define(["dojo/_base/declare"], function (declare) {
                   this.bmpData.phos_eff_mod ||
                   this.bmpData.c_mod ||
                   this.bmpData.p_mod
-                    ? "Reset Values"
-                    : ""
+                    ? 'Reset Values'
+                    : ''
                 }</div>
           `;
       };
